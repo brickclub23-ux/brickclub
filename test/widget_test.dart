@@ -1,10 +1,14 @@
-import 'package:brickclub/main.dart';
+import 'package:brickclub/src/app/brickclub_app.dart';
+import 'package:brickclub/src/features/auth/domain/auth_credentials.dart';
+import 'package:brickclub/src/features/auth/domain/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  final authRepository = FakeAuthRepository();
+
   Future<void> signIn(WidgetTester tester) async {
-    await tester.pumpWidget(const BrickClubApp());
+    await tester.pumpWidget(BrickClubApp(authRepository: authRepository));
     expect(find.text('Own more than\na dream.'), findsOneWidget);
     await tester.tap(find.byKey(const ValueKey('landing-sign-in')));
     await tester.pumpAndSettle();
@@ -19,7 +23,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    await tester.pumpWidget(const BrickClubApp());
+    await tester.pumpWidget(BrickClubApp(authRepository: authRepository));
 
     expect(find.text('Own more than\na dream.'), findsOneWidget);
     expect(find.byKey(const ValueKey('install-app')), findsOneWidget);
@@ -33,7 +37,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    await tester.pumpWidget(const BrickClubApp());
+    await tester.pumpWidget(BrickClubApp(authRepository: authRepository));
     await tester.tap(find.byKey(const ValueKey('landing-sign-in')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('admin-access')));
@@ -108,4 +112,18 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Purchase submitted'), findsOneWidget);
   });
+}
+
+class FakeAuthRepository implements AuthRepository {
+  @override
+  Future<void> createAccount(SignUpCredentials credentials) async {}
+
+  @override
+  Future<void> sendPasswordResetEmail(String email) async {}
+
+  @override
+  Future<void> signOut() async {}
+
+  @override
+  Future<void> signIn(SignInCredentials credentials) async {}
 }
