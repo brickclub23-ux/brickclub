@@ -1,0 +1,46 @@
+name: PR preview (Firebase Hosting)
+
+# Builds the Flutter web app and deploys it to a temporary Hosting preview
+# channel for each pull request, then comments the preview URL on the PR.
+# Note: only Hosting supports preview channels — Cloud Functions and rules are
+# NOT deployed here, they only go live via the production workflow on merge.
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+concurrency:
+  group: firebase-preview-${{ github.event.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    # Skip preview for PRs coming from forks — they cannot access secrets.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Build Flutter web
+        run: |
+          flutter pub get
+          flutter build web --release
+
+      - name: Deploy to preview channel
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: brickclub
+          expires: 7d

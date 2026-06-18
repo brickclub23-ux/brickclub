@@ -1,0 +1,64 @@
+name: Deploy to Firebase (production)
+
+# Builds the Flutter web app + Cloud Functions and deploys hosting, functions,
+# Firestore rules/indexes and Storage rules whenever main is updated.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {} # allows manual runs from the Actions tab
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: functions/package-lock.json
+
+      - name: Build Flutter web
+        run: |
+          flutter pub get
+          flutter build web --release
+
+      - name: Install & build Cloud Functions
+        working-directory: functions
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Write service account credentials
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: printf '%s' "$SA" > "${RUNNER_TEMP}/sa.json"
+
+      - name: Deploy to Firebase
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa.json
+        run: |
+          firebase deploy \
+            --only hosting,functions,firestore,storage \
+            --project brickclub \
+            --non-interactive \
+            --force
