@@ -226,6 +226,9 @@ class FirebaseKycRepository implements KycRepository {
     return switch (value) {
       'inProgress' => KycStatus.inProgress,
       'submitted' => KycStatus.submitted,
+      // Legacy/audit value: treat anything awaiting a human decision as
+      // "under review" so the member never falls back to "not started".
+      'manual_review' => KycStatus.submitted,
       'approved' => KycStatus.approved,
       'rejected' => KycStatus.rejected,
       _ => KycStatus.notStarted,

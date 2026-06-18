@@ -811,11 +811,15 @@ export const submitKycProfile = onMemberCall(async (request) => {
   const approved =
     automation.status === "approved" &&
     identityVerified;
+  // Anything that is neither auto-approved nor a hard automation rejection
+  // goes into the human review queue as "submitted". This is the status the
+  // member app renders as "under review" and that listSubmittedKycProfiles
+  // surfaces to admins.
   const status = approved ?
     "approved" :
-    automation.status === "approved" ?
-      "manual_review" :
-      automation.status;
+    automation.status === "rejected" ?
+      "rejected" :
+      "submitted";
   const rejectionReason = status === "rejected" ?
     automation.reasons.join(" ") :
     undefined;
@@ -845,7 +849,7 @@ export const submitKycProfile = onMemberCall(async (request) => {
       },
       rejectionReason: rejectionReason ?? FieldValue.delete(),
       submittedAt: FieldValue.serverTimestamp(),
-      reviewedAt: status === "manual_review" ?
+      reviewedAt: status === "submitted" ?
         FieldValue.delete() :
         FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
@@ -853,7 +857,7 @@ export const submitKycProfile = onMemberCall(async (request) => {
     {merge: true},
   );
 
-  if (status === "manual_review") {
+  if (status === "submitted") {
     await notifyAdmins({
       type: "kyc_manual_review_required",
       title: "KYC needs manual review",

@@ -41,6 +41,13 @@ class FirebaseBootstrap {
     );
 
     await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+    // The Auth emulator never sends real SMS and cannot complete a real
+    // reCAPTCHA / Play Integrity challenge. Disabling app verification lets
+    // verifyPhoneNumber fire `codeSent` immediately so the verification code
+    // (shown in the Auth emulator) can be entered during KYC.
+    await FirebaseAuth.instance.setSettings(
+      appVerificationDisabledForTesting: true,
+    );
     FirebaseFunctions.instance.useFunctionsEmulator(host, 5001);
     FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
     await FirebaseStorage.instance.useStorageEmulator(host, 9199);
