@@ -1,5 +1,15 @@
 part of 'brickclub_app.dart';
 
+/// Direct support channels shown on the support screen. The WhatsApp and
+/// Telegram destinations open the official apps (or their web fallbacks).
+const String supportWhatsAppNumber = '+1 (213) 397-5125';
+const String supportTelegramHandle = '@xavarama';
+
+// wa.me expects the number in international format with no spaces, plus, or
+// punctuation; t.me expects the handle without the leading '@'.
+const String _supportWhatsAppUrl = 'https://wa.me/12133975125';
+const String _supportTelegramUrl = 'https://t.me/xavarama';
+
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key, required this.repository});
 
@@ -23,6 +33,8 @@ class SupportScreen extends StatelessWidget {
                   label: 'New support request',
                   onPressed: () => _showCreateTicket(context),
                 ),
+                SizedBox(height: 18),
+                const _SupportContactCard(),
                 SizedBox(height: 18),
                 if (snapshot.connectionState == ConnectionState.waiting)
                   Center(
@@ -147,6 +159,106 @@ class SupportThreadScreen extends StatelessWidget {
         onSubmit: (_, message) async {
           await repository.replyToTicket(ticketId: ticket.id, message: message);
         },
+      ),
+    );
+  }
+}
+
+class _SupportContactCard extends StatelessWidget {
+  const _SupportContactCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Panel(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Talk to us directly', style: AppText.h2),
+          SizedBox(height: 8),
+          Text(
+            'Prefer a quick chat? Reach the BrickClub support team on WhatsApp '
+            'or Telegram for faster help.',
+            style: AppText.body,
+          ),
+          SizedBox(height: 16),
+          _SupportContactTile(
+            key: const ValueKey('support-whatsapp'),
+            icon: Icons.chat_rounded,
+            channel: 'WhatsApp',
+            detail: supportWhatsAppNumber,
+            onTap: () => _openSupportChannel(context, _supportWhatsAppUrl),
+          ),
+          SizedBox(height: 12),
+          _SupportContactTile(
+            key: const ValueKey('support-telegram'),
+            icon: Icons.send_rounded,
+            channel: 'Telegram',
+            detail: supportTelegramHandle,
+            onTap: () => _openSupportChannel(context, _supportTelegramUrl),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _openSupportChannel(BuildContext context, String url) async {
+    final uri = Uri.parse(url);
+    final launched = await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    );
+    if (!launched && context.mounted) {
+      showMessage(context, 'Could not open $url');
+    }
+  }
+}
+
+class _SupportContactTile extends StatelessWidget {
+  const _SupportContactTile({
+    super.key,
+    required this.icon,
+    required this.channel,
+    required this.detail,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String channel;
+  final String detail;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.surface,
+      borderRadius: BorderRadius.circular(14),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(14),
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.border),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Row(
+            children: [
+              Icon(icon, color: AppColors.gold),
+              SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(channel, style: AppText.bodyLarge),
+                    SizedBox(height: 2),
+                    Text(detail, style: AppText.tinyLight),
+                  ],
+                ),
+              ),
+              Icon(Icons.open_in_new_rounded, color: AppColors.muted, size: 18),
+            ],
+          ),
+        ),
       ),
     );
   }

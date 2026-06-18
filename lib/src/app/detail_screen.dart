@@ -30,7 +30,7 @@ class DetailScreen extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(14),
                     child: Image.asset(
-                      'assets/images/kololo_heights_v2.png',
+                      'assets/images/skyline_heights.png',
                       height: 206,
                       width: double.infinity,
                       fit: BoxFit.cover,

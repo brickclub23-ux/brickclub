@@ -31,6 +31,34 @@
 
   <title>brickclub</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Captures the PWA install prompt so the app can offer "Install the app". -->
+  <script>
+    window.brickclubPwa = (function () {
+      var deferred = null;
+      window.addEventListener('beforeinstallprompt', function (event) {
+        event.preventDefault();
+        deferred = event;
+      });
+      window.addEventListener('appinstalled', function () {
+        deferred = null;
+      });
+      return {
+        canInstall: function () { return deferred !== null; },
+        prompt: function () {
+          if (deferred === null) {
+            return Promise.resolve('unavailable');
+          }
+          var event = deferred;
+          deferred = null;
+          event.prompt();
+          return event.userChoice.then(function (choice) {
+            return choice.outcome;
+          });
+        }
+      };
+    })();
+  </script>
 </head>
 <body>
   <!--

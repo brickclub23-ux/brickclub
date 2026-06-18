@@ -213,9 +213,9 @@ class InvestmentCard extends StatelessWidget {
     required this.onTap,
     this.compact = false,
     this.category = 'Real Estate',
-    this.title = 'Kololo Heights\nIncome Fund',
-    this.location = 'Kampala Central',
-    this.minimum = 'UGX 250K',
+    this.title = 'Skyline Heights\nIncome Fund',
+    this.location = 'Central Business District',
+    this.minimum = '\$50',
     this.returnText = '11.8%',
   });
 
@@ -254,7 +254,7 @@ class InvestmentCard extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(14),
                       child: Image.asset(
-                        'assets/images/kololo_heights_v2.png',
+                        'assets/images/skyline_heights.png',
                         width: compact ? 134 : 128,
                         height: height,
                         fit: BoxFit.cover,
@@ -982,9 +982,9 @@ String _shortHash(String hash) {
   return '${trimmed.substring(0, 8)}...${trimmed.substring(trimmed.length - 6)}';
 }
 
-String _formatUgxCompact(double value) {
-  if (value <= 0) return 'UGX 0';
-  return 'UGX ${NumberFormat.compact().format(value)}';
+String _formatUsdCompact(double value) {
+  if (value <= 0) return '\$0';
+  return '\$${NumberFormat.compact().format(value)}';
 }
 
 String _contentTypeForName(String name) {

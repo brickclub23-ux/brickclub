@@ -42,6 +42,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
     });
   }
 
+  Future<void> _markNotificationsRead() async {
+    await widget.adminRepository.markNotificationsRead();
+    reloadDashboard();
+  }
+
   @override
   Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width >= 980;
@@ -54,47 +59,54 @@ class _AdminDashboardState extends State<AdminDashboard> {
           Expanded(
             child: ColoredBox(
               color: AppColors.surface,
-              child: Column(
-                children: [
-                  _AdminTopBar(
-                    title: sections[selectedIndex].$1,
-                    showMenu: !wide,
-                    user: widget.authRepository.currentUserDetails(),
-                  ),
-                  Expanded(
-                    child: FutureBuilder<AdminDashboardData>(
-                      future: dashboardFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.gold,
-                            ),
-                          );
-                        }
+              child: FutureBuilder<AdminDashboardData>(
+                future: dashboardFuture,
+                builder: (context, snapshot) {
+                  final data = snapshot.data;
+                  return Column(
+                    children: [
+                      _AdminTopBar(
+                        title: sections[selectedIndex].$1,
+                        showMenu: !wide,
+                        user: widget.authRepository.currentUserDetails(),
+                        notifications:
+                            data?.notifications ?? const <AdminNotification>[],
+                        onMarkNotificationsRead: _markNotificationsRead,
+                      ),
+                      Expanded(
+                        child: Builder(
+                          builder: (context) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.gold,
+                                ),
+                              );
+                            }
 
-                        if (snapshot.hasError) {
-                          return _AdminErrorState(
-                            message: _adminErrorMessage(snapshot.error!),
-                            onRetry: reloadDashboard,
-                          );
-                        }
+                            if (snapshot.hasError) {
+                              return _AdminErrorState(
+                                message: _adminErrorMessage(snapshot.error!),
+                                onRetry: reloadDashboard,
+                              );
+                            }
 
-                        final data = snapshot.data!;
-                        return SingleChildScrollView(
-                          padding: EdgeInsets.all(wide ? 30 : 18),
-                          child: _AdminSection(
-                            index: selectedIndex,
-                            data: data,
-                            repository: widget.adminRepository,
-                            onChanged: reloadDashboard,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                            return SingleChildScrollView(
+                              padding: EdgeInsets.all(wide ? 30 : 18),
+                              child: _AdminSection(
+                                index: selectedIndex,
+                                data: data!,
+                                repository: widget.adminRepository,
+                                onChanged: reloadDashboard,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -233,11 +245,15 @@ class _AdminTopBar extends StatelessWidget {
     required this.title,
     required this.showMenu,
     required this.user,
+    required this.notifications,
+    required this.onMarkNotificationsRead,
   });
 
   final String title;
   final bool showMenu;
   final SignedInUserDetails? user;
+  final List<AdminNotification> notifications;
+  final Future<void> Function() onMarkNotificationsRead;
 
   @override
   Widget build(BuildContext context) {
@@ -297,9 +313,9 @@ class _AdminTopBar extends StatelessWidget {
               ),
             ),
           SizedBox(width: 12),
-          IconButton(
-            onPressed: () => showMessage(context, 'No new notifications'),
-            icon: Icon(Icons.notifications_none_rounded),
+          _NotificationsBell(
+            notifications: notifications,
+            onMarkRead: onMarkNotificationsRead,
           ),
           if (MediaQuery.sizeOf(context).width >= 900) ...[
             SizedBox(width: 8),
@@ -325,6 +341,191 @@ class _AdminTopBar extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _NotificationsBell extends StatelessWidget {
+  const _NotificationsBell({
+    required this.notifications,
+    required this.onMarkRead,
+  });
+
+  final List<AdminNotification> notifications;
+  final Future<void> Function() onMarkRead;
+
+  int get _unread =>
+      notifications.where((notification) => notification.isUnread).length;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        IconButton(
+          key: const ValueKey('admin-notifications'),
+          tooltip: 'Notifications',
+          onPressed: () => _openSheet(context),
+          icon: Icon(
+            _unread > 0
+                ? Icons.notifications_active_rounded
+                : Icons.notifications_none_rounded,
+          ),
+        ),
+        if (_unread > 0)
+          Positioned(
+            right: 6,
+            top: 6,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+              constraints: const BoxConstraints(minWidth: 18),
+              decoration: BoxDecoration(
+                color: AppColors.gold,
+                borderRadius: BorderRadius.circular(9),
+              ),
+              child: Text(
+                _unread > 9 ? '9+' : '$_unread',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF0B0D0F),
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Future<void> _openSheet(BuildContext context) {
+    return showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: AppColors.panel,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (_) => _NotificationsSheet(
+        notifications: notifications,
+        onMarkRead: onMarkRead,
+      ),
+    );
+  }
+}
+
+class _NotificationsSheet extends StatelessWidget {
+  const _NotificationsSheet({
+    required this.notifications,
+    required this.onMarkRead,
+  });
+
+  final List<AdminNotification> notifications;
+  final Future<void> Function() onMarkRead;
+
+  @override
+  Widget build(BuildContext context) {
+    final unread =
+        notifications.where((notification) => notification.isUnread).length;
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(child: Text('Notifications', style: AppText.h2)),
+                if (unread > 0)
+                  TextButton(
+                    key: const ValueKey('mark-notifications-read'),
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      await onMarkRead();
+                    },
+                    child: Text('Mark all read', style: AppText.goldBody),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            if (notifications.isEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 28),
+                child: Center(
+                  child: Text("You're all caught up.", style: AppText.body),
+                ),
+              )
+            else
+              Flexible(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: notifications.length,
+                  separatorBuilder: (_, _) =>
+                      Divider(height: 1, color: AppColors.border),
+                  itemBuilder: (_, index) =>
+                      _NotificationTile(notification: notifications[index]),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NotificationTile extends StatelessWidget {
+  const _NotificationTile({required this.notification});
+
+  final AdminNotification notification;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 8,
+            height: 8,
+            margin: const EdgeInsets.only(top: 6, right: 12),
+            decoration: BoxDecoration(
+              color: notification.isUnread
+                  ? AppColors.gold
+                  : Colors.transparent,
+              shape: BoxShape.circle,
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(notification.title, style: AppText.fieldLabel),
+                if (notification.body.isNotEmpty) ...[
+                  const SizedBox(height: 3),
+                  Text(notification.body, style: AppText.small),
+                ],
+                if (_relativeTime(notification.createdAt) case final time?) ...[
+                  const SizedBox(height: 4),
+                  Text(time, style: AppText.tiny),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String? _relativeTime(String iso) {
+    if (iso.isEmpty) return null;
+    final timestamp = DateTime.tryParse(iso);
+    if (timestamp == null) return null;
+    final diff = DateTime.now().difference(timestamp);
+    if (diff.inMinutes < 1) return 'Just now';
+    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
+    if (diff.inHours < 24) return '${diff.inHours}h ago';
+    return '${diff.inDays}d ago';
   }
 }
 
@@ -978,7 +1179,7 @@ class _DepositRequestTable extends StatelessWidget {
           _AdminTableRow(
             values: [
               request.opportunityTitle,
-              request.amountUgx.toStringAsFixed(0),
+              request.amountUsd.toStringAsFixed(0),
               '${request.paymentAsset} ${request.paymentNetwork}',
               _shortHash(request.transactionHash),
               request.status,
@@ -1202,11 +1403,11 @@ class _SettingsPanel extends StatelessWidget {
             ),
             _SettingRow(
               'Minimum amount',
-              'UGX ${policy.minimumAmountUgx.toStringAsFixed(0)}',
+              '\$${policy.minimumAmountUsd.toStringAsFixed(0)}',
             ),
             _SettingRow(
               'Fees',
-              'UGX ${policy.flatFeeUgx.toStringAsFixed(0)} + ${policy.percentageFee.toStringAsFixed(2)}%',
+              '\$${policy.flatFeeUsd.toStringAsFixed(0)} + ${policy.percentageFee.toStringAsFixed(2)}%',
             ),
             _SettingRow(
               'Destination wallet',
@@ -1996,10 +2197,10 @@ Future<void> _showWithdrawalPolicyDialog(
   required VoidCallback onChanged,
 }) async {
   final minimum = TextEditingController(
-    text: policy.minimumAmountUgx.toStringAsFixed(0),
+    text: policy.minimumAmountUsd.toStringAsFixed(0),
   );
   final flatFee = TextEditingController(
-    text: policy.flatFeeUgx.toStringAsFixed(0),
+    text: policy.flatFeeUsd.toStringAsFixed(0),
   );
   final percentageFee = TextEditingController(
     text: policy.percentageFee.toStringAsFixed(2),
@@ -2041,13 +2242,13 @@ Future<void> _showWithdrawalPolicyDialog(
                   SizedBox(height: 10),
                   AppTextField(
                     controller: minimum,
-                    hintText: 'Minimum amount in UGX',
+                    hintText: 'Minimum amount in USD',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: flatFee,
-                    hintText: 'Flat fee in UGX',
+                    hintText: 'Flat fee in USD',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
@@ -2081,8 +2282,8 @@ Future<void> _showWithdrawalPolicyDialog(
             FilledButton(
               onPressed: () async {
                 final payload = WithdrawalPolicy(
-                  minimumAmountUgx: double.tryParse(minimum.text) ?? 0,
-                  flatFeeUgx: double.tryParse(flatFee.text) ?? 0,
+                  minimumAmountUsd: double.tryParse(minimum.text) ?? 0,
+                  flatFeeUsd: double.tryParse(flatFee.text) ?? 0,
                   percentageFee: double.tryParse(percentageFee.text) ?? 0,
                   requiresDestinationWalletVerification:
                       requiresWalletVerification,

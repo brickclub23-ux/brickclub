@@ -46,7 +46,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   List<String> get _cryptoPaymentMethods {
     final methods =
         widget.opportunity.paymentMethods
-            .where((method) => method.toUpperCase() != 'UGX WALLET')
+            .where((method) => method.toUpperCase() != 'USD WALLET')
             .map((method) => method.trim().toUpperCase())
             .where((method) => method.isNotEmpty)
             .toSet()
@@ -63,7 +63,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     final paymentMethods = _cryptoPaymentMethods;
-    final amount = order?.amountUgx ?? _enteredAmount;
+    final amount = order?.amountUsd ?? _enteredAmount;
     final belowMinimum =
         order == null && amount < widget.opportunity.minimumInvestment;
     return PhoneFrame(
@@ -77,7 +77,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               _FundingHero(
                 title: widget.opportunity.displayTitle,
                 location: widget.opportunity.location,
-                amountText: _formatUgxCompact(amount),
+                amountText: _formatUsdCompact(amount),
                 rail: selectedPaymentAsset,
               ),
               SizedBox(height: 18),
@@ -113,7 +113,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     SizedBox(height: 8),
                     AppTextField(
                       controller: amountController,
-                      hintText: 'Amount in UGX',
+                      hintText: 'Amount in USD',
                       keyboardType: TextInputType.number,
                       prefixIcon: Icons.payments_outlined,
                       onChanged: (_) => setState(() {}),
@@ -130,7 +130,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       'Payment asset',
                       order?.paymentAsset ?? selectedPaymentAsset,
                     ),
-                    QuoteRow('Amount', _formatUgxCompact(amount)),
+                    QuoteRow('Amount', _formatUsdCompact(amount)),
                     QuoteRow(
                       'Network',
                       order == null
@@ -215,9 +215,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Future<void> _createDepositRequest(
     String paymentAsset,
-    double amountUgx,
+    double amountUsd,
   ) async {
-    if (amountUgx < widget.opportunity.minimumInvestment) {
+    if (amountUsd < widget.opportunity.minimumInvestment) {
       showMessage(context, 'Increase the amount to the opportunity minimum.');
       return;
     }
@@ -227,7 +227,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           .createPurchaseOrder(
             PurchaseRequest(
               opportunityId: widget.opportunity.id,
-              amountUgx: amountUgx,
+              amountUsd: amountUsd,
               paymentAsset: paymentAsset,
             ),
           );

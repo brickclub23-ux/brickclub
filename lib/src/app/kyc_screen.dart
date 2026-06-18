@@ -215,7 +215,7 @@ class _KycScreenState extends State<KycScreen> {
                     AppTextField(
                       key: const ValueKey('kyc-phone'),
                       controller: phoneController,
-                      hintText: '+256774224734',
+                      hintText: '+12025550190',
                       keyboardType: TextInputType.phone,
                       prefixIcon: Icons.phone_iphone_rounded,
                       textInputAction: TextInputAction.next,
@@ -417,7 +417,7 @@ class _KycScreenState extends State<KycScreen> {
     if (addressProof == null) return 'Upload address proof';
     if (phoneController.text.trim().isEmpty) return 'Enter your phone number';
     if (!_isE164PhoneNumber(phoneController.text.trim())) {
-      return 'Enter your phone number in international format, e.g. +256774224734.';
+      return 'Enter your phone number in international format, e.g. +12025550190.';
     }
     if (phoneCodeController.text.trim().isEmpty) {
       return 'Enter the phone verification code';
@@ -574,7 +574,7 @@ String _kycErrorMessage(Object error) {
   if (error is FirebaseAuthException) {
     return switch (error.code) {
       'invalid-phone-number' =>
-        'Enter your phone number in international format, e.g. +256774224734.',
+        'Enter your phone number in international format, e.g. +12025550190.',
       'invalid-verification-code' => 'Enter the SMS code from the emulator.',
       'credential-already-in-use' =>
         'That phone number is already linked to another account.',

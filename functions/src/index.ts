@@ -50,8 +50,8 @@ type MemberOpportunity = {
 };
 
 type WithdrawalPolicy = {
-  minimumAmountUgx: number;
-  flatFeeUgx: number;
+  minimumAmountUsd: number;
+  flatFeeUsd: number;
   percentageFee: number;
   requiresDestinationWalletVerification: boolean;
   requiredApprovals: number;
@@ -196,6 +196,10 @@ export const listAdminDashboard = onAdminCall(async () => {
     .orderBy("updatedAt", "desc")
     .limit(100)
     .get();
+  const notificationsSnapshot = await adminNotificationsCollection
+    .orderBy("createdAt", "desc")
+    .limit(25)
+    .get();
   const withdrawalPolicy = await loadWithdrawalPolicy();
 
   return {
@@ -204,8 +208,29 @@ export const listAdminDashboard = onAdminCall(async () => {
     cryptoPaymentOptions: paymentOptionsSnapshot.docs.map(paymentOptionFromDoc),
     depositRequests: depositRequestsSnapshot.docs.map(depositRequestFromDoc),
     supportTickets: supportTicketsSnapshot.docs.map(supportTicketFromDoc),
+    notifications: notificationsSnapshot.docs.map(adminNotificationFromDoc),
     withdrawalPolicy,
   };
+});
+
+export const markAdminNotificationsRead = onAdminCall(async () => {
+  const snapshot = await adminNotificationsCollection
+    .where("read", "==", false)
+    .get();
+  if (snapshot.empty) {
+    return {updated: 0};
+  }
+
+  const batch = db.batch();
+  for (const doc of snapshot.docs) {
+    batch.update(doc.ref, {
+      read: true,
+      readAt: FieldValue.serverTimestamp(),
+    });
+  }
+  await batch.commit();
+
+  return {updated: snapshot.size};
 });
 
 export const listMemberOpportunities = onMemberCall(async () => {
@@ -247,19 +272,19 @@ export const getMemberDashboard = onMemberCall(async (request) => {
     (order) => order.status === "deposit_verified",
   );
   const holdings = buildMemberHoldings(verifiedOrders, assetsById);
-  const portfolioValueUgx = roundMoney(
-    holdings.reduce((total, holding) => total + holding.valueUgx, 0),
+  const portfolioValueUsd = roundMoney(
+    holdings.reduce((total, holding) => total + holding.valueUsd, 0),
   );
-  const yearReturnPercent = portfolioValueUgx === 0 ? 0 : roundMoney(
+  const yearReturnPercent = portfolioValueUsd === 0 ? 0 : roundMoney(
     holdings.reduce(
-      (total, holding) => total + holding.returnPercent * holding.valueUgx,
+      (total, holding) => total + holding.returnPercent * holding.valueUsd,
       0,
-    ) / portfolioValueUgx,
+    ) / portfolioValueUsd,
   );
 
   return {
-    portfolioValueUgx,
-    walletBalanceUgx: 0,
+    portfolioValueUsd,
+    walletBalanceUsd: 0,
     yearReturnPercent,
     cryptoRails: paymentOptionsSnapshot.docs
       .map((doc) => paymentOptionFromDoc(doc))
@@ -275,7 +300,7 @@ export const getMemberDashboard = onMemberCall(async (request) => {
 export const createPurchaseOrder = onMemberCall(async (request) => {
   const data = readObject(request.data);
   const opportunityId = readString(data, "opportunityId");
-  const amountUgx = readPositiveNumber(data, "amountUgx");
+  const amountUsd = readPositiveNumber(data, "amountUsd");
   const paymentAsset = readString(data, "paymentAsset").toUpperCase();
 
   const uid = request.auth!.uid;
@@ -305,7 +330,7 @@ export const createPurchaseOrder = onMemberCall(async (request) => {
       "Opportunity is not available for investment.",
     );
   }
-  if (amountUgx < asset.minimumInvestment) {
+  if (amountUsd < asset.minimumInvestment) {
     throw new HttpsError(
       "invalid-argument",
       "Amount is below the opportunity minimum.",
@@ -325,7 +350,7 @@ export const createPurchaseOrder = onMemberCall(async (request) => {
   }
 
   const paymentOption = paymentOptionFromDoc(paymentOptionSnapshot.docs[0]);
-  if (amountUgx < paymentOption.minimumAmount) {
+  if (amountUsd < paymentOption.minimumAmount) {
     throw new HttpsError(
       "invalid-argument",
       "Amount is below the payment option minimum.",
@@ -333,7 +358,10 @@ export const createPurchaseOrder = onMemberCall(async (request) => {
   }
 
   const id = randomUUID();
-  const quoteAmount = roundMoney(amountUgx / 3700);
+  // Stablecoins (USDT/USDC) settle ~1:1 with USD, so the quote equals the USD
+  // amount. Non-stablecoin assets (e.g. BTC) need a live price feed before
+  // launch; until then they are quoted 1:1 as a placeholder.
+  const quoteAmount = roundMoney(amountUsd);
   const networkFee = paymentAsset === "BTC" ? 0.0001 : 1;
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
@@ -342,7 +370,7 @@ export const createPurchaseOrder = onMemberCall(async (request) => {
     uid,
     opportunityId,
     opportunityTitle: asset.title,
-    amountUgx,
+    amountUsd,
     paymentNetwork: paymentOption.network,
     paymentAsset,
     quoteAmount,
@@ -360,7 +388,7 @@ export const createPurchaseOrder = onMemberCall(async (request) => {
   await notifyAdmins({
     type: "deposit_request_created",
     title: "New deposit request",
-    body: `${asset.title} deposit request created for ${amountUgx} UGX.`,
+    body: `${asset.title} deposit request created for ${formatUsd(amountUsd)}.`,
     data: {orderId: id, uid, opportunityId},
   });
 
@@ -487,7 +515,7 @@ export const rejectDepositProof = onAdminCall(async (data) => {
 
 export const createWithdrawalRequest = onMemberCall(async (request) => {
   const data = readObject(request.data);
-  const amountUgx = readPositiveNumber(data, "amountUgx");
+  const amountUsd = readPositiveNumber(data, "amountUsd");
   const destinationAddress = readString(data, "destinationAddress");
   const assetSymbol = readString(data, "assetSymbol").toUpperCase();
   const uid = request.auth!.uid;
@@ -498,7 +526,7 @@ export const createWithdrawalRequest = onMemberCall(async (request) => {
       "Withdrawals are temporarily disabled.",
     );
   }
-  if (amountUgx < policy.minimumAmountUgx) {
+  if (amountUsd < policy.minimumAmountUsd) {
     throw new HttpsError(
       "invalid-argument",
       "Amount is below the withdrawal minimum.",
@@ -514,16 +542,16 @@ export const createWithdrawalRequest = onMemberCall(async (request) => {
     );
   }
   const id = randomUUID();
-  const feeUgx = roundMoney(
-    policy.flatFeeUgx + (amountUgx * policy.percentageFee / 100),
+  const feeUsd = roundMoney(
+    policy.flatFeeUsd + (amountUsd * policy.percentageFee / 100),
   );
 
   const requestData = {
     id,
     uid,
-    amountUgx,
-    feeUgx,
-    netAmountUgx: roundMoney(amountUgx - feeUgx),
+    amountUsd,
+    feeUsd,
+    netAmountUsd: roundMoney(amountUsd - feeUsd),
     destinationAddress,
     assetSymbol,
     status: "submitted",
@@ -538,7 +566,7 @@ export const createWithdrawalRequest = onMemberCall(async (request) => {
   await notifyAdmins({
     type: "withdrawal_request_created",
     title: "New withdrawal request",
-    body: `${amountUgx} UGX ${assetSymbol} withdrawal request submitted.`,
+    body: `${formatUsd(amountUsd)} ${assetSymbol} withdrawal request submitted.`,
     data: {withdrawalRequestId: id, uid},
   });
 
@@ -1064,7 +1092,7 @@ function opportunityFromDoc(
     ),
     title: String(data.title ?? ""),
     location: String(data.location ?? ""),
-    minimumInvestment: Number(data.minimumInvestment ?? 250000),
+    minimumInvestment: Number(data.minimumInvestment ?? 50),
     targetReturn: Number(data.targetReturn ?? 11.8),
     fundedPercent: Number(data.fundedPercent ?? 0),
   };
@@ -1093,7 +1121,7 @@ function depositRequestFromDoc(
     id: doc.id,
     uid: String(data.uid ?? ""),
     opportunityTitle: String(data.opportunityTitle ?? ""),
-    amountUgx: Number(data.amountUgx ?? 0),
+    amountUsd: Number(data.amountUsd ?? 0),
     paymentNetwork: String(data.paymentNetwork ?? ""),
     paymentAsset: String(data.paymentAsset ?? ""),
     paymentWalletAddress: String(data.paymentWalletAddress ?? ""),
@@ -1109,7 +1137,7 @@ function memberOrderFromDoc(doc: FirebaseFirestore.QueryDocumentSnapshot) {
     id: doc.id,
     opportunityId: String(data.opportunityId ?? ""),
     opportunityTitle: String(data.opportunityTitle ?? ""),
-    amountUgx: Number(data.amountUgx ?? 0),
+    amountUsd: Number(data.amountUsd ?? 0),
     paymentAsset: String(data.paymentAsset ?? ""),
     paymentNetwork: String(data.paymentNetwork ?? ""),
     status: String(data.status ?? "pending_payment"),
@@ -1127,23 +1155,23 @@ function buildMemberHoldings(
     title: string;
     assetClass: string;
     brickShares: number;
-    valueUgx: number;
+    valueUsd: number;
     returnPercent: number;
   }>();
 
   for (const order of orders) {
     const asset = assetsById.get(order.opportunityId);
     const current = holdingsByOpportunity.get(order.opportunityId);
-    const minimumInvestment = asset?.minimumInvestment ?? order.amountUgx;
+    const minimumInvestment = asset?.minimumInvestment ?? order.amountUsd;
     const brickShares = minimumInvestment > 0 ?
-      order.amountUgx / minimumInvestment :
+      order.amountUsd / minimumInvestment :
       0;
     holdingsByOpportunity.set(order.opportunityId, {
       opportunityId: order.opportunityId,
       title: asset?.title ?? order.opportunityTitle,
       assetClass: asset?.assetClass ?? "BrickShares",
       brickShares: roundMoney((current?.brickShares ?? 0) + brickShares),
-      valueUgx: roundMoney((current?.valueUgx ?? 0) + order.amountUgx),
+      valueUsd: roundMoney((current?.valueUsd ?? 0) + order.amountUsd),
       returnPercent: asset?.targetReturn ?? current?.returnPercent ?? 0,
     });
   }
@@ -1154,14 +1182,14 @@ function buildMemberHoldings(
 function buildMemberAllocation(
   holdings: ReturnType<typeof buildMemberHoldings>,
 ) {
-  const total = holdings.reduce((sum, holding) => sum + holding.valueUgx, 0);
+  const total = holdings.reduce((sum, holding) => sum + holding.valueUsd, 0);
   if (total <= 0) return [];
 
   const values = new Map<string, number>();
   for (const holding of holdings) {
     values.set(
       holding.assetClass,
-      (values.get(holding.assetClass) ?? 0) + holding.valueUgx,
+      (values.get(holding.assetClass) ?? 0) + holding.valueUsd,
     );
   }
 
@@ -1182,7 +1210,7 @@ function buildMemberChartValues(
     const label = date.toLocaleString("en-US", {month: "short"});
     const index = labels.indexOf(label);
     if (index >= 0) {
-      totals[index] += order.amountUgx;
+      totals[index] += order.amountUsd;
     }
   }
 
@@ -1210,7 +1238,7 @@ function memberActivityFromOrder(order: ReturnType<typeof memberOrderFromDoc>) {
     title: memberOrderStatusTitle(order.status),
     subtitle: order.opportunityTitle,
     value: order.status === "deposit_verified" ?
-      formatUgx(order.amountUgx) :
+      formatUsd(order.amountUsd) :
       memberOrderStatusLabel(order.status),
     status: order.status,
   };
@@ -1259,6 +1287,20 @@ function supportTicketFromDoc(
     userEmail: String(data.userEmail ?? ""),
     userDisplayName: String(data.userDisplayName ?? ""),
     updatedAt: readSerializableDate(data.updatedAt),
+  };
+}
+
+function adminNotificationFromDoc(
+  doc: FirebaseFirestore.QueryDocumentSnapshot,
+) {
+  const data = doc.data();
+  return {
+    id: doc.id,
+    type: String(data.type ?? ""),
+    title: String(data.title ?? ""),
+    body: String(data.body ?? ""),
+    read: Boolean(data.read ?? false),
+    createdAt: readSerializableDate(data.createdAt),
   };
 }
 
@@ -1553,10 +1595,10 @@ function withdrawalPolicyFromData(
   if (!data) return defaults;
 
   return {
-    minimumAmountUgx: Number(
-      data.minimumAmountUgx ?? defaults.minimumAmountUgx,
+    minimumAmountUsd: Number(
+      data.minimumAmountUsd ?? defaults.minimumAmountUsd,
     ),
-    flatFeeUgx: Number(data.flatFeeUgx ?? defaults.flatFeeUgx),
+    flatFeeUsd: Number(data.flatFeeUsd ?? defaults.flatFeeUsd),
     percentageFee: Number(data.percentageFee ?? defaults.percentageFee),
     requiresDestinationWalletVerification:
       Boolean(
@@ -1574,8 +1616,8 @@ function withdrawalPolicyFromData(
 
 function defaultWithdrawalPolicy(): WithdrawalPolicy {
   return {
-    minimumAmountUgx: 50000,
-    flatFeeUgx: 0,
+    minimumAmountUsd: 25,
+    flatFeeUsd: 0,
     percentageFee: 0,
     requiresDestinationWalletVerification: true,
     requiredApprovals: 1,
@@ -1588,8 +1630,8 @@ function defaultWithdrawalPolicy(): WithdrawalPolicy {
 function readWithdrawalPolicy(data: unknown): WithdrawalPolicy {
   const value = readObject(data);
   const policy: WithdrawalPolicy = {
-    minimumAmountUgx: readPositiveNumber(value, "minimumAmountUgx"),
-    flatFeeUgx: readNonNegativeNumber(value, "flatFeeUgx"),
+    minimumAmountUsd: readPositiveNumber(value, "minimumAmountUsd"),
+    flatFeeUsd: readNonNegativeNumber(value, "flatFeeUsd"),
     percentageFee: readNonNegativeNumber(value, "percentageFee"),
     requiresDestinationWalletVerification: readBoolean(
       value,
@@ -1876,8 +1918,8 @@ function roundMoney(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
-function formatUgx(value: number): string {
-  return `UGX ${Math.round(value).toLocaleString("en-US")}`;
+function formatUsd(value: number): string {
+  return `$${Math.round(value).toLocaleString("en-US")}`;
 }
 
 function isLikelyWalletAddress(value: string): boolean {

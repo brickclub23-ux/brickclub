@@ -1,6 +1,11 @@
 # BrickClub
 
-BrickClub is a Flutter app backed by Firebase. Local development uses the Firebase Emulator Suite for Authentication and Cloud Functions so backend work can be built and tested without touching production data.
+BrickClub is a Flutter app backed by Firebase. Local development can run two ways:
+
+- **Against the cloud `brickclub` project** (default) when you want to develop against real Firebase services.
+- **Against the Firebase Emulator Suite** by enabling emulators explicitly, so backend work can be built and tested without touching cloud data.
+
+See [Run against the Firebase emulators](#run-against-the-firebase-emulators) for the emulator workflow.
 
 ## Architecture
 
@@ -34,6 +39,52 @@ flutter pub get
 npm --prefix functions install
 ```
 
+Run the Flutter app in development:
+
+```powershell
+flutter run
+```
+
+The app defaults to the cloud `brickclub` project, so a plain `flutter run`
+connects Authentication, Firestore, Cloud Functions, and Storage to the cloud.
+This uses real cloud data and quota — see
+[Run against cloud Firebase in development](#run-against-cloud-firebase-in-development)
+for the implications. To use the local emulators instead, see
+[Run against the Firebase emulators](#run-against-the-firebase-emulators).
+
+### Run against cloud Firebase in development
+
+A plain `flutter run` connects Authentication, Firestore, Cloud Functions, and
+Storage to the cloud `brickclub` project — this is the default, so no flag is
+required:
+
+```powershell
+flutter run -d chrome
+```
+
+Notes:
+
+- **All platforms are configured for cloud.** Web, Android, iOS, Windows, and
+  Linux apps are registered in the `brickclub` project, and their real options
+  live in `lib/src/core/firebase/default_firebase_options.dart`. Firebase is
+  initialized directly from these Dart options, so no `google-services.json` or
+  `GoogleService-Info.plist` is required.
+- For Android phone-auth/App Check against cloud you must add your signing
+  certificate SHA-1/SHA-256 to the Android app in the Firebase Console.
+- This uses real cloud data and quota. Email verification and password reset
+  use the live Firebase Auth email senders (not Mailpit), and phone
+  verification sends real SMS. Make sure `localhost` is an authorized domain
+  for web sign-in (it is by default for new projects).
+- Cloud Functions must be deployed for callable features to work; the local
+  Functions emulator is not used in this mode. Deploy with
+  `firebase deploy --only functions`.
+
+### Run against the Firebase emulators
+
+To build and test backend work without touching cloud data, enable the
+emulators explicitly. Because the app now defaults to cloud, the flag is
+required.
+
 Start the Firebase emulators:
 
 ```powershell
@@ -45,13 +96,14 @@ The emulator UI runs at [http://localhost:4000](http://localhost:4000).
 Mailpit runs at [http://localhost:8025](http://localhost:8025), with SMTP
 available on `localhost:1025`.
 
-Run the Flutter app in development:
+Run the app against the emulators:
 
 ```powershell
 flutter run --dart-define=USE_FIREBASE_EMULATORS=true
 ```
 
-The app defaults to emulators in debug builds. For Android emulator runs it uses `10.0.2.2`; for web, Windows, iOS simulator, and macOS it uses `localhost`.
+For Android emulator runs the app uses `10.0.2.2`; for web, Windows, iOS
+simulator, and macOS it uses `localhost`.
 
 For a physical Android device connected over USB, use the helper script. It
 sets up local reverse ports for convenience, detects this machine's LAN IPv4
@@ -89,8 +141,8 @@ Firebase Authentication is the source of truth for sign-in and account creation.
 
 Current local defaults in the UI:
 
-- member email: `joshua@brickclub.ug`
-- admin email: `admin@brickclub.ug`
+- member email: `joshua@brickclub.com`
+- admin email: `admin@brickclub.com`
 - password: `password10`
 
 Admin access is authorized with the Firebase custom claim `admin: true`. The Flutter app checks the refreshed ID token after admin sign-in, and all admin callable Functions require that claim before performing CRUD.
@@ -98,13 +150,13 @@ Admin access is authorized with the Firebase custom claim `admin: true`. The Flu
 To create the first local emulator admin:
 
 1. Start the emulators.
-2. Create `admin@brickclub.ug` in the Auth emulator UI or through the app.
+2. Create `admin@brickclub.com` in the Auth emulator UI or through the app.
 3. In another terminal, set the claim:
 
 ```powershell
 $env:FIREBASE_AUTH_EMULATOR_HOST="127.0.0.1:9099"
-$env:GCLOUD_PROJECT="brickclub-dev"
-npm --prefix functions run claim:admin -- admin@brickclub.ug
+$env:GCLOUD_PROJECT="brickclub"
+npm --prefix functions run claim:admin -- admin@brickclub.com
 ```
 
 After a claim changes, sign out and sign back in so the app receives a fresh ID token.
@@ -164,7 +216,8 @@ flutterfire configure
 
 Use the production Firebase project ID and select the platforms you plan to ship. Replace the placeholder Firebase options in `lib/src/core/firebase/default_firebase_options.dart` with the generated production values, or adopt the generated `lib/firebase_options.dart` and update `FirebaseBootstrap` to import it.
 
-Before a production build, disable emulators explicitly:
+Production builds already default to cloud Firebase. You can pass the flag
+explicitly to be safe:
 
 ```powershell
 flutter build web --dart-define=USE_FIREBASE_EMULATORS=false

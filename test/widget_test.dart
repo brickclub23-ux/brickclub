@@ -235,7 +235,7 @@ void main() {
   testWidgets('matches the BrickClub authenticated navigation', (tester) async {
     await signIn(tester);
 
-    expect(find.text('UGX 11M'), findsOneWidget);
+    expect(find.text('\$11K'), findsOneWidget);
 
     await tester.tap(find.byKey(const ValueKey('nav-invest')));
     await tester.pumpAndSettle();
@@ -243,7 +243,7 @@ void main() {
 
     await tester.tap(find.byKey(const ValueKey('nav-wallet')));
     await tester.pumpAndSettle();
-    expect(find.text('UGX 0'), findsOneWidget);
+    expect(find.text('\$0'), findsOneWidget);
 
     await tester.tap(find.byKey(const ValueKey('nav-portfolio')));
     await tester.pumpAndSettle();
@@ -353,6 +353,42 @@ void main() {
     expect(find.text('Wallet transfer delayed'), findsOneWidget);
   });
 
+  testWidgets('admin notifications bell lists and clears alerts', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1440, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      BrickClubApp(
+        authRepository: authRepository,
+        adminRepository: adminRepository,
+        investmentRepository: investmentRepository,
+        kycRepository: kycRepository,
+        supportRepository: supportRepository,
+        showLandingPage: true,
+      ),
+    );
+    await tester.tap(find.byKey(const ValueKey('landing-sign-in')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('admin-access')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('sign-in')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('admin-notifications')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Deposit proof submitted'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('mark-notifications-read')));
+    await tester.pumpAndSettle();
+
+    expect(adminRepository.markedNotificationsRead, isTrue);
+  });
+
   testWidgets('investment filters apply to the opportunities list', (
     tester,
   ) async {
@@ -368,7 +404,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('1 opportunities'), findsOneWidget);
-    expect(find.text('Bugolobi\nLogistics REIT'), findsOneWidget);
+    expect(find.text('Harbor District\nLogistics REIT'), findsOneWidget);
   });
 
   testWidgets('account page login button returns to sign in', (tester) async {
@@ -409,7 +445,7 @@ void main() {
 
     await tester.tap(find.byKey(const ValueKey('investment-card')).first);
     await tester.pumpAndSettle();
-    expect(find.text('Kololo Heights Income Fund'), findsOneWidget);
+    expect(find.text('Skyline Heights Income Fund'), findsOneWidget);
 
     await tester.drag(
       find.descendant(
@@ -491,7 +527,7 @@ void main() {
   ) async {
     final pendingKycRepository = FakeKycRepository.pending(
       phoneError: const KycValidationException(
-        'Enter your phone number in international format, e.g. +256774224734.',
+        'Enter your phone number in international format, e.g. +12025550190.',
       ),
     );
     await tester.pumpWidget(
@@ -522,7 +558,7 @@ void main() {
     expect(find.byKey(const ValueKey('kyc-message')), findsOneWidget);
     expect(
       find.text(
-        'Enter your phone number in international format, e.g. +256774224734.',
+        'Enter your phone number in international format, e.g. +12025550190.',
       ),
       findsWidgets,
     );
@@ -552,7 +588,7 @@ class FakeAuthRepository implements AuthRepository {
   SignedInUserDetails? currentUserDetails() {
     return const SignedInUserDetails(
       displayName: 'Amina Kato',
-      email: 'amina@brickclub.ug',
+      email: 'amina@brickclub.com',
     );
   }
 
@@ -582,7 +618,7 @@ class FakeAdminRepository implements AdminRepository {
     users: [
       AdminUser(
         uid: 'admin-1',
-        email: 'admin@brickclub.ug',
+        email: 'admin@brickclub.com',
         displayName: 'Joshua Admin',
         disabled: false,
         emailVerified: true,
@@ -592,7 +628,7 @@ class FakeAdminRepository implements AdminRepository {
       ),
       AdminUser(
         uid: 'member-1',
-        email: 'sarah@brickclub.ug',
+        email: 'sarah@brickclub.com',
         displayName: 'Sarah Namuli',
         disabled: false,
         emailVerified: true,
@@ -604,8 +640,8 @@ class FakeAdminRepository implements AdminRepository {
     assets: [
       AdminAsset(
         id: 'asset-1',
-        title: 'Kololo Heights',
-        location: 'Kampala',
+        title: 'Skyline Heights',
+        location: 'Central Business District',
         type: 'Real estate',
         fundedPercent: 62,
         reviewStatus: 'Verified',
@@ -627,8 +663,8 @@ class FakeAdminRepository implements AdminRepository {
       AdminDepositRequest(
         id: 'order-1',
         uid: 'member-1',
-        opportunityTitle: 'Kololo Heights Income Fund',
-        amountUgx: 250000,
+        opportunityTitle: 'Skyline Heights Income Fund',
+        amountUsd: 100,
         paymentNetwork: 'Tron',
         paymentAsset: 'USDT',
         paymentWalletAddress: '0x71B...8E4',
@@ -645,14 +681,14 @@ class FakeAdminRepository implements AdminRepository {
         status: 'waiting_for_admin',
         messageCount: 1,
         latestMessage: 'My wallet transfer is still pending.',
-        userEmail: 'sarah@brickclub.ug',
+        userEmail: 'sarah@brickclub.com',
         userDisplayName: 'Sarah Namuli',
         updatedAt: '2026-06-16T10:00:00.000Z',
       ),
     ],
     withdrawalPolicy: WithdrawalPolicy(
-      minimumAmountUgx: 50000,
-      flatFeeUgx: 2500,
+      minimumAmountUsd: 25,
+      flatFeeUsd: 1,
       percentageFee: 1.5,
       requiresDestinationWalletVerification: true,
       requiredApprovals: 2,
@@ -660,6 +696,16 @@ class FakeAdminRepository implements AdminRepository {
       enabled: true,
       notes: 'Withdrawals are reviewed by operations.',
     ),
+    notifications: [
+      AdminNotification(
+        id: 'notification-1',
+        type: 'deposit_proof_submitted',
+        title: 'Deposit proof submitted',
+        body: 'Skyline Heights Income Fund proof is ready for verification.',
+        read: false,
+        createdAt: '2026-06-17T09:30:00.000Z',
+      ),
+    ],
   );
 
   @override
@@ -732,6 +778,13 @@ class FakeAdminRepository implements AdminRepository {
 
   @override
   Future<void> updateWithdrawalPolicy(WithdrawalPolicy policy) async {}
+
+  bool markedNotificationsRead = false;
+
+  @override
+  Future<void> markNotificationsRead() async {
+    markedNotificationsRead = true;
+  }
 }
 
 class FakeSupportRepository implements SupportRepository {
@@ -787,10 +840,10 @@ class FakeInvestmentRepository implements InvestmentRepository {
       id: 'asset-1',
       assetClass: 'Real Estate',
       riskLevel: 'Medium',
-      paymentMethods: ['USDT', 'USDC', 'UGX Wallet'],
-      title: 'Kololo Heights Income Fund',
-      location: 'Kampala Central',
-      minimumInvestment: 250000,
+      paymentMethods: ['USDT', 'USDC', 'USD Wallet'],
+      title: 'Skyline Heights Income Fund',
+      location: 'Central Business District',
+      minimumInvestment: 100,
       targetReturn: 11.8,
       fundedPercent: 62,
     ),
@@ -798,10 +851,10 @@ class FakeInvestmentRepository implements InvestmentRepository {
       id: 'asset-2',
       assetClass: 'REIT',
       riskLevel: 'Medium',
-      paymentMethods: ['USDT', 'UGX Wallet'],
-      title: 'Bugolobi\nLogistics REIT',
+      paymentMethods: ['USDT', 'USD Wallet'],
+      title: 'Harbor District\nLogistics REIT',
       location: 'Income portfolio',
-      minimumInvestment: 500000,
+      minimumInvestment: 150,
       targetReturn: 9.6,
       fundedPercent: 41,
     ),
@@ -809,10 +862,10 @@ class FakeInvestmentRepository implements InvestmentRepository {
       id: 'asset-3',
       assetClass: 'ETF',
       riskLevel: 'Low',
-      paymentMethods: ['USDC', 'UGX Wallet'],
-      title: 'East Africa\nProperty ETF',
+      paymentMethods: ['USDC', 'USD Wallet'],
+      title: 'Global\nProperty ETF',
       location: 'Diversified fund',
-      minimumInvestment: 150000,
+      minimumInvestment: 50,
       targetReturn: 7.4,
       fundedPercent: 78,
     ),
@@ -821,9 +874,9 @@ class FakeInvestmentRepository implements InvestmentRepository {
       assetClass: 'Index',
       riskLevel: 'Low',
       paymentMethods: ['BTC', 'USDC'],
-      title: 'Kampala Core\nIndex',
+      title: 'Metro Core\nIndex',
       location: 'Prime property basket',
-      minimumInvestment: 200000,
+      minimumInvestment: 75,
       targetReturn: 8.1,
       fundedPercent: 54,
     ),
@@ -832,9 +885,9 @@ class FakeInvestmentRepository implements InvestmentRepository {
       assetClass: 'Real Estate',
       riskLevel: 'High',
       paymentMethods: ['USDT', 'BTC'],
-      title: 'Entebbe Bay\nDevelopment',
+      title: 'Marina Bay\nDevelopment',
       location: 'Growth project',
-      minimumInvestment: 750000,
+      minimumInvestment: 200,
       targetReturn: 14.2,
       fundedPercent: 29,
     ),
@@ -843,33 +896,33 @@ class FakeInvestmentRepository implements InvestmentRepository {
   @override
   Future<MemberDashboardData> loadMemberDashboard() async {
     return const MemberDashboardData(
-      portfolioValueUgx: 11000000,
-      walletBalanceUgx: 0,
+      portfolioValueUsd: 11000,
+      walletBalanceUsd: 0,
       yearReturnPercent: 10.2,
       cryptoRails: ['USDT on Tron', 'USDC on Ethereum'],
       holdings: [
         MemberHolding(
           opportunityId: 'asset-1',
-          title: 'Kololo Heights Income Fund',
+          title: 'Skyline Heights Income Fund',
           assetClass: 'Real Estate',
           brickShares: 32.45,
-          valueUgx: 6800000,
+          valueUsd: 6800,
           returnPercent: 12.1,
         ),
         MemberHolding(
           opportunityId: 'asset-2',
-          title: 'Bugolobi Logistics REIT',
+          title: 'Harbor District Logistics REIT',
           assetClass: 'REIT',
           brickShares: 18.72,
-          valueUgx: 4200000,
+          valueUsd: 4200,
           returnPercent: 7.3,
         ),
       ],
       activity: [
         MemberActivity(
           title: 'Deposit verified',
-          subtitle: 'Kololo Heights Income Fund',
-          value: 'UGX 6,800,000',
+          subtitle: 'Skyline Heights Income Fund',
+          value: '\$6,800',
           status: 'deposit_verified',
         ),
       ],
@@ -877,7 +930,7 @@ class FakeInvestmentRepository implements InvestmentRepository {
         MemberAllocation(label: 'Real Estate', percent: .62),
         MemberAllocation(label: 'REIT', percent: .38),
       ],
-      chartValues: [0, 0, 2500000, 6800000, 9000000, 11000000],
+      chartValues: [0, 0, 2500, 6800, 9000, 11000],
       chartLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     );
   }
@@ -891,12 +944,12 @@ class FakeInvestmentRepository implements InvestmentRepository {
       id: 'order-1',
       opportunityId: opportunity.id,
       opportunityTitle: opportunity.title,
-      amountUgx: request.amountUgx,
+      amountUsd: request.amountUsd,
       paymentNetwork: 'Tron',
       paymentAsset: request.paymentAsset,
       paymentWalletAddress: '0x71B...8E4',
       paymentQrCodeUrl: '',
-      quoteAmount: 67.57,
+      quoteAmount: 100,
       networkFee: 1,
       status: 'pending_payment',
       expiresAt: '2026-06-16T10:00:00.000Z',
@@ -916,8 +969,8 @@ class FakeInvestmentRepository implements InvestmentRepository {
     return const PurchaseOrder(
       id: 'order-1',
       opportunityId: 'asset-1',
-      opportunityTitle: 'Kololo Heights Income Fund',
-      amountUgx: 250000,
+      opportunityTitle: 'Skyline Heights Income Fund',
+      amountUsd: 100,
       paymentNetwork: 'Tron',
       paymentAsset: 'USDT',
       paymentWalletAddress: '0x71B...8E4',

@@ -12,7 +12,7 @@ class FirebaseBootstrap {
 
   static const bool useEmulators = bool.fromEnvironment(
     'USE_FIREBASE_EMULATORS',
-    defaultValue: kDebugMode,
+    defaultValue: false,
   );
 
   static const String emulatorHostOverride = String.fromEnvironment(

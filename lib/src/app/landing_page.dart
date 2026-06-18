@@ -1,6 +1,6 @@
 part of 'brickclub_app.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   const LandingPage({
     super.key,
     required this.onSignIn,
@@ -11,25 +11,63 @@ class LandingPage extends StatelessWidget {
   final VoidCallback onSignUp;
 
   @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  final _scrollController = ScrollController();
+  final _topKey = GlobalKey();
+  final _howItWorksKey = GlobalKey();
+  final _featuresKey = GlobalKey();
+  final _testimonialsKey = GlobalKey();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SelectionArea(
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: [
-              _LandingHeader(onSignIn: onSignIn, onSignUp: onSignUp),
-              _HeroSection(onInstall: () => _showInstallMessage(context)),
-              const _TrustStrip(),
-              const _HowItWorksSection(),
-              const _FeatureSection(),
-              const _TestimonialsSection(),
-              _FinalCta(
-                onInstall: () => _showInstallMessage(context),
-                onSignIn: onSignIn,
-                onSignUp: onSignUp,
+              _LandingHeader(
+                key: _topKey,
+                onSignIn: widget.onSignIn,
+                onSignUp: widget.onSignUp,
+                onBrand: () => _scrollTo(_topKey),
+                onNavigate: _scrollTo,
+                navKeys: {
+                  'features': _featuresKey,
+                  'how-it-works': _howItWorksKey,
+                  'testimonials': _testimonialsKey,
+                },
               ),
-              _LandingFooter(onSignIn: onSignIn, onSignUp: onSignUp),
+              _HeroSection(
+                onInstall: _install,
+                onExplore: widget.onSignUp,
+              ),
+              const _TrustStrip(),
+              KeyedSubtree(key: _howItWorksKey, child: const _HowItWorksSection()),
+              KeyedSubtree(key: _featuresKey, child: const _FeatureSection()),
+              KeyedSubtree(
+                key: _testimonialsKey,
+                child: const _TestimonialsSection(),
+              ),
+              _FinalCta(
+                onInstall: _install,
+                onSignIn: widget.onSignIn,
+                onSignUp: widget.onSignUp,
+              ),
+              _LandingFooter(
+                onSignIn: widget.onSignIn,
+                onSignUp: widget.onSignUp,
+              ),
             ],
           ),
         ),
@@ -37,16 +75,61 @@ class LandingPage extends StatelessWidget {
     );
   }
 
-  void _showInstallMessage(BuildContext context) {
-    showMessage(context, 'App Store and Google Play links are coming soon');
+  void _scrollTo(GlobalKey key) {
+    final targetContext = key.currentContext;
+    if (targetContext == null) {
+      return;
+    }
+    Scrollable.ensureVisible(
+      targetContext,
+      duration: const Duration(milliseconds: 480),
+      curve: Curves.easeInOutCubic,
+      alignment: 0,
+    );
+  }
+
+  Future<void> _install() async {
+    if (!canInstallPwa()) {
+      showMessage(
+        context,
+        'Native app store links are coming soon. On Chrome or Edge desktop, '
+        'use the browser menu to install BrickClub.',
+      );
+      return;
+    }
+    final outcome = await promptPwaInstall();
+    if (!mounted) {
+      return;
+    }
+    switch (outcome) {
+      case 'accepted':
+        showMessage(context, 'Installing BrickClub on your device…');
+      case 'dismissed':
+        showMessage(context, 'Install dismissed. You can install any time.');
+      default:
+        showMessage(
+          context,
+          'Native app store links are coming soon.',
+        );
+    }
   }
 }
 
 class _LandingHeader extends StatelessWidget {
-  const _LandingHeader({required this.onSignIn, required this.onSignUp});
+  const _LandingHeader({
+    super.key,
+    required this.onSignIn,
+    required this.onSignUp,
+    required this.onBrand,
+    required this.onNavigate,
+    required this.navKeys,
+  });
 
   final VoidCallback onSignIn;
   final VoidCallback onSignUp;
+  final VoidCallback onBrand;
+  final void Function(GlobalKey) onNavigate;
+  final Map<String, GlobalKey> navKeys;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +148,13 @@ class _LandingHeader extends StatelessWidget {
               final compact = constraints.maxWidth < 760;
               return Row(
                 children: [
-                  const _BrandLockup(),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: onBrand,
+                      child: const _BrandLockup(),
+                    ),
+                  ),
                   const Spacer(),
                   if (!compact) ...[
                     for (final item in [
@@ -73,16 +162,14 @@ class _LandingHeader extends StatelessWidget {
                       ('How it works', 'how-it-works'),
                       ('Testimonials', 'testimonials'),
                     ])
-                      Padding(
-                        padding: const EdgeInsets.only(right: 28),
-                        child: Text(
-                          item.$1,
-                          style: TextStyle(
-                            color: AppColors.secondary,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                      _NavLink(
+                        label: item.$1,
+                        onTap: () {
+                          final key = navKeys[item.$2];
+                          if (key != null) {
+                            onNavigate(key);
+                          }
+                        },
                       ),
                   ],
                   TextButton(
@@ -99,6 +186,43 @@ class _LandingHeader extends StatelessWidget {
                 ],
               );
             },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NavLink extends StatefulWidget {
+  const _NavLink({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  State<_NavLink> createState() => _NavLinkState();
+}
+
+class _NavLinkState extends State<_NavLink> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 28),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: Text(
+            widget.label,
+            style: TextStyle(
+              color: _hovered ? AppColors.primary : AppColors.secondary,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),
@@ -138,9 +262,10 @@ class _BrickMark extends StatelessWidget {
 }
 
 class _HeroSection extends StatelessWidget {
-  const _HeroSection({required this.onInstall});
+  const _HeroSection({required this.onInstall, required this.onExplore});
 
   final VoidCallback onInstall;
+  final VoidCallback onExplore;
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +286,10 @@ class _HeroSection extends StatelessWidget {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final stacked = constraints.maxWidth < 850;
-                final copy = _HeroCopy(onInstall: onInstall);
+                final copy = _HeroCopy(
+                  onInstall: onInstall,
+                  onExplore: onExplore,
+                );
                 const visual = _HeroVisual();
                 if (stacked) {
                   return Column(
@@ -190,9 +318,10 @@ class _HeroSection extends StatelessWidget {
 }
 
 class _HeroCopy extends StatelessWidget {
-  const _HeroCopy({required this.onInstall});
+  const _HeroCopy({required this.onInstall, required this.onExplore});
 
   final VoidCallback onInstall;
+  final VoidCallback onExplore;
 
   @override
   Widget build(BuildContext context) {
@@ -238,10 +367,7 @@ class _HeroCopy extends StatelessWidget {
             _WebButton(
               label: 'Explore BrickShares',
               icon: Icons.arrow_forward_rounded,
-              onPressed: () => showMessage(
-                context,
-                'Sign in to explore verified BrickShares',
-              ),
+              onPressed: onExplore,
             ),
           ],
         ),
@@ -305,7 +431,7 @@ class _HeroVisual extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(34),
                 image: const DecorationImage(
-                  image: AssetImage('assets/images/kololo_heights_v2.png'),
+                  image: AssetImage('assets/images/skyline_heights.png'),
                   fit: BoxFit.cover,
                 ),
                 border: Border.all(color: AppColors.border),
@@ -412,7 +538,7 @@ class _PhonePreview extends StatelessWidget {
             Text('Portfolio value', style: AppText.small),
             SizedBox(height: 4),
             Text(
-              'UGX 18.6M',
+              '\$5,000',
               style: TextStyle(
                 color: AppColors.primary,
                 fontSize: 27,
@@ -423,7 +549,7 @@ class _PhonePreview extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.asset(
-                'assets/images/kololo_heights_v2.png',
+                'assets/images/skyline_heights.png',
                 height: 116,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -431,7 +557,7 @@ class _PhonePreview extends StatelessWidget {
             ),
             SizedBox(height: 12),
             Text(
-              'Kololo Heights\nIncome Fund',
+              'Skyline Heights\nIncome Fund',
               style: TextStyle(
                 color: AppColors.primary,
                 fontSize: 17,
@@ -451,7 +577,7 @@ class _PhonePreview extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('UGX 250K', style: AppText.goldBody),
+                Text('\$50', style: AppText.goldBody),
                 Text('12.4%', style: AppText.cardHeadingSmall),
               ],
             ),
@@ -725,7 +851,7 @@ class _AssetReviewPanel extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(18),
             child: Image.asset(
-              'assets/images/kololo_heights_v2.png',
+              'assets/images/skyline_heights.png',
               height: 230,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -735,7 +861,7 @@ class _AssetReviewPanel extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Kololo Heights', style: AppText.cardHeading),
+              Text('Skyline Heights', style: AppText.cardHeading),
               Text('VERIFIED', style: AppText.eyebrow),
             ],
           ),
@@ -749,7 +875,7 @@ class _AssetReviewPanel extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Metric('12.4%', 'Target return', gold: true),
-              Metric('UGX 250K', 'Minimum'),
+              Metric('\$50', 'Minimum'),
               Metric('62%', 'Funded'),
             ],
           ),
@@ -780,19 +906,19 @@ class _TestimonialsSection extends StatelessWidget {
         'BrickClub makes the important details easy to understand. I know '
             'what I own, how it is performing, and what happens before I fund.',
         'Sarah N.',
-        'Entrepreneur, Kampala',
+        'Entrepreneur, London',
       ),
       _Testimonial(
         'The verification and confirmation flow gave me confidence. It feels '
             'like a serious investment platform, not another crypto shortcut.',
         'Daniel K.',
-        'Product lead, Nairobi',
+        'Product lead, Singapore',
       ),
       _Testimonial(
         'I can start at a practical amount and still get access to assets I '
             'would normally only watch from the outside.',
         'Amina M.',
-        'Consultant, Dar es Salaam',
+        'Consultant, Dubai',
       ),
     ];
     if (constraints.maxWidth < 820) {

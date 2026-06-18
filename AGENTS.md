@@ -6,7 +6,9 @@ Guidance for coding agents working in the BrickClub repository.
 
 BrickClub is a Flutter application backed by Firebase. The app includes a web landing page, mobile-style member flows, KYC flows, admin operations, Firebase Authentication, Firestore, Storage, and callable Cloud Functions.
 
-Local development is designed to run against the Firebase Emulator Suite. Do not point local changes at production Firebase unless the user explicitly asks for production setup or deployment.
+Local development can target either the cloud `brickclub` project (the default) or the Firebase Emulator Suite. Running against cloud in dev is a supported workflow on all platforms (web, Android, iOS, Windows, Linux); a plain `flutter run` connects to cloud, and you opt into emulators with `--dart-define=USE_FIREBASE_EMULATORS=true` (see Flutter Commands). Web, Android, and iOS apps are registered in the `brickclub` project, and their real options live in `lib/src/core/firebase/default_firebase_options.dart`. Firebase initializes from those Dart options, so native config files (`google-services.json`, `GoogleService-Info.plist`) are not required.
+
+The app now defaults to cloud, so routine `flutter run` work hits real cloud data and quota. Be careful: never deploy or mutate cloud data unless the user explicitly asks, and prefer the emulators (`USE_FIREBASE_EMULATORS=true`) for destructive or experimental backend work.
 
 ## Repository Layout
 
@@ -41,13 +43,21 @@ Install dependencies:
 flutter pub get
 ```
 
-Run the app with local Firebase emulators:
+Run the app against the cloud `brickclub` project (the default — no flag needed):
+
+```powershell
+flutter run -d chrome
+```
+
+This uses real cloud services and data, requires deployed Cloud Functions, and sends real verification email/SMS. Works on web, Android, iOS, Windows, and Linux (run with `-d <device>` to target a specific device); Android phone-auth additionally needs the signing SHA added to the Firebase Console.
+
+Run the app with local Firebase emulators instead:
 
 ```powershell
 flutter run --dart-define=USE_FIREBASE_EMULATORS=true
 ```
 
-For a physical device on the same network, pass the host machine IP:
+For a physical device on the same network using the emulators, pass the host machine IP:
 
 ```powershell
 flutter run --dart-define=USE_FIREBASE_EMULATORS=true --dart-define=FIREBASE_EMULATOR_HOST=192.168.1.20
@@ -60,7 +70,7 @@ flutter analyze
 flutter test
 ```
 
-Production builds must explicitly disable emulators:
+Production builds already default to cloud; pass the flag explicitly to be safe:
 
 ```powershell
 flutter build web --dart-define=USE_FIREBASE_EMULATORS=false
@@ -113,7 +123,7 @@ Emulator ports are configured in `firebase.json`:
 - Storage: `9199`
 - Emulator UI: `4000`
 
-The app defaults to emulators in debug builds. Android emulator uses `10.0.2.2`; web, Windows, iOS simulator, and macOS use `localhost` unless `FIREBASE_EMULATOR_HOST` is provided.
+The app defaults to cloud; pass `--dart-define=USE_FIREBASE_EMULATORS=true` to use the emulators. When emulators are enabled, the Android emulator uses `10.0.2.2`; web, Windows, iOS simulator, and macOS use `localhost` unless `FIREBASE_EMULATOR_HOST` is provided.
 
 ## Cloud Functions Commands
 
@@ -139,8 +149,8 @@ Set an emulator admin claim:
 
 ```powershell
 $env:FIREBASE_AUTH_EMULATOR_HOST="127.0.0.1:9099"
-$env:GCLOUD_PROJECT="brickclub-dev"
-npm --prefix functions run claim:admin -- admin@brickclub.ug
+$env:GCLOUD_PROJECT="brickclub"
+npm --prefix functions run claim:admin -- admin@brickclub.com
 ```
 
 After changing custom claims, sign out and sign back in so the app receives a fresh ID token.
@@ -149,8 +159,8 @@ After changing custom claims, sign out and sign back in so the app receives a fr
 
 Current local defaults used by the UI:
 
-- Member email: `joshua@brickclub.ug`
-- Admin email: `admin@brickclub.ug`
+- Member email: `joshua@brickclub.com`
+- Admin email: `admin@brickclub.com`
 - Password: `password10`
 
 Create users in the Auth emulator UI or through the app sign-up flow.

@@ -6,6 +6,7 @@ class AdminDashboardData {
     required this.depositRequests,
     required this.supportTickets,
     required this.withdrawalPolicy,
+    this.notifications = const [],
   });
 
   factory AdminDashboardData.fromJson(Map<String, dynamic> json) {
@@ -24,6 +25,7 @@ class AdminDashboardData {
         json['supportTickets'],
         AdminSupportTicket.fromJson,
       ),
+      notifications: _list(json['notifications'], AdminNotification.fromJson),
       withdrawalPolicy: WithdrawalPolicy.fromJson(
         Map<String, dynamic>.from(json['withdrawalPolicy'] as Map? ?? {}),
       ),
@@ -35,7 +37,42 @@ class AdminDashboardData {
   final List<CryptoPaymentOption> cryptoPaymentOptions;
   final List<AdminDepositRequest> depositRequests;
   final List<AdminSupportTicket> supportTickets;
+  final List<AdminNotification> notifications;
   final WithdrawalPolicy withdrawalPolicy;
+
+  int get unreadNotificationCount =>
+      notifications.where((notification) => notification.isUnread).length;
+}
+
+class AdminNotification {
+  const AdminNotification({
+    required this.id,
+    required this.type,
+    required this.title,
+    required this.body,
+    required this.read,
+    required this.createdAt,
+  });
+
+  factory AdminNotification.fromJson(Map<String, dynamic> json) {
+    return AdminNotification(
+      id: json['id'] as String? ?? '',
+      type: json['type'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      body: json['body'] as String? ?? '',
+      read: json['read'] as bool? ?? false,
+      createdAt: json['createdAt'] as String? ?? '',
+    );
+  }
+
+  final String id;
+  final String type;
+  final String title;
+  final String body;
+  final bool read;
+  final String createdAt;
+
+  bool get isUnread => !read;
 }
 
 class AdminUser {
@@ -202,7 +239,7 @@ class AdminDepositRequest {
     required this.id,
     required this.uid,
     required this.opportunityTitle,
-    required this.amountUgx,
+    required this.amountUsd,
     required this.paymentNetwork,
     required this.paymentAsset,
     required this.paymentWalletAddress,
@@ -216,7 +253,7 @@ class AdminDepositRequest {
       id: json['id'] as String,
       uid: json['uid'] as String? ?? '',
       opportunityTitle: json['opportunityTitle'] as String? ?? '',
-      amountUgx: (json['amountUgx'] as num?)?.toDouble() ?? 0,
+      amountUsd: (json['amountUsd'] as num?)?.toDouble() ?? 0,
       paymentNetwork: json['paymentNetwork'] as String? ?? '',
       paymentAsset: json['paymentAsset'] as String? ?? '',
       paymentWalletAddress: json['paymentWalletAddress'] as String? ?? '',
@@ -229,7 +266,7 @@ class AdminDepositRequest {
   final String id;
   final String uid;
   final String opportunityTitle;
-  final double amountUgx;
+  final double amountUsd;
   final String paymentNetwork;
   final String paymentAsset;
   final String paymentWalletAddress;
@@ -294,8 +331,8 @@ class AdminSupportTicket {
 
 class WithdrawalPolicy {
   const WithdrawalPolicy({
-    required this.minimumAmountUgx,
-    required this.flatFeeUgx,
+    required this.minimumAmountUsd,
+    required this.flatFeeUsd,
     required this.percentageFee,
     required this.requiresDestinationWalletVerification,
     required this.requiredApprovals,
@@ -306,8 +343,8 @@ class WithdrawalPolicy {
 
   factory WithdrawalPolicy.defaults() {
     return const WithdrawalPolicy(
-      minimumAmountUgx: 50000,
-      flatFeeUgx: 0,
+      minimumAmountUsd: 25,
+      flatFeeUsd: 0,
       percentageFee: 0,
       requiresDestinationWalletVerification: true,
       requiredApprovals: 1,
@@ -320,11 +357,11 @@ class WithdrawalPolicy {
   factory WithdrawalPolicy.fromJson(Map<String, dynamic> json) {
     final defaults = WithdrawalPolicy.defaults();
     return WithdrawalPolicy(
-      minimumAmountUgx:
-          (json['minimumAmountUgx'] as num?)?.toDouble() ??
-          defaults.minimumAmountUgx,
-      flatFeeUgx:
-          (json['flatFeeUgx'] as num?)?.toDouble() ?? defaults.flatFeeUgx,
+      minimumAmountUsd:
+          (json['minimumAmountUsd'] as num?)?.toDouble() ??
+          defaults.minimumAmountUsd,
+      flatFeeUsd:
+          (json['flatFeeUsd'] as num?)?.toDouble() ?? defaults.flatFeeUsd,
       percentageFee:
           (json['percentageFee'] as num?)?.toDouble() ?? defaults.percentageFee,
       requiresDestinationWalletVerification:
@@ -342,8 +379,8 @@ class WithdrawalPolicy {
 
   Map<String, dynamic> toJson() {
     return {
-      'minimumAmountUgx': minimumAmountUgx,
-      'flatFeeUgx': flatFeeUgx,
+      'minimumAmountUsd': minimumAmountUsd,
+      'flatFeeUsd': flatFeeUsd,
       'percentageFee': percentageFee,
       'requiresDestinationWalletVerification':
           requiresDestinationWalletVerification,
@@ -354,8 +391,8 @@ class WithdrawalPolicy {
     };
   }
 
-  final double minimumAmountUgx;
-  final double flatFeeUgx;
+  final double minimumAmountUsd;
+  final double flatFeeUsd;
   final double percentageFee;
   final bool requiresDestinationWalletVerification;
   final int requiredApprovals;
@@ -363,8 +400,8 @@ class WithdrawalPolicy {
   final bool enabled;
   final String notes;
 
-  double feeFor(double amountUgx) {
-    return flatFeeUgx + (amountUgx * percentageFee / 100);
+  double feeFor(double amountUsd) {
+    return flatFeeUsd + (amountUsd * percentageFee / 100);
   }
 }
 

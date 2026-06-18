@@ -36,14 +36,14 @@ class InvestmentOpportunity {
   final double fundedPercent;
 
   String get displayTitle => title.replaceAll(r'\n', '\n');
-  String get minimumText => _formatUgx(minimumInvestment);
+  String get minimumText => _formatUsd(minimumInvestment);
   String get returnText => '${targetReturn.toStringAsFixed(1)}%';
 }
 
 class MemberDashboardData {
   const MemberDashboardData({
-    required this.portfolioValueUgx,
-    required this.walletBalanceUgx,
+    required this.portfolioValueUsd,
+    required this.walletBalanceUsd,
     required this.yearReturnPercent,
     required this.cryptoRails,
     required this.holdings,
@@ -55,8 +55,8 @@ class MemberDashboardData {
 
   factory MemberDashboardData.empty() {
     return const MemberDashboardData(
-      portfolioValueUgx: 0,
-      walletBalanceUgx: 0,
+      portfolioValueUsd: 0,
+      walletBalanceUsd: 0,
       yearReturnPercent: 0,
       cryptoRails: [],
       holdings: [],
@@ -69,8 +69,8 @@ class MemberDashboardData {
 
   factory MemberDashboardData.fromJson(Map<String, dynamic> json) {
     return MemberDashboardData(
-      portfolioValueUgx: (json['portfolioValueUgx'] as num?)?.toDouble() ?? 0,
-      walletBalanceUgx: (json['walletBalanceUgx'] as num?)?.toDouble() ?? 0,
+      portfolioValueUsd: (json['portfolioValueUsd'] as num?)?.toDouble() ?? 0,
+      walletBalanceUsd: (json['walletBalanceUsd'] as num?)?.toDouble() ?? 0,
       yearReturnPercent: (json['yearReturnPercent'] as num?)?.toDouble() ?? 0,
       cryptoRails: _stringList(json['cryptoRails']),
       holdings: _jsonList(json['holdings'], MemberHolding.fromJson),
@@ -81,8 +81,8 @@ class MemberDashboardData {
     );
   }
 
-  final double portfolioValueUgx;
-  final double walletBalanceUgx;
+  final double portfolioValueUsd;
+  final double walletBalanceUsd;
   final double yearReturnPercent;
   final List<String> cryptoRails;
   final List<MemberHolding> holdings;
@@ -91,8 +91,8 @@ class MemberDashboardData {
   final List<double> chartValues;
   final List<String> chartLabels;
 
-  String get portfolioValueText => _formatUgx(portfolioValueUgx);
-  String get walletBalanceText => _formatUgx(walletBalanceUgx);
+  String get portfolioValueText => _formatUsd(portfolioValueUsd);
+  String get walletBalanceText => _formatUsd(walletBalanceUsd);
   String get yearReturnText {
     final prefix = yearReturnPercent >= 0 ? '+' : '';
     return '$prefix${yearReturnPercent.toStringAsFixed(1)}% this year';
@@ -103,7 +103,7 @@ class MemberDashboardData {
     return 'Crypto rails: ${cryptoRails.join(' / ')}';
   }
 
-  bool get hasPortfolio => portfolioValueUgx > 0 || holdings.isNotEmpty;
+  bool get hasPortfolio => portfolioValueUsd > 0 || holdings.isNotEmpty;
 }
 
 class MemberHolding {
@@ -112,7 +112,7 @@ class MemberHolding {
     required this.title,
     required this.assetClass,
     required this.brickShares,
-    required this.valueUgx,
+    required this.valueUsd,
     required this.returnPercent,
   });
 
@@ -122,7 +122,7 @@ class MemberHolding {
       title: json['title'] as String? ?? '',
       assetClass: json['assetClass'] as String? ?? 'BrickShares',
       brickShares: (json['brickShares'] as num?)?.toDouble() ?? 0,
-      valueUgx: (json['valueUgx'] as num?)?.toDouble() ?? 0,
+      valueUsd: (json['valueUsd'] as num?)?.toDouble() ?? 0,
       returnPercent: (json['returnPercent'] as num?)?.toDouble() ?? 0,
     );
   }
@@ -131,11 +131,11 @@ class MemberHolding {
   final String title;
   final String assetClass;
   final double brickShares;
-  final double valueUgx;
+  final double valueUsd;
   final double returnPercent;
 
   String get sharesText => '${brickShares.toStringAsFixed(2)} BrickShares';
-  String get valueText => _formatUgx(valueUgx);
+  String get valueText => _formatUsd(valueUsd);
   String get returnText {
     final prefix = returnPercent >= 0 ? '+' : '';
     return '$prefix${returnPercent.toStringAsFixed(1)}%';
@@ -184,7 +184,7 @@ class PurchaseOrder {
     required this.id,
     required this.opportunityId,
     required this.opportunityTitle,
-    required this.amountUgx,
+    required this.amountUsd,
     required this.paymentNetwork,
     required this.paymentAsset,
     required this.paymentWalletAddress,
@@ -202,7 +202,7 @@ class PurchaseOrder {
       id: json['id'] as String,
       opportunityId: json['opportunityId'] as String,
       opportunityTitle: json['opportunityTitle'] as String? ?? '',
-      amountUgx: (json['amountUgx'] as num?)?.toDouble() ?? 0,
+      amountUsd: (json['amountUsd'] as num?)?.toDouble() ?? 0,
       paymentNetwork: json['paymentNetwork'] as String? ?? '',
       paymentAsset: json['paymentAsset'] as String? ?? '',
       paymentWalletAddress: json['paymentWalletAddress'] as String? ?? '',
@@ -219,7 +219,7 @@ class PurchaseOrder {
   final String id;
   final String opportunityId;
   final String opportunityTitle;
-  final double amountUgx;
+  final double amountUsd;
   final String paymentNetwork;
   final String paymentAsset;
   final String paymentWalletAddress;
@@ -250,12 +250,12 @@ class DepositProofFile {
 class PurchaseRequest {
   const PurchaseRequest({
     required this.opportunityId,
-    required this.amountUgx,
+    required this.amountUsd,
     this.paymentAsset = 'USDT',
   });
 
   final String opportunityId;
-  final double amountUgx;
+  final double amountUsd;
   final String paymentAsset;
 }
 
@@ -280,14 +280,14 @@ List<T> _jsonList<T>(
       .toList(growable: false);
 }
 
-String _formatUgx(double value) {
+String _formatUsd(double value) {
   if (value >= 1000000) {
     final millions = value / 1000000;
-    return 'UGX ${millions.toStringAsFixed(millions >= 10 ? 0 : 1)}M';
+    return '\$${millions.toStringAsFixed(millions >= 10 ? 0 : 1)}M';
   }
   if (value >= 1000) {
     final thousands = value / 1000;
-    return 'UGX ${thousands.toStringAsFixed(thousands >= 10 ? 0 : 1)}K';
+    return '\$${thousands.toStringAsFixed(thousands >= 10 ? 0 : 1)}K';
   }
-  return 'UGX ${value.toStringAsFixed(0)}';
+  return '\$${value.toStringAsFixed(0)}';
 }

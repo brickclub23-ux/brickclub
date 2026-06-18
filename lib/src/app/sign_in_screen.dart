@@ -341,7 +341,7 @@ class _SignInStory extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/kololo_heights_v2.png'),
+          image: AssetImage('assets/images/skyline_heights.png'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(Color(0x7A0B0D0F), BlendMode.darken),
         ),

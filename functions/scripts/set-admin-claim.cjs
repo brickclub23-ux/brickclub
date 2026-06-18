@@ -8,7 +8,7 @@ if (!email) {
 }
 
 admin.initializeApp({
-  projectId: process.env.GCLOUD_PROJECT || "brickclub-dev",
+  projectId: process.env.GCLOUD_PROJECT || "brickclub",
 });
 
 async function main() {

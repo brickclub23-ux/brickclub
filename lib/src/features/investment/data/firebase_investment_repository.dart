@@ -47,7 +47,7 @@ class FirebaseInvestmentRepository implements InvestmentRepository {
     final callable = _functions.httpsCallable('createPurchaseOrder');
     final result = await callable.call<Object?>({
       'opportunityId': request.opportunityId,
-      'amountUgx': request.amountUgx,
+      'amountUsd': request.amountUsd,
       'paymentAsset': request.paymentAsset,
     });
     return PurchaseOrder.fromJson(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +22,19 @@ class FirebaseAuthRepository implements AuthRepository {
   final BackendFunctions _backendFunctions;
   final FirebaseMessaging _firebaseMessaging;
   static const Duration _authTimeout = Duration(seconds: 30);
+  static const Duration _messagingTimeout = Duration(seconds: 10);
+
+  // Web push (FCM) needs the project's VAPID public key to mint a token. This
+  // is a public key (it ships in client code), not a secret, and native
+  // platforms ignore it — it sits alongside the other public Firebase web
+  // options in DefaultFirebaseOptions.web. The web service worker lives at
+  // web/firebase-messaging-sw.js. Override per-build with
+  //   --dart-define=FCM_VAPID_KEY=...
+  static const String _webVapidKey = String.fromEnvironment(
+    'FCM_VAPID_KEY',
+    defaultValue:
+        'BOaJSAyv5kSBgBwFWsmcB2VeShMuIPlxSgmwPhI5K6rFj8QFSCzYr1ocSMsIfRLVlfY5c-jzHKFXJiFM1A_T29A',
+  );
 
   @override
   Future<void> signIn(SignInCredentials credentials) async {
@@ -37,7 +52,7 @@ class FirebaseAuthRepository implements AuthRepository {
         password: credentials.password,
       ),
     );
-    await _registerMessagingToken();
+    _registerMessagingTokenInBackground();
   }
 
   @override
@@ -48,12 +63,12 @@ class FirebaseAuthRepository implements AuthRepository {
 
     if (kIsWeb) {
       await _withAuthTimeout(_firebaseAuth.signInWithPopup(provider));
-      await _registerMessagingToken();
+      _registerMessagingTokenInBackground();
       return;
     }
 
     await _withAuthTimeout(_firebaseAuth.signInWithProvider(provider));
-    await _registerMessagingToken();
+    _registerMessagingTokenInBackground();
   }
 
   @override
@@ -85,7 +100,7 @@ class FirebaseAuthRepository implements AuthRepository {
     );
 
     await userCredential.user?.updateDisplayName('$firstName $lastName'.trim());
-    await _registerMessagingToken();
+    _registerMessagingTokenInBackground();
   }
 
   @override
@@ -127,10 +142,35 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<void> signOut() => _firebaseAuth.signOut();
 
+  /// Registers the device push token without blocking the sign-in flow.
+  ///
+  /// Push registration is best-effort: it must never delay or fail an
+  /// otherwise successful sign-in. It runs detached from the auth call and is
+  /// time-boxed so a slow or unconfigured messaging stack cannot hang the UI.
+  void _registerMessagingTokenInBackground() {
+    unawaited(
+      _registerMessagingToken().timeout(
+        _messagingTimeout,
+        onTimeout: () {},
+      ),
+    );
+  }
+
   Future<void> _registerMessagingToken() async {
+    // On web, FCM needs both the `firebase-messaging-sw.js` service worker
+    // (present) and the project VAPID key. Without the key `getToken()` can
+    // never succeed and may stall waiting on a service worker, so skip web
+    // until the key is supplied via --dart-define=FCM_VAPID_KEY.
+    if (kIsWeb && _webVapidKey.isEmpty) return;
+
     try {
-      await _firebaseMessaging.requestPermission();
-      final token = await _firebaseMessaging.getToken();
+      final settings = await _firebaseMessaging.requestPermission();
+      if (settings.authorizationStatus == AuthorizationStatus.denied) {
+        return;
+      }
+      final token = await _firebaseMessaging.getToken(
+        vapidKey: kIsWeb ? _webVapidKey : null,
+      );
       if (token == null || token.isEmpty) return;
       await _backendFunctions.registerMessagingToken(
         token: token,

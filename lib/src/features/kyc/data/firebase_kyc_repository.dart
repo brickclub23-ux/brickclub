@@ -81,7 +81,7 @@ class FirebaseKycRepository implements KycRepository {
     }
     if (!_isE164PhoneNumber(trimmedPhone)) {
       throw const KycValidationException(
-        'Enter your phone number in international format, e.g. +256774224734.',
+        'Enter your phone number in international format, e.g. +12025550190.',
       );
     }
 
@@ -185,7 +185,7 @@ class FirebaseKycRepository implements KycRepository {
   String _phoneError(FirebaseAuthException error) {
     return switch (error.code) {
       'invalid-phone-number' =>
-        'Enter your phone number in international format, e.g. +256774224734.',
+        'Enter your phone number in international format, e.g. +12025550190.',
       'invalid-verification-code' => 'Enter the SMS code from the emulator.',
       'credential-already-in-use' =>
         'That phone number is already linked to another account.',

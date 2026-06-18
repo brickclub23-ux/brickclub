@@ -18,13 +18,18 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Load the member dashboard once and share it across the portfolio,
+    // holdings, and activity sections. Building one future here (rather than a
+    // separate call inside each FutureBuilder) collapses three identical
+    // backend round-trips into one while still refetching on rebuild.
+    final dashboardFuture = investmentRepository.loadMemberDashboard();
     return AppPage(
       title: 'BrickClub',
       onProfileTap: onOpenProfile,
       children: [
         KycStatusCard(kyc: kyc, onStartKyc: onStartKyc, compact: true),
         FutureBuilder<MemberDashboardData>(
-          future: investmentRepository.loadMemberDashboard(),
+          future: dashboardFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
               return const _DashboardLoadingPanel();
@@ -97,7 +102,7 @@ class HomeScreen extends StatelessWidget {
         ),
         const SectionHeading(title: 'Your holdings', action: 'View all'),
         FutureBuilder<MemberDashboardData>(
-          future: investmentRepository.loadMemberDashboard(),
+          future: dashboardFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
               return const _DashboardLoadingPanel();
@@ -112,7 +117,7 @@ class HomeScreen extends StatelessWidget {
         ),
         const SectionHeading(title: 'Recent activity', action: 'View all'),
         FutureBuilder<MemberDashboardData>(
-          future: investmentRepository.loadMemberDashboard(),
+          future: dashboardFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
               return const _DashboardLoadingPanel();
