@@ -53,6 +53,11 @@ jobs:
           SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BRICKCLUB }}
         run: printf '%s' "$SA" > "${RUNNER_TEMP}/sa.json"
 
+      - name: Write Cloud Functions env (SMTP params)
+        env:
+          FUNCTIONS_ENV: ${{ secrets.FUNCTIONS_ENV_BRICKCLUB }}
+        run: printf '%s' "$FUNCTIONS_ENV" > functions/.env.brickclub
+
       - name: Deploy to Firebase
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa.json
