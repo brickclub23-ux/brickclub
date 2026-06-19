@@ -1,6 +1,8 @@
 import {randomUUID} from "crypto";
 import {CallableRequest, HttpsError, onCall} from "firebase-functions/v2/https";
 import {logger} from "firebase-functions";
+import {setGlobalOptions} from "firebase-functions/v2";
+import {defineSecret, defineString} from "firebase-functions/params";
 import {initializeApp} from "firebase-admin/app";
 import {getAuth, UserRecord} from "firebase-admin/auth";
 import {FieldValue, getFirestore} from "firebase-admin/firestore";
@@ -9,7 +11,28 @@ import {getStorage} from "firebase-admin/storage";
 import {ImageAnnotatorClient} from "@google-cloud/vision";
 import * as nodemailer from "nodemailer";
 
+// Production SMTP configuration. These are bound at deploy time so operational
+// emails (deposit/withdrawal/support/KYC notifications) can reach real users.
+// Non-secret values are plain params; the password is a Secret Manager secret.
+// See README "Production email" for the one-time setup commands. When SMTP_HOST
+// is empty (e.g. SMTP not yet provisioned) email is skipped, never attempted
+// against localhost.
+const smtpHost = defineString("SMTP_HOST", {default: ""});
+const smtpPort = defineString("SMTP_PORT", {default: "587"});
+const smtpSecure = defineString("SMTP_SECURE", {default: "false"});
+const smtpUser = defineString("SMTP_USER", {default: ""});
+const smtpFrom = defineString("SMTP_FROM", {
+  default: "BrickClub <no-reply@brickclub.app>",
+});
+const smtpPass = defineSecret("SMTP_PASS");
+
+// Bind the SMTP secret to every function so any callable that triggers an
+// operational email has the credential available at runtime.
+setGlobalOptions({secrets: [smtpPass]});
+
 initializeApp();
+
+const isFunctionsEmulator = process.env.FUNCTIONS_EMULATOR === "true";
 
 const db = getFirestore();
 const auth = getAuth();
@@ -2128,17 +2151,10 @@ async function notifyAdmins(notification: {
       ),
   );
 
-  const tokens = tokenSnapshot.docs.map((doc) => doc.id);
-  if (tokens.length > 0) {
-    await messaging.sendEachForMulticast({
-      tokens,
-      notification: {
-        title: notification.title,
-        body: notification.body,
-      },
-      data: notification.data,
-    });
-  }
+  await sendPushToTokens(
+    tokenSnapshot.docs.map((doc) => doc.id),
+    notification,
+  );
 }
 
 async function notifyMember(uid: string, notification: {
@@ -2168,15 +2184,64 @@ async function notifyMember(uid: string, notification: {
     });
   }
 
-  const tokens = tokenSnapshot.docs.map((doc) => doc.id);
-  if (tokens.length > 0) {
-    await messaging.sendEachForMulticast({
+  await sendPushToTokens(
+    tokenSnapshot.docs.map((doc) => doc.id),
+    notification,
+  );
+}
+
+// Best-effort multicast push send. Failures never propagate to the caller, and
+// tokens that FCM reports as unregistered/invalid are pruned from Firestore so
+// dead tokens do not accumulate.
+async function sendPushToTokens(
+  tokens: string[],
+  notification: {title: string; body: string; data: Record<string, string>},
+) {
+  if (tokens.length === 0) {
+    return;
+  }
+
+  let response;
+  try {
+    response = await messaging.sendEachForMulticast({
       tokens,
       notification: {
         title: notification.title,
         body: notification.body,
       },
       data: notification.data,
+    });
+  } catch (error) {
+    logger.error("Failed to send push notifications", {error});
+    return;
+  }
+
+  const staleTokens: string[] = [];
+  response.responses.forEach((result, index) => {
+    if (result.success) {
+      return;
+    }
+    const code = result.error?.code;
+    logger.warn("Push delivery failed", {token: tokens[index], code});
+    if (
+      code === "messaging/registration-token-not-registered" ||
+      code === "messaging/invalid-registration-token"
+    ) {
+      staleTokens.push(tokens[index]);
+    }
+  });
+
+  if (staleTokens.length > 0) {
+    await Promise.all(
+      staleTokens.map((token) =>
+        notificationTokensCollection
+          .doc(token)
+          .delete()
+          .catch(() => undefined),
+      ),
+    );
+    logger.info("Pruned stale notification tokens", {
+      count: staleTokens.length,
     });
   }
 }
@@ -2186,27 +2251,66 @@ async function listAdminUsers(): Promise<UserRecord[]> {
   return result.users.filter((user) => user.customClaims?.admin === true);
 }
 
+// Operational emails are best-effort: a misconfigured or unreachable mail
+// server must never fail the member/admin action that triggered it (creating a
+// deposit, submitting proof, replying to support, etc.). Failures are logged
+// and swallowed.
 async function sendOperationalEmail(message: {
   to: string;
   subject: string;
   text: string;
   html: string;
 }) {
-  const transport = nodemailer.createTransport({
-    host: process.env.SMTP_HOST ?? process.env.MAILPIT_SMTP_HOST ?? "127.0.0.1",
-    port: Number(process.env.SMTP_PORT ?? process.env.MAILPIT_SMTP_PORT ?? 1025),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: process.env.SMTP_USER && process.env.SMTP_PASS
-      ? {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        }
-      : undefined,
-  });
+  const transport = buildEmailTransport();
+  if (!transport) {
+    logger.warn("Operational email skipped: SMTP is not configured", {
+      to: message.to,
+      subject: message.subject,
+    });
+    return;
+  }
 
-  await transport.sendMail({
-    from: process.env.SMTP_FROM ?? process.env.MAILPIT_FROM ?? devMailFrom,
-    ...message,
+  try {
+    await transport.sendMail({
+      from: isFunctionsEmulator ?
+        (process.env.MAILPIT_FROM ?? devMailFrom) :
+        smtpFrom.value(),
+      ...message,
+    });
+  } catch (error) {
+    logger.error("Failed to send operational email", {
+      to: message.to,
+      subject: message.subject,
+      error,
+    });
+  }
+}
+
+// Build the mail transport for the current environment. In the emulator it
+// targets Mailpit; in production it uses the configured SMTP server. Returns
+// null when production SMTP is not configured so callers skip rather than
+// dialing localhost (which would always fail in Cloud Functions).
+function buildEmailTransport(): nodemailer.Transporter | null {
+  if (isFunctionsEmulator) {
+    return nodemailer.createTransport({
+      host: process.env.MAILPIT_SMTP_HOST ?? "127.0.0.1",
+      port: Number(process.env.MAILPIT_SMTP_PORT ?? 1025),
+      secure: false,
+    });
+  }
+
+  const host = smtpHost.value().trim();
+  if (!host) {
+    return null;
+  }
+
+  const user = smtpUser.value().trim();
+  const pass = smtpPass.value().trim();
+  return nodemailer.createTransport({
+    host,
+    port: Number(smtpPort.value() || 587),
+    secure: smtpSecure.value() === "true",
+    auth: user && pass ? {user, pass} : undefined,
   });
 }
 

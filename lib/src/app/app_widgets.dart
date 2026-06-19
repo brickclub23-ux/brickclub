@@ -595,19 +595,22 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: compact ? 95 : double.infinity,
-      height: compact ? 38 : 46,
+      width: compact ? null : double.infinity,
+      height: compact ? 40 : 46,
       child: OutlinedButton(
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
           side: BorderSide(color: AppColors.border),
           backgroundColor: AppColors.panel,
+          padding: compact
+              ? const EdgeInsets.symmetric(horizontal: 18)
+              : null,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
         ),
-        child: Text(label),
+        child: Text(label, overflow: TextOverflow.ellipsis),
       ),
     );
   }
@@ -618,6 +621,7 @@ class AppTextField extends StatefulWidget {
     super.key,
     this.initialValue,
     this.controller,
+    this.label,
     this.hintText,
     this.obscureText = false,
     this.compact = false,
@@ -630,6 +634,7 @@ class AppTextField extends StatefulWidget {
 
   final String? initialValue;
   final TextEditingController? controller;
+  final String? label;
   final String? hintText;
   final bool obscureText;
   final bool compact;
@@ -662,7 +667,7 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    final field = SizedBox(
       height: widget.compact ? 44 : 50,
       child: TextFormField(
         controller: widget.controller,
@@ -715,6 +720,19 @@ class _AppTextFieldState extends State<AppTextField> {
           ),
         ),
       ),
+    );
+
+    if (widget.label == null) return field;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 2, bottom: 6),
+          child: Text(widget.label!, style: AppText.fieldLabel),
+        ),
+        field,
+      ],
     );
   }
 }

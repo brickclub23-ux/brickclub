@@ -1267,6 +1267,7 @@ Future<void> _showRejectKycDialog(
           SizedBox(height: 16),
           AppTextField(
             controller: reason,
+            label: 'Rejection reason',
             hintText: 'Reason shown to the member',
           ),
         ],
@@ -1651,6 +1652,7 @@ class _SettingsPanel extends StatelessWidget {
       description:
           'Configure approval rules, payment networks, and administrator access.',
       actionLabel: 'Edit withdrawals',
+      actionIcon: Icons.edit_outlined,
       onAction: () => _showWithdrawalPolicyDialog(
         context,
         repository: repository,
@@ -1699,12 +1701,14 @@ class _SectionPage extends StatelessWidget {
     required this.description,
     required this.child,
     this.actionLabel,
+    this.actionIcon = Icons.add_rounded,
     this.onAction,
   });
 
   final String description;
   final Widget child;
   final String? actionLabel;
+  final IconData actionIcon;
   final VoidCallback? onAction;
 
   @override
@@ -1712,22 +1716,51 @@ class _SectionPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(description, style: AppText.bodyLarge),
-        SizedBox(height: 24),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Spacer(),
-            if (actionLabel != null)
-              SecondaryButton(
+            Expanded(child: Text(description, style: AppText.bodyLarge)),
+            if (actionLabel != null) ...[
+              const SizedBox(width: 16),
+              _SectionActionButton(
                 label: actionLabel!,
+                icon: actionIcon,
                 onPressed: onAction,
-                compact: true,
               ),
+            ],
           ],
         ),
         SizedBox(height: 20),
         child,
       ],
+    );
+  }
+}
+
+class _SectionActionButton extends StatelessWidget {
+  const _SectionActionButton({
+    required this.label,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  final String label;
+  final IconData icon;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, size: 18),
+      label: Text(label, overflow: TextOverflow.ellipsis),
+      style: FilledButton.styleFrom(
+        backgroundColor: AppColors.gold,
+        foregroundColor: AppColors.background,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
     );
   }
 }
@@ -2134,18 +2167,21 @@ Future<void> _showUserDialog(
               children: [
                 AppTextField(
                   controller: name,
-                  hintText: 'Full name',
+                  label: 'Full name',
+                  hintText: 'Jane Doe',
                   initialValue: null,
                 ),
                 SizedBox(height: 10),
                 AppTextField(
                   controller: email,
+                  label: 'Email',
                   hintText: 'member@example.com',
                   keyboardType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 10),
                 AppTextField(
                   controller: password,
+                  label: 'Password',
                   hintText: user == null
                       ? 'Temporary password'
                       : 'Leave blank to keep password',
@@ -2304,18 +2340,28 @@ Future<void> _showAssetDialog(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppTextField(controller: title, hintText: 'Asset title'),
+                  AppTextField(
+                    controller: title,
+                    label: 'Asset title',
+                    hintText: 'e.g. Maple Court Residences',
+                  ),
                   SizedBox(height: 10),
-                  AppTextField(controller: location, hintText: 'Location'),
+                  AppTextField(
+                    controller: location,
+                    label: 'Location',
+                    hintText: 'e.g. Austin, TX',
+                  ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: type,
-                    hintText: 'Asset type (e.g. Residential)',
+                    label: 'Asset type',
+                    hintText: 'e.g. Residential',
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: description,
-                    hintText: 'Description',
+                    label: 'Description',
+                    hintText: 'Short summary of the asset',
                   ),
                   SizedBox(height: 10),
                   _AssetDropdown(
@@ -2341,66 +2387,77 @@ Future<void> _showAssetDialog(
                   SizedBox(height: 10),
                   AppTextField(
                     controller: purchasePrice,
-                    hintText: 'Purchase price (USD)',
+                    label: 'Purchase price (USD)',
+                    hintText: '0',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: fundingTarget,
-                    hintText: 'Funding target (USD)',
+                    label: 'Funding target (USD)',
+                    hintText: '0',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: amountFunded,
-                    hintText: 'Amount funded (USD)',
+                    label: 'Amount funded (USD)',
+                    hintText: '0',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: pricePerShare,
-                    hintText: 'Price per share (USD)',
+                    label: 'Price per share (USD)',
+                    hintText: '0.00',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: totalShares,
-                    hintText: 'Total shares',
+                    label: 'Total shares',
+                    hintText: '0',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: availableShares,
-                    hintText: 'Available shares',
+                    label: 'Available shares',
+                    hintText: '0',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: minimumInvestment,
-                    hintText: 'Minimum investment (USD)',
+                    label: 'Minimum investment (USD)',
+                    hintText: '50',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: expectedAnnualYield,
-                    hintText: 'Expected annual yield (%)',
+                    label: 'Expected annual yield (%)',
+                    hintText: '0.0',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: projectedNetYield,
-                    hintText: 'Projected net yield (%)',
+                    label: 'Projected net yield (%)',
+                    hintText: '0.0',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: exitPeriod,
-                    hintText: 'Exit period (e.g. 36 months)',
+                    label: 'Exit period',
+                    hintText: 'e.g. 36 months',
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: regulationNote,
-                    hintText: 'Regulation note',
+                    label: 'Regulation note',
+                    hintText: 'Compliance disclosure',
                   ),
                   SizedBox(height: 10),
                   _AssetDropdown(
@@ -2568,34 +2625,43 @@ Future<void> _showAssetValuationDialog(
               SizedBox(height: 12),
               AppTextField(
                 controller: currentValue,
-                hintText: 'Current asset value (USD)',
+                label: 'Current asset value (USD)',
+                hintText: '0',
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 10),
               AppTextField(
                 controller: valuationDate,
-                hintText: 'Valuation date (YYYY-MM-DD)',
+                label: 'Valuation date',
+                hintText: 'YYYY-MM-DD',
               ),
               SizedBox(height: 10),
               AppTextField(
                 controller: assetIncome,
-                hintText: 'Asset/rental income (USD)',
+                label: 'Asset/rental income (USD)',
+                hintText: '0',
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 10),
               AppTextField(
                 controller: expenses,
-                hintText: 'Expenses (USD)',
+                label: 'Expenses (USD)',
+                hintText: '0',
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 10),
               AppTextField(
                 controller: occupancyRate,
-                hintText: 'Occupancy rate (%)',
+                label: 'Occupancy rate (%)',
+                hintText: '0',
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 10),
-              AppTextField(controller: notes, hintText: 'Performance notes'),
+              AppTextField(
+                controller: notes,
+                label: 'Performance notes',
+                hintText: 'Optional commentary',
+              ),
             ],
           ),
         ),
@@ -2673,13 +2739,22 @@ Future<void> _showPaymentOptionDialog(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                AppTextField(controller: network, hintText: 'Network'),
+                AppTextField(
+                  controller: network,
+                  label: 'Network',
+                  hintText: 'e.g. Bitcoin, Ethereum (ERC-20)',
+                ),
                 SizedBox(height: 10),
-                AppTextField(controller: assetSymbol, hintText: 'Asset symbol'),
+                AppTextField(
+                  controller: assetSymbol,
+                  label: 'Asset symbol',
+                  hintText: 'e.g. BTC, USDT',
+                ),
                 SizedBox(height: 10),
                 AppTextField(
                   controller: walletAddress,
-                  hintText: 'Settlement wallet address',
+                  label: 'Settlement wallet address',
+                  hintText: 'Receiving wallet address',
                 ),
                 SizedBox(height: 10),
                 _PickerTile(
@@ -2697,7 +2772,8 @@ Future<void> _showPaymentOptionDialog(
                 SizedBox(height: 10),
                 AppTextField(
                   controller: minimumAmount,
-                  hintText: 'Minimum amount',
+                  label: 'Minimum amount',
+                  hintText: '0.00',
                   keyboardType: TextInputType.number,
                 ),
                 SwitchListTile(
@@ -2785,6 +2861,7 @@ Future<void> _showRejectDepositDialog(
         width: 420,
         child: AppTextField(
           controller: reason,
+          label: 'Rejection reason',
           hintText: 'Reason shown to the member',
         ),
       ),
@@ -2865,34 +2942,43 @@ Future<void> _showWithdrawalPolicyDialog(
                   SizedBox(height: 10),
                   AppTextField(
                     controller: minimum,
-                    hintText: 'Minimum amount in USD',
+                    label: 'Minimum amount (USD)',
+                    hintText: '0',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: flatFee,
-                    hintText: 'Flat fee in USD',
+                    label: 'Flat fee (USD)',
+                    hintText: '0',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: percentageFee,
-                    hintText: 'Percentage fee',
+                    label: 'Percentage fee',
+                    hintText: '0.00',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: approvals,
-                    hintText: 'Required admin approvals',
+                    label: 'Required admin approvals',
+                    hintText: '1',
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
                     controller: processingTime,
-                    hintText: 'Processing time',
+                    label: 'Processing time',
+                    hintText: 'e.g. 1-3 business days',
                   ),
                   SizedBox(height: 10),
-                  AppTextField(controller: notes, hintText: 'Member notes'),
+                  AppTextField(
+                    controller: notes,
+                    label: 'Member notes',
+                    hintText: 'Shown to members',
+                  ),
                 ],
               ),
             ),
@@ -2964,6 +3050,10 @@ Future<void> _showSupportReplyDialog(
               Text(ticket.latestMessage, style: AppText.body),
             ],
             SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.only(left: 2, bottom: 6),
+              child: Text('Your reply', style: AppText.fieldLabel),
+            ),
             TextField(
               controller: reply,
               minLines: 4,
