@@ -66,10 +66,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
     final amount = order?.amountUsd ?? _enteredAmount;
     final belowMinimum =
         order == null && amount < widget.opportunity.minimumInvestment;
+    final l10n = AppLocalizations.of(context);
     return PhoneFrame(
       child: Scaffold(
         backgroundColor: AppColors.background,
-        appBar: detailAppBar(context, 'Confirm funding'),
+        appBar: detailAppBar(context, l10n.paymentConfirmFunding),
         body: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
           child: Column(
@@ -89,15 +90,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            'Crypto funding setup',
+                            l10n.paymentSetup,
                             style: AppText.cardHeading,
                           ),
                         ),
-                        _StatusChip(order == null ? 'Draft' : 'Active'),
+                        _StatusChip(
+                          order == null
+                              ? l10n.paymentStatusDraft
+                              : l10n.paymentStatusActive,
+                        ),
                       ],
                     ),
                     SizedBox(height: 16),
-                    const FieldLabel('Payment rail'),
+                    FieldLabel(l10n.paymentRail),
                     SizedBox(height: 10),
                     FilterChoices(
                       values: paymentMethods,
@@ -109,11 +114,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           : (_) {},
                     ),
                     SizedBox(height: 16),
-                    const FieldLabel('Investment amount'),
+                    FieldLabel(l10n.paymentAmount),
                     SizedBox(height: 8),
                     AppTextField(
                       controller: amountController,
-                      hintText: 'Amount in USD',
+                      hintText: l10n.paymentAmountHint,
                       keyboardType: TextInputType.number,
                       prefixIcon: Icons.payments_outlined,
                       onChanged: (_) => setState(() {}),
@@ -121,35 +126,39 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     SizedBox(height: 8),
                     Text(
                       belowMinimum
-                          ? 'Minimum for this opportunity is ${widget.opportunity.minimumText}.'
-                          : 'Demo amount can be adjusted before creating the deposit request.',
+                          ? l10n.paymentBelowMinimum(
+                              widget.opportunity.minimumText,
+                            )
+                          : l10n.paymentDemoAmount,
                       style: belowMinimum ? AppText.warning : AppText.small,
                     ),
                     SizedBox(height: 18),
                     QuoteRow(
-                      'Payment asset',
+                      l10n.paymentQuotePaymentAsset,
                       order?.paymentAsset ?? selectedPaymentAsset,
                     ),
-                    QuoteRow('Amount', _formatUsdCompact(amount)),
+                    QuoteRow(l10n.paymentQuoteAmount, _formatUsdCompact(amount)),
                     QuoteRow(
-                      'Network',
+                      l10n.paymentQuoteNetwork,
                       order == null
-                          ? 'Selected after request'
+                          ? l10n.paymentNetworkAfterRequest
                           : order!.paymentNetwork,
                     ),
                     QuoteRow(
-                      'Quote',
-                      order == null ? 'Created by backend' : order!.quoteText,
+                      l10n.paymentQuote,
+                      order == null
+                          ? l10n.paymentQuoteByBackend
+                          : order!.quoteText,
                     ),
                     QuoteRow(
-                      'Network fee',
+                      l10n.paymentNetworkFee,
                       order == null
-                          ? 'Calculated by backend'
+                          ? l10n.paymentFeeByBackend
                           : order!.networkFeeText,
                     ),
-                    const QuoteRow(
-                      'Settlement',
-                      'Pending confirmation',
+                    QuoteRow(
+                      l10n.paymentSettlement,
+                      l10n.paymentPendingConfirmation,
                       warning: true,
                     ),
                   ],
@@ -172,13 +181,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Confirmable financial action',
+                      l10n.paymentConfirmableTitle,
                       style: AppText.cardHeadingSmall,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'You are authorizing a crypto-funded BrickShares '
-                      'purchase. Settlement may take network confirmations.',
+                      l10n.paymentConfirmableBody,
                       style: AppText.body,
                     ),
                   ],
@@ -188,10 +196,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
               PrimaryButton(
                 key: const ValueKey('confirm-purchase'),
                 label: submitting
-                    ? 'Submitting...'
+                    ? l10n.commonSubmitting
                     : order == null
-                    ? 'Create deposit request'
-                    : 'Submit proof for review',
+                    ? l10n.paymentCreateRequest
+                    : l10n.paymentSubmitProof,
                 onPressed:
                     widget.kyc.canPerformFinancialActions &&
                         !submitting &&
@@ -203,7 +211,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               SizedBox(height: 14),
               SecondaryButton(
-                label: 'Cancel',
+                label: l10n.commonCancel,
                 onPressed: () => Navigator.pop(context),
               ),
             ],
@@ -218,7 +226,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     double amountUsd,
   ) async {
     if (amountUsd < widget.opportunity.minimumInvestment) {
-      showMessage(context, 'Increase the amount to the opportunity minimum.');
+      showMessage(context, AppLocalizations.of(context).paymentIncreaseAmount);
       return;
     }
     setState(() => submitting = true);
@@ -234,7 +242,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       if (mounted) {
         setState(() => order = createdOrder);
-        showMessage(context, 'Deposit request created');
+        showMessage(context, AppLocalizations.of(context).paymentDepositCreated);
       }
     } catch (error) {
       if (mounted) {
@@ -268,12 +276,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
     final currentOrder = order;
     final currentProof = proof;
     if (currentOrder == null) return;
+    final l10n = AppLocalizations.of(context);
     if (transactionHashController.text.trim().isEmpty) {
-      showMessage(context, 'Enter the transaction hash');
+      showMessage(context, l10n.paymentEnterHash);
       return;
     }
     if (currentProof == null) {
-      showMessage(context, 'Upload proof of payment');
+      showMessage(context, l10n.paymentUploadProof);
       return;
     }
 
@@ -318,11 +327,12 @@ class _DepositInstructions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Panel(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Deposit instructions', style: AppText.cardHeading),
+          Text(l10n.paymentDepositInstructions, style: AppText.cardHeading),
           SizedBox(height: 14),
           if (order.paymentQrCodeUrl.isNotEmpty) ...[
             ClipRRect(
@@ -336,22 +346,25 @@ class _DepositInstructions extends StatelessWidget {
             ),
             SizedBox(height: 14),
           ],
-          _CopyableQuoteRow('Wallet address', order.paymentWalletAddress),
-          QuoteRow('Network', order.paymentNetwork),
+          _CopyableQuoteRow(
+            l10n.paymentWalletAddress,
+            order.paymentWalletAddress,
+          ),
+          QuoteRow(l10n.paymentQuoteNetwork, order.paymentNetwork),
           SizedBox(height: 14),
-          const FieldLabel('Transaction hash'),
+          FieldLabel(l10n.paymentTransactionHash),
           SizedBox(height: 8),
           AppTextField(
             key: const ValueKey('transaction-hash'),
             controller: transactionHashController,
-            hintText: 'Paste blockchain transaction hash',
+            hintText: l10n.paymentHashHint,
             prefixIcon: Icons.tag_rounded,
           ),
           SizedBox(height: 14),
           _PickerTile(
             key: const ValueKey('payment-proof'),
             icon: Icons.upload_file_rounded,
-            title: proofName ?? 'Upload proof of payment',
+            title: proofName ?? l10n.paymentUploadProof,
             onTap: onPickProof,
           ),
         ],
@@ -418,6 +431,7 @@ class _FundingSteps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Panel(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Row(
@@ -425,7 +439,7 @@ class _FundingSteps extends StatelessWidget {
           Expanded(
             child: _FundingStep(
               icon: Icons.tune_rounded,
-              label: 'Quote',
+              label: l10n.paymentStepQuote,
               active: true,
               done: order != null,
             ),
@@ -434,7 +448,7 @@ class _FundingSteps extends StatelessWidget {
           Expanded(
             child: _FundingStep(
               icon: Icons.account_balance_wallet_outlined,
-              label: 'Send',
+              label: l10n.paymentStepSend,
               active: order != null,
               done: proofReady,
             ),
@@ -443,7 +457,7 @@ class _FundingSteps extends StatelessWidget {
           Expanded(
             child: _FundingStep(
               icon: Icons.verified_outlined,
-              label: 'Review',
+              label: l10n.paymentStepReview,
               active: proofReady,
               done: false,
             ),
@@ -517,6 +531,7 @@ class _CopyableQuoteRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
@@ -530,14 +545,14 @@ class _CopyableQuoteRow extends StatelessWidget {
             ),
           ),
           IconButton(
-            tooltip: 'Copy',
+            tooltip: l10n.paymentCopy,
             visualDensity: VisualDensity.compact,
             onPressed: value.trim().isEmpty
                 ? null
                 : () async {
                     await Clipboard.setData(ClipboardData(text: value));
                     if (context.mounted) {
-                      showMessage(context, 'Wallet address copied');
+                      showMessage(context, l10n.paymentWalletCopied);
                     }
                   },
             icon: Icon(Icons.copy_rounded, size: 16),

@@ -29,10 +29,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PhoneFrame(
       child: Scaffold(
         backgroundColor: AppColors.background,
-        appBar: detailAppBar(context, 'Filters'),
+        appBar: detailAppBar(context, l10n.investFiltersAction),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(22, 30, 22, 14),
           child: Column(
@@ -48,7 +49,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Asset class', style: AppText.h2),
+                            Text(l10n.filtersAssetClass, style: AppText.h2),
                             SizedBox(height: 16),
                             FilterChoices(
                               values: _assetOptions,
@@ -65,7 +66,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Risk level', style: AppText.h2),
+                            Text(l10n.filtersRiskLevel, style: AppText.h2),
                             SizedBox(height: 16),
                             FilterChoices(
                               values: _riskOptions,
@@ -82,7 +83,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Payment method', style: AppText.h2),
+                            Text(l10n.filtersPaymentMethod, style: AppText.h2),
                             SizedBox(height: 16),
                             FilterChoices(
                               values: _paymentOptions,
@@ -104,7 +105,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   Expanded(
                     child: SecondaryButton(
                       key: const ValueKey('reset-filters'),
-                      label: 'Reset',
+                      label: l10n.filtersReset,
                       onPressed: () => setState(() {
                         asset = const BrickShareFilters().asset;
                         risk = const BrickShareFilters().risk;
@@ -116,7 +117,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   Expanded(
                     child: PrimaryButton(
                       key: const ValueKey('show-brickshares'),
-                      label: 'Show $_matchingCount',
+                      label: l10n.filtersShow(_matchingCount),
                       height: 46,
                       onPressed: () => Navigator.pop(
                         context,

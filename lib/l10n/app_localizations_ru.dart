@@ -693,4 +693,381 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get themeDarkDescription => 'Классический тёмный интерфейс BrickClub.';
+
+  @override
+  String get commonSending => 'Отправка…';
+
+  @override
+  String get commonSubmitting => 'Отправка…';
+
+  @override
+  String get filtersAssetClass => 'Класс актива';
+
+  @override
+  String get filtersRiskLevel => 'Уровень риска';
+
+  @override
+  String get filtersPaymentMethod => 'Способ оплаты';
+
+  @override
+  String get filtersReset => 'Сбросить';
+
+  @override
+  String filtersShow(int count) {
+    return 'Показать $count';
+  }
+
+  @override
+  String get successTitle => 'Подтверждение отправлено';
+
+  @override
+  String get successBody =>
+      'Ваше подтверждение оплаты ожидает проверки администратором. Мы уведомим вас после проверки.';
+
+  @override
+  String get successSettlementStatus => 'Статус расчёта';
+
+  @override
+  String get successViewPortfolio => 'Посмотреть портфель';
+
+  @override
+  String get detailVerifiedDocs => 'Проверенные документы';
+
+  @override
+  String detailAssetLine(String assetClass, String location) {
+    return '$assetClass BrickShares | $location';
+  }
+
+  @override
+  String get detailLiquidity => 'Ликвидность';
+
+  @override
+  String get detailFundingStatus => 'Статус финансирования';
+
+  @override
+  String detailFundedPercent(String percent) {
+    return 'Профинансировано $percent%';
+  }
+
+  @override
+  String get detailFundingNote =>
+      'Поддерживаемые способы оплаты и срок действия котировки показываются перед подтверждением расчёта.';
+
+  @override
+  String get detailInvestButton => 'Инвестировать через криптофинансирование';
+
+  @override
+  String get kycStatusApproved => 'Финансовые операции разблокированы.';
+
+  @override
+  String get kycStatusSubmitted => 'Ваши документы на проверке.';
+
+  @override
+  String get kycStatusRejectedDefault => 'Проверьте заявку и отправьте снова.';
+
+  @override
+  String get kycStatusDefault =>
+      'Требуется перед покупками и изменениями кошелька.';
+
+  @override
+  String get kycChipPhone => 'Телефон';
+
+  @override
+  String get kycChipIdentity => 'Личность';
+
+  @override
+  String get kycChipOk => 'OK';
+
+  @override
+  String get kycChipNeeded => 'Нужно';
+
+  @override
+  String get kycViewDetails => 'Посмотреть данные KYC';
+
+  @override
+  String get kycVerifyIdentity => 'Подтвердить личность';
+
+  @override
+  String get kycFullName => 'Полное официальное имя';
+
+  @override
+  String get kycFullNameHint => 'Имя точно как в вашем документе';
+
+  @override
+  String get kycDob => 'Дата рождения';
+
+  @override
+  String get kycSelectDate => 'Выбрать дату';
+
+  @override
+  String get kycGovId => 'Удостоверение личности или паспорт';
+
+  @override
+  String get kycUploadId => 'Загрузить документ, удостоверяющий личность';
+
+  @override
+  String get kycSelfie => 'Селфи / проверка лица';
+
+  @override
+  String get kycCaptureSelfie => 'Сделать селфи';
+
+  @override
+  String get kycAddressProof => 'Подтверждение фактического адреса';
+
+  @override
+  String get kycUploadAddress => 'Загрузить счёт за услуги или договор аренды';
+
+  @override
+  String get kycPhoneVerification => 'Подтверждение телефона';
+
+  @override
+  String get kycSendCode => 'Отправить код';
+
+  @override
+  String get kycVerificationCodeHint => 'Код подтверждения';
+
+  @override
+  String get kycEmailVerification => 'Подтверждение эл. почты';
+
+  @override
+  String get kycEmailVerified => 'Эл. почта подтверждена';
+
+  @override
+  String get kycEmailNotVerified => 'Эл. почта не подтверждена';
+
+  @override
+  String get kycSendEmail => 'Отправить письмо';
+
+  @override
+  String get kycSubmitForReview => 'Отправить на проверку';
+
+  @override
+  String get kycEmulatorNote =>
+      'Коды для телефона появляются в эмуляторе Firebase Auth. Письма для разработки появляются в Mailpit.';
+
+  @override
+  String get kycEmailSent => 'Письмо для подтверждения отправлено';
+
+  @override
+  String get kycEnterPhoneFirst => 'Сначала введите номер телефона';
+
+  @override
+  String get kycCodeSent => 'Код отправлен. Проверьте эмулятор Firebase Auth.';
+
+  @override
+  String get kycSubmitted => 'KYC отправлен на автоматические проверки';
+
+  @override
+  String get kycMissingName => 'Введите ваше официальное имя';
+
+  @override
+  String get kycMissingDob => 'Выберите дату рождения';
+
+  @override
+  String get kycMissingId => 'Загрузите удостоверение личности или паспорт';
+
+  @override
+  String get kycMissingSelfie => 'Сделайте селфи';
+
+  @override
+  String get kycMissingAddress => 'Загрузите подтверждение адреса';
+
+  @override
+  String get kycMissingPhone => 'Введите номер телефона';
+
+  @override
+  String get kycInvalidPhone =>
+      'Введите номер телефона в международном формате, например +12025550190.';
+
+  @override
+  String get kycMissingCode => 'Введите код подтверждения телефона';
+
+  @override
+  String get kycUpdateFailed =>
+      'Не удалось обновить данные KYC. Повторите попытку.';
+
+  @override
+  String get paymentConfirmFunding => 'Подтвердить финансирование';
+
+  @override
+  String get paymentSetup => 'Настройка криптофинансирования';
+
+  @override
+  String get paymentStatusDraft => 'Черновик';
+
+  @override
+  String get paymentStatusActive => 'Активно';
+
+  @override
+  String get paymentRail => 'Платёжный канал';
+
+  @override
+  String get paymentAmount => 'Сумма инвестиции';
+
+  @override
+  String get paymentAmountHint => 'Сумма в USD';
+
+  @override
+  String paymentBelowMinimum(String minimum) {
+    return 'Минимум для этой возможности — $minimum.';
+  }
+
+  @override
+  String get paymentDemoAmount =>
+      'Демонстрационную сумму можно изменить перед созданием запроса на депозит.';
+
+  @override
+  String get paymentQuotePaymentAsset => 'Платёжный актив';
+
+  @override
+  String get paymentQuoteAmount => 'Сумма';
+
+  @override
+  String get paymentQuoteNetwork => 'Сеть';
+
+  @override
+  String get paymentNetworkAfterRequest => 'Выбирается после запроса';
+
+  @override
+  String get paymentQuote => 'Котировка';
+
+  @override
+  String get paymentQuoteByBackend => 'Создаётся сервером';
+
+  @override
+  String get paymentNetworkFee => 'Комиссия сети';
+
+  @override
+  String get paymentFeeByBackend => 'Рассчитывается сервером';
+
+  @override
+  String get paymentSettlement => 'Расчёт';
+
+  @override
+  String get paymentPendingConfirmation => 'Ожидает подтверждения';
+
+  @override
+  String get paymentConfirmableTitle => 'Подтверждаемое финансовое действие';
+
+  @override
+  String get paymentConfirmableBody =>
+      'Вы авторизуете покупку BrickShares с криптофинансированием. Расчёт может потребовать подтверждений в сети.';
+
+  @override
+  String get paymentCreateRequest => 'Создать запрос на депозит';
+
+  @override
+  String get paymentSubmitProof => 'Отправить подтверждение на проверку';
+
+  @override
+  String get paymentIncreaseAmount =>
+      'Увеличьте сумму до минимума для этой возможности.';
+
+  @override
+  String get paymentDepositCreated => 'Запрос на депозит создан';
+
+  @override
+  String get paymentEnterHash => 'Введите хеш транзакции';
+
+  @override
+  String get paymentUploadProof => 'Загрузите подтверждение оплаты';
+
+  @override
+  String get paymentDepositInstructions => 'Инструкции по депозиту';
+
+  @override
+  String get paymentWalletAddress => 'Адрес кошелька';
+
+  @override
+  String get paymentTransactionHash => 'Хеш транзакции';
+
+  @override
+  String get paymentHashHint => 'Вставьте хеш транзакции в блокчейне';
+
+  @override
+  String get paymentStepQuote => 'Котировка';
+
+  @override
+  String get paymentStepSend => 'Отправка';
+
+  @override
+  String get paymentStepReview => 'Проверка';
+
+  @override
+  String get paymentCopy => 'Копировать';
+
+  @override
+  String get paymentWalletCopied => 'Адрес кошелька скопирован';
+
+  @override
+  String get supportNewRequest => 'Новый запрос в поддержку';
+
+  @override
+  String get supportNoRequestsTitle => 'Пока нет запросов в поддержку';
+
+  @override
+  String get supportNoRequestsBody =>
+      'Начните разговор с командой BrickClub, когда нужна помощь с аккаунтом, KYC, кошельком или инвестициями.';
+
+  @override
+  String get supportSendRequest => 'Отправить запрос';
+
+  @override
+  String get supportReplyTitle => 'Ответить в поддержку';
+
+  @override
+  String get supportSendReply => 'Отправить ответ';
+
+  @override
+  String supportMessagesCount(int count) {
+    return 'Сообщений: $count';
+  }
+
+  @override
+  String get supportRequestClosed => 'Запрос закрыт';
+
+  @override
+  String get supportReply => 'Ответить';
+
+  @override
+  String get supportTalkDirectly => 'Свяжитесь с нами напрямую';
+
+  @override
+  String get supportTalkBody =>
+      'Предпочитаете быстрый чат? Свяжитесь с командой поддержки BrickClub в WhatsApp или Telegram для более быстрой помощи.';
+
+  @override
+  String get supportNoMessagesYet => 'Пока нет сообщений';
+
+  @override
+  String get supportTeamName => 'Поддержка BrickClub';
+
+  @override
+  String get supportYou => 'Вы';
+
+  @override
+  String get supportSubject => 'Тема';
+
+  @override
+  String get supportSubjectHint => 'С чем вам нужна помощь?';
+
+  @override
+  String get supportMessage => 'Сообщение';
+
+  @override
+  String get supportMessageHint => 'Введите ваше сообщение';
+
+  @override
+  String get supportEnterSubject => 'Введите тему';
+
+  @override
+  String get supportEnterMessage => 'Введите сообщение';
+
+  @override
+  String get supportMessageSent => 'Сообщение отправлено';
+
+  @override
+  String supportCouldNotOpen(String url) {
+    return 'Не удалось открыть $url';
+  }
 }
