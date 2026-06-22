@@ -66,6 +66,7 @@ class _InvestScreenState extends State<InvestScreen> {
     return FutureBuilder<List<InvestmentOpportunity>>(
       future: widget.investmentRepository.listOpportunities(),
       builder: (context, snapshot) {
+        final l10n = AppLocalizations.of(context);
         final allOpportunities = snapshot.data ?? const [];
         final opportunities = allOpportunities
             .where(filters.matches)
@@ -76,14 +77,14 @@ class _InvestScreenState extends State<InvestScreen> {
             : opportunities.first.returnText;
 
         return AppPage(
-          title: 'Invest',
-          subtitle: 'Explore verified multi-asset BrickShares',
+          title: l10n.navInvest,
+          subtitle: l10n.investSubtitle,
           onProfileTap: widget.onOpenProfile,
           children: [
             AppTextField(
               controller: _searchController,
               compact: true,
-              hintText: 'Search by name, location, or asset class',
+              hintText: l10n.investSearchHint,
               prefixIcon: Icons.search_rounded,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.search,
@@ -96,7 +97,7 @@ class _InvestScreenState extends State<InvestScreen> {
                 child: Row(
                   children: [
                     ChoicePill(
-                      label: 'Available ${opportunities.length}',
+                      label: l10n.investAvailable(opportunities.length),
                       selected: true,
                     ),
                     SizedBox(width: 8),
@@ -117,7 +118,7 @@ class _InvestScreenState extends State<InvestScreen> {
                   SizedBox(width: 22),
                   Expanded(
                     child: Text(
-                      'Filtered income\nBrickShares',
+                      l10n.investFilteredIncome,
                       style: AppText.cardHeadingSmall,
                     ),
                   ),
@@ -126,9 +127,9 @@ class _InvestScreenState extends State<InvestScreen> {
             ),
             SectionHeading(
               title: snapshot.connectionState == ConnectionState.done
-                  ? '${opportunities.length} opportunities'
-                  : 'Loading opportunities',
-              action: 'Filters',
+                  ? l10n.investOpportunitiesCount(opportunities.length)
+                  : l10n.investLoadingOpportunities,
+              action: l10n.investFiltersAction,
               actionButton: true,
               onAction: allOpportunities.isEmpty
                   ? null
@@ -150,21 +151,21 @@ class _InvestScreenState extends State<InvestScreen> {
                       size: 34,
                     ),
                     SizedBox(height: 10),
-                    Text('No BrickShares match', style: AppText.h2),
+                    Text(l10n.investNoMatchTitle, style: AppText.h2),
                     SizedBox(height: 6),
                     Text(
                       allOpportunities.isEmpty
-                          ? 'Admin-published verified assets will appear here.'
+                          ? l10n.investNoMatchEmpty
                           : _searchQuery.trim().isNotEmpty
-                          ? 'No BrickShares match “${_searchQuery.trim()}”. Try a different search or adjust your filters.'
-                          : 'Try a different asset class, risk level, or payment method.',
+                          ? l10n.investNoMatchSearch(_searchQuery.trim())
+                          : l10n.investNoMatchFilters,
                       textAlign: TextAlign.center,
                       style: AppText.body,
                     ),
                     if (allOpportunities.isNotEmpty) ...[
                       SizedBox(height: 16),
                       SecondaryButton(
-                        label: 'Reset filters',
+                        label: l10n.investResetFilters,
                         onPressed: () => setState(() {
                           filters = const BrickShareFilters();
                           _searchQuery = '';

@@ -16,8 +16,9 @@ class WalletScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AppPage(
-      title: 'Wallet',
+      title: l10n.navWallet,
       onProfileTap: onOpenProfile,
       children: [
         FutureBuilder<MemberDashboardData>(
@@ -35,7 +36,7 @@ class WalletScreen extends StatelessWidget {
               children: [
                 _WalletBalanceCard(data: data),
                 SizedBox(height: 18),
-                Text('Crypto order activity', style: AppText.h2),
+                Text(l10n.walletCryptoActivity, style: AppText.h2),
                 _ActivityPanel(activity: data.activity),
               ],
             );
@@ -47,25 +48,24 @@ class WalletScreen extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Crypto funding readiness',
+                l10n.walletFundingTitle,
                 style: AppText.cardHeading,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 8),
               Text(
-                'Add a verified wallet before sending funds. Network, fees, '
-                'quote expiry, and settlement status are shown before confirmation.',
+                l10n.walletFundingBody,
                 textAlign: TextAlign.center,
                 style: AppText.body,
               ),
               SizedBox(height: 20),
               PrimaryButton(
-                label: 'Add verified wallet',
+                label: l10n.walletAddWallet,
                 height: 46,
                 onPressed: () => requireApprovedKyc(
                   context,
                   kyc,
-                  () => showMessage(context, 'Wallet verification started'),
+                  () => showMessage(context, l10n.walletVerificationStarted),
                   onStartKyc,
                 ),
               ),
@@ -77,12 +77,12 @@ class WalletScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Settlement confirmation required',
+                l10n.walletSettlementTitle,
                 style: AppText.cardHeadingSmall,
               ),
               SizedBox(height: 10),
               Text(
-                'Purchases, withdrawals, and wallet changes require final confirmation.',
+                l10n.walletSettlementBody,
                 style: AppText.body,
               ),
             ],
@@ -141,7 +141,7 @@ class _WalletBalanceCard extends StatelessWidget {
               SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'Verified wallet balance',
+                  AppLocalizations.of(context).walletVerifiedBalance,
                   style: AppText.bodyLarge,
                 ),
               ),

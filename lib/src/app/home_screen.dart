@@ -23,6 +23,7 @@ class HomeScreen extends StatelessWidget {
     // separate call inside each FutureBuilder) collapses three identical
     // backend round-trips into one while still refetching on rebuild.
     final dashboardFuture = investmentRepository.loadMemberDashboard();
+    final l10n = AppLocalizations.of(context);
     return AppPage(
       title: 'BrickClub',
       onProfileTap: onOpenProfile,
@@ -43,8 +44,8 @@ class HomeScreen extends StatelessWidget {
           },
         ),
         SectionHeading(
-          title: 'Featured opportunity',
-          action: 'View all',
+          title: l10n.homeFeaturedOpportunity,
+          action: l10n.commonViewAll,
           onAction: onInvest,
         ),
         FutureBuilder<List<InvestmentOpportunity>>(
@@ -68,15 +69,18 @@ class HomeScreen extends StatelessWidget {
                       size: 34,
                     ),
                     SizedBox(height: 10),
-                    Text('No live BrickShares yet', style: AppText.h2),
+                    Text(l10n.homeNoLiveTitle, style: AppText.h2),
                     SizedBox(height: 6),
                     Text(
-                      'Published, verified assets will appear here.',
+                      l10n.homeNoLiveBody,
                       textAlign: TextAlign.center,
                       style: AppText.body,
                     ),
                     SizedBox(height: 16),
-                    SecondaryButton(label: 'View invest', onPressed: onInvest),
+                    SecondaryButton(
+                      label: l10n.homeViewInvest,
+                      onPressed: onInvest,
+                    ),
                   ],
                 ),
               );
@@ -103,7 +107,7 @@ class HomeScreen extends StatelessWidget {
             );
           },
         ),
-        const SectionHeading(title: 'Your holdings', action: 'View all'),
+        SectionHeading(title: l10n.homeYourHoldings, action: l10n.commonViewAll),
         FutureBuilder<MemberDashboardData>(
           future: dashboardFuture,
           builder: (context, snapshot) {
@@ -118,7 +122,7 @@ class HomeScreen extends StatelessWidget {
             );
           },
         ),
-        const SectionHeading(title: 'Recent activity', action: 'View all'),
+        SectionHeading(title: l10n.homeRecentActivity, action: l10n.commonViewAll),
         FutureBuilder<MemberDashboardData>(
           future: dashboardFuture,
           builder: (context, snapshot) {
@@ -154,7 +158,10 @@ class _PortfolioOverview extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Portfolio value', style: AppText.bodyLarge),
+        Text(
+          AppLocalizations.of(context).previewPortfolioValue,
+          style: AppText.bodyLarge,
+        ),
         SizedBox(height: 4),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -241,10 +248,11 @@ class _HoldingsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (holdings.isEmpty) {
-      return const _EmptyFinancePanel(
+      final l10n = AppLocalizations.of(context);
+      return _EmptyFinancePanel(
         icon: Icons.account_balance_wallet_outlined,
-        title: 'No holdings yet',
-        message: 'Verified deposits will appear here as BrickShares.',
+        title: l10n.holdingsEmptyTitle,
+        message: l10n.holdingsEmptyHome,
       );
     }
 
@@ -275,10 +283,11 @@ class _ActivityPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (activity.isEmpty) {
-      return const _EmptyFinancePanel(
+      final l10n = AppLocalizations.of(context);
+      return _EmptyFinancePanel(
         icon: Icons.history_rounded,
-        title: 'No activity yet',
-        message: 'Deposit requests and settlement updates will appear here.',
+        title: l10n.activityEmptyTitle,
+        message: l10n.activityEmptyBody,
       );
     }
 
@@ -326,13 +335,14 @@ class _DashboardErrorPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Panel(
       child: Column(
         children: [
-          Text('Unable to load account data', style: AppText.h2),
+          Text(l10n.dashboardErrorTitle, style: AppText.h2),
           SizedBox(height: 8),
           Text(
-            'Check the backend connection and try again.',
+            l10n.dashboardErrorBody,
             textAlign: TextAlign.center,
             style: AppText.body,
           ),

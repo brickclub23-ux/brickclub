@@ -320,5 +320,129 @@
   "ctaFreeToBrowse": "Free to browse",
   "ctaVerifiedOnly": "Verified assets only",
 
-  "footerCopyright": "© 2026 BrickClub"
+  "footerCopyright": "© 2026 BrickClub",
+
+  "commonViewAll": "View all",
+  "commonCancel": "Cancel",
+  "navInvest": "Invest",
+  "navWallet": "Wallet",
+  "navPortfolio": "Portfolio",
+  "navProfile": "Profile",
+
+  "kycGateTitle": "Complete KYC first",
+  "kycGateBody": "Status: {status}. Purchases, withdrawals, wallet changes, and crypto settlement unlock after approval.",
+  "@kycGateBody": {
+    "placeholders": {
+      "status": { "type": "String" }
+    }
+  },
+  "kycGateViewStatus": "View KYC status",
+  "kycGateComplete": "Complete KYC",
+
+  "homeFeaturedOpportunity": "Featured opportunity",
+  "homeNoLiveTitle": "No live BrickShares yet",
+  "homeNoLiveBody": "Published, verified assets will appear here.",
+  "homeViewInvest": "View invest",
+  "homeYourHoldings": "Your holdings",
+  "homeRecentActivity": "Recent activity",
+  "holdingsEmptyTitle": "No holdings yet",
+  "holdingsEmptyHome": "Verified deposits will appear here as BrickShares.",
+  "activityEmptyTitle": "No activity yet",
+  "activityEmptyBody": "Deposit requests and settlement updates will appear here.",
+  "dashboardErrorTitle": "Unable to load account data",
+  "dashboardErrorBody": "Check the backend connection and try again.",
+
+  "investSubtitle": "Explore verified multi-asset BrickShares",
+  "investSearchHint": "Search by name, location, or asset class",
+  "investAvailable": "Available {count}",
+  "@investAvailable": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "investFilteredIncome": "Filtered income\nBrickShares",
+  "investOpportunitiesCount": "{count} opportunities",
+  "@investOpportunitiesCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "investLoadingOpportunities": "Loading opportunities",
+  "investFiltersAction": "Filters",
+  "investNoMatchTitle": "No BrickShares match",
+  "investNoMatchEmpty": "Admin-published verified assets will appear here.",
+  "investNoMatchSearch": "No BrickShares match “{query}”. Try a different search or adjust your filters.",
+  "@investNoMatchSearch": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "investNoMatchFilters": "Try a different asset class, risk level, or payment method.",
+  "investResetFilters": "Reset filters",
+
+  "walletCryptoActivity": "Crypto order activity",
+  "walletFundingTitle": "Crypto funding readiness",
+  "walletFundingBody": "Add a verified wallet before sending funds. Network, fees, quote expiry, and settlement status are shown before confirmation.",
+  "walletAddWallet": "Add verified wallet",
+  "walletVerificationStarted": "Wallet verification started",
+  "walletSettlementTitle": "Settlement confirmation required",
+  "walletSettlementBody": "Purchases, withdrawals, and wallet changes require final confirmation.",
+  "walletVerifiedBalance": "Verified wallet balance",
+
+  "portfolioCurrentValue": "Current portfolio value",
+  "portfolioInvested": "Invested",
+  "portfolioProfitLoss": "Profit / loss",
+  "portfolioReturn": "Return",
+  "portfolioDividends": "Dividends received: {amount}",
+  "@portfolioDividends": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "portfolioHoldings": "Holdings",
+  "portfolioHoldingsEmptyBody": "Approved investments appear here automatically.",
+  "portfolioAllocation": "Allocation",
+  "portfolioAllocationEmptyTitle": "No allocation yet",
+  "portfolioAllocationEmptyBody": "Your asset mix appears after deposits verify.",
+  "portfolioInvestedOwnership": "Invested {invested} · {ownership} ownership",
+  "@portfolioInvestedOwnership": {
+    "placeholders": {
+      "invested": { "type": "String" },
+      "ownership": { "type": "String" }
+    }
+  },
+
+  "profileSettings": "Settings",
+  "profileThemeSubtitle": "{mode} theme",
+  "@profileThemeSubtitle": {
+    "placeholders": {
+      "mode": { "type": "String" }
+    }
+  },
+  "profileSecurityTitle": "Security & privacy",
+  "profileSecuritySubtitle": "Verified wallet and biometrics",
+  "profileDocumentsTitle": "Documents",
+  "profileDocumentsSubtitle": "Statements, risk disclosures",
+  "profileRowOpened": "{title} opened",
+  "@profileRowOpened": {
+    "placeholders": {
+      "title": { "type": "String" }
+    }
+  },
+  "profileSupport": "Support",
+  "profileSupportSubtitle": "Message the BrickClub team",
+  "profileLogout": "Log out",
+  "profileLogoutConfirmTitle": "Log out?",
+  "profileLogoutConfirmBody": "You will need to sign in again to access your account.",
+  "profileDefaultName": "BrickClub member",
+  "profileDefaultSubtitle": "Your account and BrickShares details",
+
+  "themeScreenTitle": "Theme",
+  "themeAppearance": "Appearance",
+  "themeAppearanceDescription": "Choose how BrickClub looks on this device.",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystemDescription": "Follow this device automatically.",
+  "themeLightDescription": "Use a bright interface with dark text.",
+  "themeDarkDescription": "Use the classic dark BrickClub interface."
 }

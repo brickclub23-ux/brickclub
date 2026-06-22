@@ -12,8 +12,9 @@ class PortfolioScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AppPage(
-      title: 'Portfolio',
+      title: l10n.navPortfolio,
       onProfileTap: onOpenProfile,
       children: [
         FutureBuilder<MemberDashboardData>(
@@ -35,7 +36,7 @@ class PortfolioScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Current portfolio value', style: AppText.body),
+                      Text(l10n.portfolioCurrentValue, style: AppText.body),
                       SizedBox(height: 10),
                       Text(
                         data.totalCurrentValueText,
@@ -45,24 +46,30 @@ class PortfolioScreen extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                            child: Metric(data.totalInvestedText, 'Invested'),
+                            child: Metric(
+                              data.totalInvestedText,
+                              l10n.portfolioInvested,
+                            ),
                           ),
                           Expanded(
                             child: Metric(
                               data.totalProfitLossText,
-                              'Profit / loss',
+                              l10n.portfolioProfitLoss,
                               gold: data.totalProfitLoss >= 0,
                             ),
                           ),
                           Expanded(
-                            child: Metric(data.overallReturnText, 'Return'),
+                            child: Metric(
+                              data.overallReturnText,
+                              l10n.portfolioReturn,
+                            ),
                           ),
                         ],
                       ),
                       if (data.totalDividends > 0) ...[
                         SizedBox(height: 12),
                         Text(
-                          'Dividends received: ${data.totalDividendsText}',
+                          l10n.portfolioDividends(data.totalDividendsText),
                           style: AppText.small,
                         ),
                       ],
@@ -70,23 +77,23 @@ class PortfolioScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 14),
-                Text('Holdings', style: AppText.h2),
+                Text(l10n.portfolioHoldings, style: AppText.h2),
                 if (data.holdings.isEmpty)
-                  const _EmptyFinancePanel(
+                  _EmptyFinancePanel(
                     icon: Icons.account_balance_wallet_outlined,
-                    title: 'No holdings yet',
-                    message: 'Approved investments appear here automatically.',
+                    title: l10n.holdingsEmptyTitle,
+                    message: l10n.portfolioHoldingsEmptyBody,
                   )
                 else
                   for (final holding in data.holdings)
                     _PortfolioHoldingRow(holding: holding),
                 SizedBox(height: 8),
-                Text('Allocation', style: AppText.h2),
+                Text(l10n.portfolioAllocation, style: AppText.h2),
                 if (data.allocation.isEmpty)
-                  const _EmptyFinancePanel(
+                  _EmptyFinancePanel(
                     icon: Icons.pie_chart_outline_rounded,
-                    title: 'No allocation yet',
-                    message: 'Your asset mix appears after deposits verify.',
+                    title: l10n.portfolioAllocationEmptyTitle,
+                    message: l10n.portfolioAllocationEmptyBody,
                   )
                 else
                   for (final entry in data.allocation.indexed)
@@ -96,7 +103,7 @@ class PortfolioScreen extends StatelessWidget {
                       _allocationColor(entry.$1),
                     ),
                 SizedBox(height: 14),
-                Text('Recent activity', style: AppText.h2),
+                Text(l10n.homeRecentActivity, style: AppText.h2),
                 _ActivityPanel(activity: data.activity),
               ],
             );
@@ -153,7 +160,10 @@ class _PortfolioHoldingRow extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Invested ${holding.amountInvestedText} · ${holding.ownershipText} ownership',
+                  AppLocalizations.of(context).portfolioInvestedOwnership(
+                    holding.amountInvestedText,
+                    holding.ownershipText,
+                  ),
                   style: AppText.small,
                 ),
               ),

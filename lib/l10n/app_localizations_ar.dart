@@ -432,4 +432,255 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get footerCopyright => '© 2026 BrickClub';
+
+  @override
+  String get commonViewAll => 'عرض الكل';
+
+  @override
+  String get commonCancel => 'إلغاء';
+
+  @override
+  String get navInvest => 'استثمر';
+
+  @override
+  String get navWallet => 'المحفظة';
+
+  @override
+  String get navPortfolio => 'المحفظة الاستثمارية';
+
+  @override
+  String get navProfile => 'الملف الشخصي';
+
+  @override
+  String get kycGateTitle => 'أكمل إجراءات KYC أولًا';
+
+  @override
+  String kycGateBody(String status) {
+    return 'الحالة: $status. تُفتح عمليات الشراء والسحب وتغييرات المحفظة وتسوية العملات المشفرة بعد الموافقة.';
+  }
+
+  @override
+  String get kycGateViewStatus => 'عرض حالة KYC';
+
+  @override
+  String get kycGateComplete => 'إكمال KYC';
+
+  @override
+  String get homeFeaturedOpportunity => 'فرصة مميزة';
+
+  @override
+  String get homeNoLiveTitle => 'لا توجد BrickShares نشطة بعد';
+
+  @override
+  String get homeNoLiveBody => 'ستظهر هنا الأصول المنشورة والموثَّقة.';
+
+  @override
+  String get homeViewInvest => 'عرض الاستثمار';
+
+  @override
+  String get homeYourHoldings => 'حيازاتك';
+
+  @override
+  String get homeRecentActivity => 'النشاط الأخير';
+
+  @override
+  String get holdingsEmptyTitle => 'لا توجد حيازات بعد';
+
+  @override
+  String get holdingsEmptyHome =>
+      'ستظهر الإيداعات الموثَّقة هنا كـ BrickShares.';
+
+  @override
+  String get activityEmptyTitle => 'لا يوجد نشاط بعد';
+
+  @override
+  String get activityEmptyBody => 'ستظهر هنا طلبات الإيداع وتحديثات التسوية.';
+
+  @override
+  String get dashboardErrorTitle => 'تعذّر تحميل بيانات الحساب';
+
+  @override
+  String get dashboardErrorBody => 'تحقق من اتصال الخادم وحاول مرة أخرى.';
+
+  @override
+  String get investSubtitle => 'استكشف BrickShares متعددة الأصول وموثَّقة';
+
+  @override
+  String get investSearchHint => 'ابحث بالاسم أو الموقع أو فئة الأصل';
+
+  @override
+  String investAvailable(int count) {
+    return 'متاح $count';
+  }
+
+  @override
+  String get investFilteredIncome => 'BrickShares ذات الدخل\nالمُصفّاة';
+
+  @override
+  String investOpportunitiesCount(int count) {
+    return '$count فرصة';
+  }
+
+  @override
+  String get investLoadingOpportunities => 'جارٍ تحميل الفرص';
+
+  @override
+  String get investFiltersAction => 'عوامل التصفية';
+
+  @override
+  String get investNoMatchTitle => 'لا توجد BrickShares مطابقة';
+
+  @override
+  String get investNoMatchEmpty =>
+      'ستظهر هنا الأصول الموثَّقة التي ينشرها المسؤول.';
+
+  @override
+  String investNoMatchSearch(String query) {
+    return 'لا توجد BrickShares تطابق «$query». جرّب بحثًا آخر أو عدّل عوامل التصفية.';
+  }
+
+  @override
+  String get investNoMatchFilters =>
+      'جرّب فئة أصل أو مستوى مخاطر أو طريقة دفع مختلفة.';
+
+  @override
+  String get investResetFilters => 'إعادة تعيين عوامل التصفية';
+
+  @override
+  String get walletCryptoActivity => 'نشاط أوامر العملات المشفرة';
+
+  @override
+  String get walletFundingTitle => 'جاهزية التمويل بالعملات المشفرة';
+
+  @override
+  String get walletFundingBody =>
+      'أضف محفظة موثَّقة قبل إرسال الأموال. تُعرض الشبكة والرسوم وانتهاء صلاحية العرض وحالة التسوية قبل التأكيد.';
+
+  @override
+  String get walletAddWallet => 'إضافة محفظة موثَّقة';
+
+  @override
+  String get walletVerificationStarted => 'بدأ التحقق من المحفظة';
+
+  @override
+  String get walletSettlementTitle => 'التأكيد على التسوية مطلوب';
+
+  @override
+  String get walletSettlementBody =>
+      'تتطلب عمليات الشراء والسحب وتغييرات المحفظة تأكيدًا نهائيًا.';
+
+  @override
+  String get walletVerifiedBalance => 'رصيد المحفظة الموثَّقة';
+
+  @override
+  String get portfolioCurrentValue => 'القيمة الحالية للمحفظة';
+
+  @override
+  String get portfolioInvested => 'المستثمَر';
+
+  @override
+  String get portfolioProfitLoss => 'الربح / الخسارة';
+
+  @override
+  String get portfolioReturn => 'العائد';
+
+  @override
+  String portfolioDividends(String amount) {
+    return 'الأرباح المستلمة: $amount';
+  }
+
+  @override
+  String get portfolioHoldings => 'الحيازات';
+
+  @override
+  String get portfolioHoldingsEmptyBody =>
+      'تظهر الاستثمارات المعتمدة هنا تلقائيًا.';
+
+  @override
+  String get portfolioAllocation => 'التوزيع';
+
+  @override
+  String get portfolioAllocationEmptyTitle => 'لا يوجد توزيع بعد';
+
+  @override
+  String get portfolioAllocationEmptyBody =>
+      'يظهر مزيج أصولك بعد التحقق من الإيداعات.';
+
+  @override
+  String portfolioInvestedOwnership(String invested, String ownership) {
+    return 'المستثمَر $invested · ملكية $ownership';
+  }
+
+  @override
+  String get profileSettings => 'الإعدادات';
+
+  @override
+  String profileThemeSubtitle(String mode) {
+    return 'سمة $mode';
+  }
+
+  @override
+  String get profileSecurityTitle => 'الأمان والخصوصية';
+
+  @override
+  String get profileSecuritySubtitle => 'محفظة موثَّقة وبيانات حيوية';
+
+  @override
+  String get profileDocumentsTitle => 'المستندات';
+
+  @override
+  String get profileDocumentsSubtitle => 'كشوف الحساب وإفصاحات المخاطر';
+
+  @override
+  String profileRowOpened(String title) {
+    return 'تم فتح $title';
+  }
+
+  @override
+  String get profileSupport => 'الدعم';
+
+  @override
+  String get profileSupportSubtitle => 'راسل فريق BrickClub';
+
+  @override
+  String get profileLogout => 'تسجيل الخروج';
+
+  @override
+  String get profileLogoutConfirmTitle => 'تسجيل الخروج؟';
+
+  @override
+  String get profileLogoutConfirmBody =>
+      'ستحتاج إلى تسجيل الدخول مرة أخرى للوصول إلى حسابك.';
+
+  @override
+  String get profileDefaultName => 'عضو BrickClub';
+
+  @override
+  String get profileDefaultSubtitle => 'تفاصيل حسابك وBrickShares الخاصة بك';
+
+  @override
+  String get themeScreenTitle => 'السمة';
+
+  @override
+  String get themeAppearance => 'المظهر';
+
+  @override
+  String get themeAppearanceDescription =>
+      'اختر كيف يظهر BrickClub على هذا الجهاز.';
+
+  @override
+  String get themeLight => 'فاتح';
+
+  @override
+  String get themeDark => 'داكن';
+
+  @override
+  String get themeSystemDescription => 'اتباع هذا الجهاز تلقائيًا.';
+
+  @override
+  String get themeLightDescription => 'استخدام واجهة فاتحة بنص داكن.';
+
+  @override
+  String get themeDarkDescription =>
+      'استخدام واجهة BrickClub الداكنة الكلاسيكية.';
 }

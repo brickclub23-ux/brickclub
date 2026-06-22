@@ -437,4 +437,260 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get footerCopyright => '© 2026 BrickClub';
+
+  @override
+  String get commonViewAll => 'Показать все';
+
+  @override
+  String get commonCancel => 'Отмена';
+
+  @override
+  String get navInvest => 'Инвестировать';
+
+  @override
+  String get navWallet => 'Кошелёк';
+
+  @override
+  String get navPortfolio => 'Портфель';
+
+  @override
+  String get navProfile => 'Профиль';
+
+  @override
+  String get kycGateTitle => 'Сначала пройдите KYC';
+
+  @override
+  String kycGateBody(String status) {
+    return 'Статус: $status. Покупки, выводы, изменения кошелька и крипторасчёты станут доступны после одобрения.';
+  }
+
+  @override
+  String get kycGateViewStatus => 'Посмотреть статус KYC';
+
+  @override
+  String get kycGateComplete => 'Пройти KYC';
+
+  @override
+  String get homeFeaturedOpportunity => 'Рекомендуемая возможность';
+
+  @override
+  String get homeNoLiveTitle => 'Пока нет активных BrickShares';
+
+  @override
+  String get homeNoLiveBody =>
+      'Опубликованные проверенные активы появятся здесь.';
+
+  @override
+  String get homeViewInvest => 'Перейти к инвестициям';
+
+  @override
+  String get homeYourHoldings => 'Ваши активы';
+
+  @override
+  String get homeRecentActivity => 'Недавняя активность';
+
+  @override
+  String get holdingsEmptyTitle => 'Пока нет активов';
+
+  @override
+  String get holdingsEmptyHome =>
+      'Проверенные депозиты появятся здесь как BrickShares.';
+
+  @override
+  String get activityEmptyTitle => 'Пока нет активности';
+
+  @override
+  String get activityEmptyBody =>
+      'Запросы на депозит и обновления расчётов появятся здесь.';
+
+  @override
+  String get dashboardErrorTitle => 'Не удалось загрузить данные аккаунта';
+
+  @override
+  String get dashboardErrorBody =>
+      'Проверьте подключение к серверу и повторите попытку.';
+
+  @override
+  String get investSubtitle =>
+      'Изучайте проверенные мультиактивные BrickShares';
+
+  @override
+  String get investSearchHint =>
+      'Поиск по названию, местоположению или классу актива';
+
+  @override
+  String investAvailable(int count) {
+    return 'Доступно $count';
+  }
+
+  @override
+  String get investFilteredIncome => 'Отфильтрованные доходные\nBrickShares';
+
+  @override
+  String investOpportunitiesCount(int count) {
+    return 'Возможностей: $count';
+  }
+
+  @override
+  String get investLoadingOpportunities => 'Загрузка возможностей';
+
+  @override
+  String get investFiltersAction => 'Фильтры';
+
+  @override
+  String get investNoMatchTitle => 'Нет подходящих BrickShares';
+
+  @override
+  String get investNoMatchEmpty =>
+      'Проверенные активы, опубликованные администратором, появятся здесь.';
+
+  @override
+  String investNoMatchSearch(String query) {
+    return 'Нет BrickShares по запросу «$query». Попробуйте другой запрос или измените фильтры.';
+  }
+
+  @override
+  String get investNoMatchFilters =>
+      'Попробуйте другой класс актива, уровень риска или способ оплаты.';
+
+  @override
+  String get investResetFilters => 'Сбросить фильтры';
+
+  @override
+  String get walletCryptoActivity => 'Активность криптоордеров';
+
+  @override
+  String get walletFundingTitle => 'Готовность к криптофинансированию';
+
+  @override
+  String get walletFundingBody =>
+      'Добавьте проверенный кошелёк перед отправкой средств. Сеть, комиссии, срок действия котировки и статус расчётов показываются перед подтверждением.';
+
+  @override
+  String get walletAddWallet => 'Добавить проверенный кошелёк';
+
+  @override
+  String get walletVerificationStarted => 'Проверка кошелька начата';
+
+  @override
+  String get walletSettlementTitle => 'Требуется подтверждение расчёта';
+
+  @override
+  String get walletSettlementBody =>
+      'Покупки, выводы и изменения кошелька требуют окончательного подтверждения.';
+
+  @override
+  String get walletVerifiedBalance => 'Баланс проверенного кошелька';
+
+  @override
+  String get portfolioCurrentValue => 'Текущая стоимость портфеля';
+
+  @override
+  String get portfolioInvested => 'Вложено';
+
+  @override
+  String get portfolioProfitLoss => 'Прибыль / убыток';
+
+  @override
+  String get portfolioReturn => 'Доходность';
+
+  @override
+  String portfolioDividends(String amount) {
+    return 'Получено дивидендов: $amount';
+  }
+
+  @override
+  String get portfolioHoldings => 'Активы';
+
+  @override
+  String get portfolioHoldingsEmptyBody =>
+      'Одобренные инвестиции появляются здесь автоматически.';
+
+  @override
+  String get portfolioAllocation => 'Распределение';
+
+  @override
+  String get portfolioAllocationEmptyTitle => 'Пока нет распределения';
+
+  @override
+  String get portfolioAllocationEmptyBody =>
+      'Состав ваших активов появится после проверки депозитов.';
+
+  @override
+  String portfolioInvestedOwnership(String invested, String ownership) {
+    return 'Вложено $invested · доля $ownership';
+  }
+
+  @override
+  String get profileSettings => 'Настройки';
+
+  @override
+  String profileThemeSubtitle(String mode) {
+    return 'Тема: $mode';
+  }
+
+  @override
+  String get profileSecurityTitle => 'Безопасность и конфиденциальность';
+
+  @override
+  String get profileSecuritySubtitle => 'Проверенный кошелёк и биометрия';
+
+  @override
+  String get profileDocumentsTitle => 'Документы';
+
+  @override
+  String get profileDocumentsSubtitle => 'Выписки, раскрытие рисков';
+
+  @override
+  String profileRowOpened(String title) {
+    return 'Открыто: $title';
+  }
+
+  @override
+  String get profileSupport => 'Поддержка';
+
+  @override
+  String get profileSupportSubtitle => 'Напишите команде BrickClub';
+
+  @override
+  String get profileLogout => 'Выйти';
+
+  @override
+  String get profileLogoutConfirmTitle => 'Выйти?';
+
+  @override
+  String get profileLogoutConfirmBody =>
+      'Чтобы получить доступ к аккаунту, потребуется войти снова.';
+
+  @override
+  String get profileDefaultName => 'Участник BrickClub';
+
+  @override
+  String get profileDefaultSubtitle => 'Данные вашего аккаунта и BrickShares';
+
+  @override
+  String get themeScreenTitle => 'Тема';
+
+  @override
+  String get themeAppearance => 'Оформление';
+
+  @override
+  String get themeAppearanceDescription =>
+      'Выберите, как BrickClub выглядит на этом устройстве.';
+
+  @override
+  String get themeLight => 'Светлая';
+
+  @override
+  String get themeDark => 'Тёмная';
+
+  @override
+  String get themeSystemDescription =>
+      'Автоматически следовать настройкам устройства.';
+
+  @override
+  String get themeLightDescription => 'Светлый интерфейс с тёмным текстом.';
+
+  @override
+  String get themeDarkDescription => 'Классический тёмный интерфейс BrickClub.';
 }
