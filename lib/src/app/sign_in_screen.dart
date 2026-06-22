@@ -44,6 +44,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Row(
@@ -73,7 +74,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           const _BrandLockup(height: 72),
                           SizedBox(height: 30),
                           Text(
-                            adminAccess ? 'Admin sign in' : 'Welcome back',
+                            adminAccess
+                                ? l10n.signInAdminTitle
+                                : l10n.signInWelcomeTitle,
                             style: TextStyle(
                               color: AppColors.primary,
                               fontSize: 36,
@@ -84,8 +87,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           SizedBox(height: 10),
                           Text(
                             adminAccess
-                                ? 'Access user, asset, and crypto payment operations.'
-                                : 'Continue to your BrickShares portfolio.',
+                                ? l10n.signInAdminSubtitle
+                                : l10n.signInMemberSubtitle,
                             style: TextStyle(
                               color: AppColors.secondary,
                               fontSize: 15,
@@ -93,21 +96,21 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                           ),
                           SizedBox(height: 24),
-                          const FieldLabel('Email'),
+                          FieldLabel(l10n.commonEmail),
                           SizedBox(height: 8),
                           AppTextField(
                             key: const ValueKey('email-field'),
                             controller: emailController,
-                            hintText: 'you@example.com',
+                            hintText: l10n.commonEmailHint,
                             keyboardType: TextInputType.emailAddress,
                           ),
                           SizedBox(height: 18),
-                          const FieldLabel('Password'),
+                          FieldLabel(l10n.commonPassword),
                           SizedBox(height: 8),
                           AppTextField(
                             key: const ValueKey('password-field'),
                             controller: passwordController,
-                            hintText: 'Enter your password',
+                            hintText: l10n.signInPasswordHint,
                             obscureText: true,
                           ),
                           SizedBox(height: 8),
@@ -115,7 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             alignment: Alignment.centerRight,
                             child: TextButton(
                               onPressed: _sendPasswordReset,
-                              child: Text('Forgot password?'),
+                              child: Text(l10n.signInForgotPassword),
                             ),
                           ),
                           SizedBox(height: 10),
@@ -126,20 +129,20 @@ class _SignInScreenState extends State<SignInScreen> {
                           PrimaryButton(
                             key: const ValueKey('sign-in'),
                             label: signingIn
-                                ? 'Signing in...'
+                                ? l10n.signInProgress
                                 : adminAccess
-                                ? 'Open admin dashboard'
-                                : 'Sign in securely',
+                                ? l10n.signInOpenAdminDashboard
+                                : l10n.signInSubmit,
                             onPressed: signingIn ? null : _signIn,
                           ),
                           SizedBox(height: 12),
                           GoogleAuthButton(
                             key: const ValueKey('google-sign-in'),
                             label: signingInWithGoogle
-                                ? 'Connecting...'
+                                ? l10n.authConnecting
                                 : adminAccess
-                                ? 'Continue as admin with Google'
-                                : 'Continue with Google',
+                                ? l10n.signInGoogleAdmin
+                                : l10n.signInGoogle,
                             onPressed: signingIn || signingInWithGoogle
                                 ? null
                                 : _signInWithGoogle,
@@ -148,7 +151,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             SizedBox(height: 10),
                             SecondaryButton(
                               key: const ValueKey('phone-sign-in'),
-                              label: 'Continue with phone',
+                              label: l10n.signInPhone,
                               onPressed: signingIn || signingInWithGoogle
                                   ? null
                                   : _signInWithPhone,
@@ -173,8 +176,8 @@ class _SignInScreenState extends State<SignInScreen> {
                               ),
                               label: Text(
                                 adminAccess
-                                    ? 'Use member sign in'
-                                    : 'Sign in as an admin',
+                                    ? l10n.signInUseMember
+                                    : l10n.signInUseAdmin,
                               ),
                             ),
                           ),
@@ -183,7 +186,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             child: TextButton(
                               key: const ValueKey('create-account-link'),
                               onPressed: widget.onCreateAccount,
-                              child: Text('Create a BrickClub account'),
+                              child: Text(l10n.signInCreateAccount),
                             ),
                           ),
                         ],
@@ -200,6 +203,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future<void> _signInWithGoogle() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       authMessage = null;
       signingInWithGoogle = true;
@@ -218,7 +222,7 @@ class _SignInScreenState extends State<SignInScreen> {
         }
 
         if (!isAdmin) {
-          _showAuthMessage('This Google account does not have admin access.');
+          _showAuthMessage(l10n.signInGoogleNoAdmin);
           return;
         }
 
@@ -239,6 +243,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future<void> _signIn() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       authMessage = null;
       signingIn = true;
@@ -262,7 +267,7 @@ class _SignInScreenState extends State<SignInScreen> {
         }
 
         if (!isAdmin) {
-          _showAuthMessage('This account does not have admin access.');
+          _showAuthMessage(l10n.signInNoAdmin);
           return;
         }
 
@@ -291,11 +296,12 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future<void> _sendPasswordReset() async {
+    final l10n = AppLocalizations.of(context);
     setState(() => authMessage = null);
     try {
       await widget.authRepository.sendPasswordResetEmail(emailController.text);
       if (mounted) {
-        showMessage(context, 'Password reset instructions sent');
+        showMessage(context, l10n.signInResetSent);
       }
     } catch (error) {
       if (mounted) {
@@ -356,6 +362,7 @@ class _SignInStory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -371,7 +378,7 @@ class _SignInStory extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              'Ownership, made\nmore accessible.',
+              l10n.signInStoryTitle,
               style: TextStyle(
                 color: AppColors.primary,
                 fontSize: 54,
@@ -384,8 +391,7 @@ class _SignInStory extends StatelessWidget {
             SizedBox(
               width: 500,
               child: Text(
-                'Review verified opportunities, settle with confidence, '
-                'and keep every asset in view.',
+                l10n.signInStoryBody,
                 style: TextStyle(
                   color: AppColors.secondary,
                   fontSize: 18,
