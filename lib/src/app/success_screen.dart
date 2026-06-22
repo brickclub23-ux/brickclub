@@ -7,6 +7,7 @@ class SuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PhoneFrame(
       child: Scaffold(
         backgroundColor: AppColors.background,
@@ -27,11 +28,10 @@ class SuccessScreen extends StatelessWidget {
                   child: Text('OK', style: AppText.goldMetricSmall),
                 ),
                 SizedBox(height: 44),
-                Text('Proof submitted', style: AppText.h1),
+                Text(l10n.successTitle, style: AppText.h1),
                 SizedBox(height: 12),
                 Text(
-                  'Your proof of payment is awaiting admin verification. '
-                  'We will notify you after review.',
+                  l10n.successBody,
                   textAlign: TextAlign.center,
                   style: AppText.bodyLarge,
                 ),
@@ -44,7 +44,7 @@ class SuccessScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            'Settlement status',
+                            l10n.successSettlementStatus,
                             style: AppText.bodyLarge,
                           ),
                         ),
@@ -56,7 +56,7 @@ class SuccessScreen extends StatelessWidget {
                 SizedBox(height: 62),
                 PrimaryButton(
                   key: const ValueKey('view-portfolio'),
-                  label: 'View portfolio',
+                  label: l10n.successViewPortfolio,
                   onPressed: () => context.go('/portfolio'),
                 ),
               ],

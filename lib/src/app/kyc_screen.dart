@@ -16,6 +16,7 @@ class KycStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final isApproved = kyc.status == KycStatus.approved;
     return Panel(
       child: Column(
@@ -37,7 +38,7 @@ class KycStatusCard extends StatelessWidget {
                   children: [
                     Text('KYC ${kyc.label}', style: AppText.cardHeadingSmall),
                     SizedBox(height: 4),
-                    Text(_statusCopy(kyc), style: AppText.body),
+                    Text(_statusCopy(l10n, kyc), style: AppText.body),
                   ],
                 ),
               ),
@@ -51,9 +52,9 @@ class KycStatusCard extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: [
-                _KycChip('Email', kyc.emailVerified),
-                _KycChip('Phone', kyc.phoneVerified),
-                _KycChip('Identity', kyc.status == KycStatus.approved),
+                _KycChip(l10n.commonEmail, kyc.emailVerified),
+                _KycChip(l10n.kycChipPhone, kyc.phoneVerified),
+                _KycChip(l10n.kycChipIdentity, kyc.status == KycStatus.approved),
               ],
             ),
           ],
@@ -61,7 +62,7 @@ class KycStatusCard extends StatelessWidget {
             SizedBox(height: 16),
             PrimaryButton(
               key: const ValueKey('kyc-status-cta'),
-              label: isApproved ? 'View KYC details' : 'Complete KYC',
+              label: isApproved ? l10n.kycViewDetails : l10n.kycGateComplete,
               height: 44,
               onPressed: onStartKyc,
             ),
@@ -71,13 +72,13 @@ class KycStatusCard extends StatelessWidget {
     );
   }
 
-  String _statusCopy(KycProfile kyc) {
+  String _statusCopy(AppLocalizations l10n, KycProfile kyc) {
     return switch (kyc.status) {
-      KycStatus.approved => 'Financial actions are unlocked.',
-      KycStatus.submitted => 'Your documents are under review.',
+      KycStatus.approved => l10n.kycStatusApproved,
+      KycStatus.submitted => l10n.kycStatusSubmitted,
       KycStatus.rejected =>
-        kyc.rejectionReason ?? 'Review the request and resubmit.',
-      _ => 'Required before purchases and wallet changes.',
+        kyc.rejectionReason ?? l10n.kycStatusRejectedDefault,
+      _ => l10n.kycStatusDefault,
     };
   }
 }
@@ -90,8 +91,9 @@ class _KycChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return ChoicePill(
-      label: '$label ${complete ? 'OK' : 'Needed'}',
+      label: '$label ${complete ? l10n.kycChipOk : l10n.kycChipNeeded}',
       selected: complete,
     );
   }
@@ -131,10 +133,11 @@ class _KycScreenState extends State<KycScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PhoneFrame(
       child: Scaffold(
         backgroundColor: AppColors.background,
-        appBar: detailAppBar(context, 'Verify identity'),
+        appBar: detailAppBar(context, l10n.kycVerifyIdentity),
         body: StreamBuilder<KycProfile>(
           stream: widget.repository.watchProfile(),
           builder: (context, snapshot) {
@@ -164,53 +167,52 @@ class _KycScreenState extends State<KycScreen> {
                       _KycMessageBanner(message: kycMessage!),
                     ],
                     SizedBox(height: 18),
-                    const FieldLabel('Full legal name'),
+                    FieldLabel(l10n.kycFullName),
                     SizedBox(height: 8),
                     AppTextField(
                       controller: fullNameController,
-                      hintText: 'Name exactly as shown on your ID',
+                      hintText: l10n.kycFullNameHint,
                     ),
                     SizedBox(height: 16),
-                    const FieldLabel('Date of birth'),
+                    FieldLabel(l10n.kycDob),
                     SizedBox(height: 8),
                     _PickerTile(
                       key: const ValueKey('kyc-dob'),
                       icon: Icons.calendar_month_outlined,
                       title: dateOfBirth == null
-                          ? 'Select date'
+                          ? l10n.kycSelectDate
                           : DateFormat.yMMMd().format(dateOfBirth!),
                       onTap: _pickDateOfBirth,
                     ),
                     SizedBox(height: 16),
-                    const FieldLabel('Government ID or passport'),
+                    FieldLabel(l10n.kycGovId),
                     SizedBox(height: 8),
                     _PickerTile(
                       key: const ValueKey('kyc-government-id'),
                       icon: Icons.badge_outlined,
-                      title: governmentId?.name ?? 'Upload ID document',
+                      title: governmentId?.name ?? l10n.kycUploadId,
                       onTap: () => _pickFile((file) => governmentId = file),
                     ),
                     SizedBox(height: 16),
-                    const FieldLabel('Selfie / face verification'),
+                    FieldLabel(l10n.kycSelfie),
                     SizedBox(height: 8),
                     _PickerTile(
                       key: const ValueKey('kyc-selfie'),
                       icon: Icons.face_retouching_natural_outlined,
-                      title: selfie?.name ?? 'Capture selfie',
+                      title: selfie?.name ?? l10n.kycCaptureSelfie,
                       onTap: _pickSelfie,
                     ),
                     SizedBox(height: 16),
-                    const FieldLabel('Physical address proof'),
+                    FieldLabel(l10n.kycAddressProof),
                     SizedBox(height: 8),
                     _PickerTile(
                       key: const ValueKey('kyc-address-proof'),
                       icon: Icons.home_work_outlined,
-                      title:
-                          addressProof?.name ?? 'Upload utility bill or lease',
+                      title: addressProof?.name ?? l10n.kycUploadAddress,
                       onTap: () => _pickFile((file) => addressProof = file),
                     ),
                     SizedBox(height: 16),
-                    const FieldLabel('Phone verification'),
+                    FieldLabel(l10n.kycPhoneVerification),
                     SizedBox(height: 8),
                     AppTextField(
                       key: const ValueKey('kyc-phone'),
@@ -224,27 +226,27 @@ class _KycScreenState extends State<KycScreen> {
                     SizedBox(height: 10),
                     SecondaryButton(
                       key: const ValueKey('send-phone-code'),
-                      label: sendingPhone ? 'Sending...' : 'Send code',
+                      label: sendingPhone ? l10n.commonSending : l10n.kycSendCode,
                       onPressed: sendingPhone ? null : _sendPhoneCode,
                     ),
                     SizedBox(height: 10),
                     AppTextField(
                       key: const ValueKey('kyc-phone-code'),
                       controller: phoneCodeController,
-                      hintText: 'Verification code',
+                      hintText: l10n.kycVerificationCodeHint,
                       keyboardType: TextInputType.number,
                       prefixIcon: Icons.sms_outlined,
                       textInputAction: TextInputAction.done,
                     ),
                     SizedBox(height: 16),
-                    const FieldLabel('Email verification'),
+                    FieldLabel(l10n.kycEmailVerification),
                     SizedBox(height: 8),
                     _VerificationRow(
                       label: kyc.emailVerified
-                          ? 'Email verified'
-                          : 'Email not verified',
+                          ? l10n.kycEmailVerified
+                          : l10n.kycEmailNotVerified,
                       verified: kyc.emailVerified,
-                      action: sendingEmail ? 'Sending...' : 'Send email',
+                      action: sendingEmail ? l10n.commonSending : l10n.kycSendEmail,
                       onAction: sendingEmail || kyc.emailVerified
                           ? null
                           : _sendEmailVerification,
@@ -252,12 +254,14 @@ class _KycScreenState extends State<KycScreen> {
                     SizedBox(height: 26),
                     PrimaryButton(
                       key: const ValueKey('submit-kyc'),
-                      label: submitting ? 'Submitting...' : 'Submit for review',
+                      label: submitting
+                          ? l10n.commonSubmitting
+                          : l10n.kycSubmitForReview,
                       onPressed: submitting ? null : _submit,
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Phone codes appear in the Firebase Auth emulator. Development emails appear in Mailpit.',
+                      l10n.kycEmulatorNote,
                       style: AppText.disclosure,
                     ),
                   ],
@@ -346,7 +350,9 @@ class _KycScreenState extends State<KycScreen> {
     });
     try {
       await widget.repository.sendEmailVerification();
-      if (mounted) showMessage(context, 'Verification email sent');
+      if (mounted) {
+        showMessage(context, AppLocalizations.of(context).kycEmailSent);
+      }
     } catch (error) {
       if (mounted) _showKycMessage(_kycErrorMessage(error));
     } finally {
@@ -355,8 +361,9 @@ class _KycScreenState extends State<KycScreen> {
   }
 
   Future<void> _sendPhoneCode() async {
+    final l10n = AppLocalizations.of(context);
     if (phoneController.text.trim().isEmpty) {
-      _showKycMessage('Enter your phone number first');
+      _showKycMessage(l10n.kycEnterPhoneFirst);
       return;
     }
     setState(() {
@@ -366,7 +373,7 @@ class _KycScreenState extends State<KycScreen> {
     try {
       await widget.repository.sendPhoneVerificationCode(phoneController.text);
       if (mounted) {
-        showMessage(context, 'Code sent. Check the Firebase Auth emulator.');
+        showMessage(context, l10n.kycCodeSent);
       }
     } catch (error) {
       if (mounted) _showKycMessage(_kycErrorMessage(error));
@@ -376,7 +383,8 @@ class _KycScreenState extends State<KycScreen> {
   }
 
   Future<void> _submit() async {
-    final missing = _missingFields();
+    final l10n = AppLocalizations.of(context);
+    final missing = _missingFields(l10n);
     if (missing != null) {
       _showKycMessage(missing);
       return;
@@ -399,7 +407,7 @@ class _KycScreenState extends State<KycScreen> {
         ),
       );
       if (mounted) {
-        showMessage(context, 'KYC submitted for automatic checks');
+        showMessage(context, l10n.kycSubmitted);
         Navigator.pop(context);
       }
     } catch (error) {
@@ -409,25 +417,25 @@ class _KycScreenState extends State<KycScreen> {
     }
   }
 
-  String? _missingFields() {
-    if (fullNameController.text.trim().isEmpty) return 'Enter your legal name';
-    if (dateOfBirth == null) return 'Select your date of birth';
-    if (governmentId == null) return 'Upload your ID or passport';
-    if (selfie == null) return 'Capture a selfie';
-    if (addressProof == null) return 'Upload address proof';
-    if (phoneController.text.trim().isEmpty) return 'Enter your phone number';
+  String? _missingFields(AppLocalizations l10n) {
+    if (fullNameController.text.trim().isEmpty) return l10n.kycMissingName;
+    if (dateOfBirth == null) return l10n.kycMissingDob;
+    if (governmentId == null) return l10n.kycMissingId;
+    if (selfie == null) return l10n.kycMissingSelfie;
+    if (addressProof == null) return l10n.kycMissingAddress;
+    if (phoneController.text.trim().isEmpty) return l10n.kycMissingPhone;
     if (!_isE164PhoneNumber(phoneController.text.trim())) {
-      return 'Enter your phone number in international format, e.g. +12025550190.';
+      return l10n.kycInvalidPhone;
     }
     if (phoneCodeController.text.trim().isEmpty) {
-      return 'Enter the phone verification code';
+      return l10n.kycMissingCode;
     }
     return null;
   }
 
   void _showKycMessage(String message) {
     final displayMessage = message.trim().isEmpty
-        ? 'We could not update your KYC details. Please try again.'
+        ? AppLocalizations.of(context).kycUpdateFailed
         : message.trim();
     setState(() => kycMessage = displayMessage);
     showMessage(context, displayMessage);

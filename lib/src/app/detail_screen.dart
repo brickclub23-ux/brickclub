@@ -16,6 +16,7 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PhoneFrame(
       child: Scaffold(
         backgroundColor: AppColors.background,
@@ -31,17 +32,23 @@ class DetailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14),
                     child: _AssetGalleryHero(images: opportunity.images),
                   ),
-                  const Positioned(
+                  Positioned(
                     top: 16,
                     left: 14,
-                    child: ChoicePill(label: 'Verified docs', selected: true),
+                    child: ChoicePill(
+                      label: l10n.detailVerifiedDocs,
+                      selected: true,
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 26),
               Text(opportunity.displayTitle, style: AppText.detailTitle),
               Text(
-                '${opportunity.assetClass} BrickShares | ${opportunity.location}',
+                l10n.detailAssetLine(
+                  opportunity.assetClass,
+                  opportunity.location,
+                ),
                 style: AppText.body,
               ),
               SizedBox(height: 20),
@@ -53,12 +60,15 @@ class DetailScreen extends StatelessWidget {
                         Expanded(
                           child: Metric(
                             opportunity.returnText,
-                            'Target return',
+                            l10n.previewTargetReturn,
                             gold: true,
                           ),
                         ),
                         Expanded(
-                          child: Metric(opportunity.minimumText, 'Minimum'),
+                          child: Metric(
+                            opportunity.minimumText,
+                            l10n.previewMinimum,
+                          ),
                         ),
                       ],
                     ),
@@ -70,11 +80,14 @@ class DetailScreen extends StatelessWidget {
                             opportunity.exitPeriod.isNotEmpty
                                 ? opportunity.exitPeriod
                                 : '36 mo',
-                            'Liquidity',
+                            l10n.detailLiquidity,
                           ),
                         ),
                         Expanded(
-                          child: Metric(opportunity.riskLevel, 'Risk level'),
+                          child: Metric(
+                            opportunity.riskLevel,
+                            l10n.filtersRiskLevel,
+                          ),
                         ),
                       ],
                     ),
@@ -89,12 +102,14 @@ class DetailScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            'Funding status',
+                            l10n.detailFundingStatus,
                             style: AppText.cardHeadingSmall,
                           ),
                         ),
                         Text(
-                          '${opportunity.fundedPercentage.toStringAsFixed(0)}% funded',
+                          l10n.detailFundedPercent(
+                            opportunity.fundedPercentage.toStringAsFixed(0),
+                          ),
                           style: AppText.goldBody,
                         ),
                       ],
@@ -107,7 +122,7 @@ class DetailScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 12),
                     Text(
-                      'Supported payment options and quote expiry are shown before settlement confirmation.',
+                      l10n.detailFundingNote,
                       style: AppText.small,
                     ),
                   ],
@@ -116,7 +131,7 @@ class DetailScreen extends StatelessWidget {
               SizedBox(height: 20),
               PrimaryButton(
                 key: const ValueKey('invest-with-crypto'),
-                label: 'Invest with crypto funding',
+                label: l10n.detailInvestButton,
                 onPressed: () => requireApprovedKyc(
                   context,
                   kyc,

@@ -648,4 +648,374 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get themeDarkDescription => '使用经典的 BrickClub 深色界面。';
+
+  @override
+  String get commonSending => '发送中…';
+
+  @override
+  String get commonSubmitting => '提交中…';
+
+  @override
+  String get filtersAssetClass => '资产类别';
+
+  @override
+  String get filtersRiskLevel => '风险等级';
+
+  @override
+  String get filtersPaymentMethod => '支付方式';
+
+  @override
+  String get filtersReset => '重置';
+
+  @override
+  String filtersShow(int count) {
+    return '显示 $count';
+  }
+
+  @override
+  String get successTitle => '凭证已提交';
+
+  @override
+  String get successBody => '您的付款凭证正在等待管理员核实。审核后我们会通知您。';
+
+  @override
+  String get successSettlementStatus => '结算状态';
+
+  @override
+  String get successViewPortfolio => '查看投资组合';
+
+  @override
+  String get detailVerifiedDocs => '已验证文件';
+
+  @override
+  String detailAssetLine(String assetClass, String location) {
+    return '$assetClass BrickShares | $location';
+  }
+
+  @override
+  String get detailLiquidity => '流动性';
+
+  @override
+  String get detailFundingStatus => '募集状态';
+
+  @override
+  String detailFundedPercent(String percent) {
+    return '已募集 $percent%';
+  }
+
+  @override
+  String get detailFundingNote => '支持的付款方式和报价有效期将在结算确认前显示。';
+
+  @override
+  String get detailInvestButton => '使用加密货币出资投资';
+
+  @override
+  String get kycStatusApproved => '金融操作已解锁。';
+
+  @override
+  String get kycStatusSubmitted => '您的文件正在审核中。';
+
+  @override
+  String get kycStatusRejectedDefault => '请检查申请并重新提交。';
+
+  @override
+  String get kycStatusDefault => '购买和钱包变更前必须完成。';
+
+  @override
+  String get kycChipPhone => '电话';
+
+  @override
+  String get kycChipIdentity => '身份';
+
+  @override
+  String get kycChipOk => '完成';
+
+  @override
+  String get kycChipNeeded => '待办';
+
+  @override
+  String get kycViewDetails => '查看 KYC 详情';
+
+  @override
+  String get kycVerifyIdentity => '验证身份';
+
+  @override
+  String get kycFullName => '法定全名';
+
+  @override
+  String get kycFullNameHint => '与您证件上完全一致的姓名';
+
+  @override
+  String get kycDob => '出生日期';
+
+  @override
+  String get kycSelectDate => '选择日期';
+
+  @override
+  String get kycGovId => '政府身份证件或护照';
+
+  @override
+  String get kycUploadId => '上传身份证件';
+
+  @override
+  String get kycSelfie => '自拍 / 人脸验证';
+
+  @override
+  String get kycCaptureSelfie => '拍摄自拍';
+
+  @override
+  String get kycAddressProof => '实际地址证明';
+
+  @override
+  String get kycUploadAddress => '上传水电费账单或租约';
+
+  @override
+  String get kycPhoneVerification => '电话验证';
+
+  @override
+  String get kycSendCode => '发送验证码';
+
+  @override
+  String get kycVerificationCodeHint => '验证码';
+
+  @override
+  String get kycEmailVerification => '电子邮箱验证';
+
+  @override
+  String get kycEmailVerified => '电子邮箱已验证';
+
+  @override
+  String get kycEmailNotVerified => '电子邮箱未验证';
+
+  @override
+  String get kycSendEmail => '发送邮件';
+
+  @override
+  String get kycSubmitForReview => '提交审核';
+
+  @override
+  String get kycEmulatorNote =>
+      '电话验证码会显示在 Firebase Auth 模拟器中。开发邮件会显示在 Mailpit 中。';
+
+  @override
+  String get kycEmailSent => '验证邮件已发送';
+
+  @override
+  String get kycEnterPhoneFirst => '请先输入您的电话号码';
+
+  @override
+  String get kycCodeSent => '验证码已发送。请查看 Firebase Auth 模拟器。';
+
+  @override
+  String get kycSubmitted => 'KYC 已提交进行自动检查';
+
+  @override
+  String get kycMissingName => '请输入您的法定姓名';
+
+  @override
+  String get kycMissingDob => '请选择您的出生日期';
+
+  @override
+  String get kycMissingId => '请上传您的身份证件或护照';
+
+  @override
+  String get kycMissingSelfie => '请拍摄自拍';
+
+  @override
+  String get kycMissingAddress => '请上传地址证明';
+
+  @override
+  String get kycMissingPhone => '请输入您的电话号码';
+
+  @override
+  String get kycInvalidPhone => '请以国际格式输入您的电话号码，例如 +12025550190。';
+
+  @override
+  String get kycMissingCode => '请输入电话验证码';
+
+  @override
+  String get kycUpdateFailed => '无法更新您的 KYC 信息。请重试。';
+
+  @override
+  String get paymentConfirmFunding => '确认出资';
+
+  @override
+  String get paymentSetup => '加密出资设置';
+
+  @override
+  String get paymentStatusDraft => '草稿';
+
+  @override
+  String get paymentStatusActive => '进行中';
+
+  @override
+  String get paymentRail => '支付通道';
+
+  @override
+  String get paymentAmount => '投资金额';
+
+  @override
+  String get paymentAmountHint => '金额（美元）';
+
+  @override
+  String paymentBelowMinimum(String minimum) {
+    return '此机会的最低金额为 $minimum。';
+  }
+
+  @override
+  String get paymentDemoAmount => '创建存款请求前可调整演示金额。';
+
+  @override
+  String get paymentQuotePaymentAsset => '支付资产';
+
+  @override
+  String get paymentQuoteAmount => '金额';
+
+  @override
+  String get paymentQuoteNetwork => '网络';
+
+  @override
+  String get paymentNetworkAfterRequest => '请求后选择';
+
+  @override
+  String get paymentQuote => '报价';
+
+  @override
+  String get paymentQuoteByBackend => '由后端创建';
+
+  @override
+  String get paymentNetworkFee => '网络手续费';
+
+  @override
+  String get paymentFeeByBackend => '由后端计算';
+
+  @override
+  String get paymentSettlement => '结算';
+
+  @override
+  String get paymentPendingConfirmation => '等待确认';
+
+  @override
+  String get paymentConfirmableTitle => '可确认的金融操作';
+
+  @override
+  String get paymentConfirmableBody =>
+      '您正在授权一笔加密货币出资的 BrickShares 购买。结算可能需要网络确认。';
+
+  @override
+  String get paymentCreateRequest => '创建存款请求';
+
+  @override
+  String get paymentSubmitProof => '提交凭证以供审核';
+
+  @override
+  String get paymentIncreaseAmount => '请将金额增加到机会的最低金额。';
+
+  @override
+  String get paymentDepositCreated => '存款请求已创建';
+
+  @override
+  String get paymentEnterHash => '请输入交易哈希';
+
+  @override
+  String get paymentUploadProof => '上传付款凭证';
+
+  @override
+  String get paymentDepositInstructions => '存款说明';
+
+  @override
+  String get paymentWalletAddress => '钱包地址';
+
+  @override
+  String get paymentTransactionHash => '交易哈希';
+
+  @override
+  String get paymentHashHint => '粘贴区块链交易哈希';
+
+  @override
+  String get paymentStepQuote => '报价';
+
+  @override
+  String get paymentStepSend => '发送';
+
+  @override
+  String get paymentStepReview => '审核';
+
+  @override
+  String get paymentCopy => '复制';
+
+  @override
+  String get paymentWalletCopied => '钱包地址已复制';
+
+  @override
+  String get supportNewRequest => '新建支持请求';
+
+  @override
+  String get supportNoRequestsTitle => '暂无支持请求';
+
+  @override
+  String get supportNoRequestsBody =>
+      '当您需要账户、KYC、钱包或投资方面的帮助时，请与 BrickClub 团队开始对话。';
+
+  @override
+  String get supportSendRequest => '发送请求';
+
+  @override
+  String get supportReplyTitle => '回复支持';
+
+  @override
+  String get supportSendReply => '发送回复';
+
+  @override
+  String supportMessagesCount(int count) {
+    return '$count 条消息';
+  }
+
+  @override
+  String get supportRequestClosed => '请求已关闭';
+
+  @override
+  String get supportReply => '回复';
+
+  @override
+  String get supportTalkDirectly => '直接联系我们';
+
+  @override
+  String get supportTalkBody =>
+      '想快速聊聊？通过 WhatsApp 或 Telegram 联系 BrickClub 支持团队以获得更快帮助。';
+
+  @override
+  String get supportNoMessagesYet => '暂无消息';
+
+  @override
+  String get supportTeamName => 'BrickClub 支持';
+
+  @override
+  String get supportYou => '您';
+
+  @override
+  String get supportSubject => '主题';
+
+  @override
+  String get supportSubjectHint => '您需要什么帮助？';
+
+  @override
+  String get supportMessage => '消息';
+
+  @override
+  String get supportMessageHint => '输入您的消息';
+
+  @override
+  String get supportEnterSubject => '请输入主题';
+
+  @override
+  String get supportEnterMessage => '请输入消息';
+
+  @override
+  String get supportMessageSent => '消息已发送';
+
+  @override
+  String supportCouldNotOpen(String url) {
+    return '无法打开 $url';
+  }
 }

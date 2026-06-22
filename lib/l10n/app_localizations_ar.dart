@@ -683,4 +683,379 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get themeDarkDescription =>
       'استخدام واجهة BrickClub الداكنة الكلاسيكية.';
+
+  @override
+  String get commonSending => 'جارٍ الإرسال…';
+
+  @override
+  String get commonSubmitting => 'جارٍ الإرسال…';
+
+  @override
+  String get filtersAssetClass => 'فئة الأصل';
+
+  @override
+  String get filtersRiskLevel => 'مستوى المخاطر';
+
+  @override
+  String get filtersPaymentMethod => 'طريقة الدفع';
+
+  @override
+  String get filtersReset => 'إعادة تعيين';
+
+  @override
+  String filtersShow(int count) {
+    return 'عرض $count';
+  }
+
+  @override
+  String get successTitle => 'تم إرسال الإثبات';
+
+  @override
+  String get successBody =>
+      'إثبات الدفع الخاص بك في انتظار التحقق من قِبل المسؤول. سنُعلمك بعد المراجعة.';
+
+  @override
+  String get successSettlementStatus => 'حالة التسوية';
+
+  @override
+  String get successViewPortfolio => 'عرض المحفظة';
+
+  @override
+  String get detailVerifiedDocs => 'مستندات موثَّقة';
+
+  @override
+  String detailAssetLine(String assetClass, String location) {
+    return '$assetClass BrickShares | $location';
+  }
+
+  @override
+  String get detailLiquidity => 'السيولة';
+
+  @override
+  String get detailFundingStatus => 'حالة التمويل';
+
+  @override
+  String detailFundedPercent(String percent) {
+    return 'تم تمويل $percent%';
+  }
+
+  @override
+  String get detailFundingNote =>
+      'تُعرض خيارات الدفع المدعومة وانتهاء صلاحية العرض قبل تأكيد التسوية.';
+
+  @override
+  String get detailInvestButton => 'الاستثمار بالتمويل المشفَّر';
+
+  @override
+  String get kycStatusApproved => 'تم فتح الإجراءات المالية.';
+
+  @override
+  String get kycStatusSubmitted => 'مستنداتك قيد المراجعة.';
+
+  @override
+  String get kycStatusRejectedDefault => 'راجع الطلب وأعد الإرسال.';
+
+  @override
+  String get kycStatusDefault => 'مطلوب قبل عمليات الشراء وتغييرات المحفظة.';
+
+  @override
+  String get kycChipPhone => 'الهاتف';
+
+  @override
+  String get kycChipIdentity => 'الهوية';
+
+  @override
+  String get kycChipOk => 'تم';
+
+  @override
+  String get kycChipNeeded => 'مطلوب';
+
+  @override
+  String get kycViewDetails => 'عرض تفاصيل KYC';
+
+  @override
+  String get kycVerifyIdentity => 'التحقق من الهوية';
+
+  @override
+  String get kycFullName => 'الاسم القانوني الكامل';
+
+  @override
+  String get kycFullNameHint => 'الاسم تمامًا كما يظهر في هويتك';
+
+  @override
+  String get kycDob => 'تاريخ الميلاد';
+
+  @override
+  String get kycSelectDate => 'اختر التاريخ';
+
+  @override
+  String get kycGovId => 'هوية حكومية أو جواز سفر';
+
+  @override
+  String get kycUploadId => 'رفع وثيقة الهوية';
+
+  @override
+  String get kycSelfie => 'صورة ذاتية / التحقق من الوجه';
+
+  @override
+  String get kycCaptureSelfie => 'التقاط صورة ذاتية';
+
+  @override
+  String get kycAddressProof => 'إثبات العنوان الفعلي';
+
+  @override
+  String get kycUploadAddress => 'رفع فاتورة خدمات أو عقد إيجار';
+
+  @override
+  String get kycPhoneVerification => 'التحقق من الهاتف';
+
+  @override
+  String get kycSendCode => 'إرسال الرمز';
+
+  @override
+  String get kycVerificationCodeHint => 'رمز التحقق';
+
+  @override
+  String get kycEmailVerification => 'التحقق من البريد الإلكتروني';
+
+  @override
+  String get kycEmailVerified => 'تم التحقق من البريد الإلكتروني';
+
+  @override
+  String get kycEmailNotVerified => 'لم يتم التحقق من البريد الإلكتروني';
+
+  @override
+  String get kycSendEmail => 'إرسال بريد إلكتروني';
+
+  @override
+  String get kycSubmitForReview => 'إرسال للمراجعة';
+
+  @override
+  String get kycEmulatorNote =>
+      'تظهر رموز الهاتف في محاكي Firebase Auth. تظهر رسائل التطوير في Mailpit.';
+
+  @override
+  String get kycEmailSent => 'تم إرسال بريد التحقق';
+
+  @override
+  String get kycEnterPhoneFirst => 'أدخل رقم هاتفك أولًا';
+
+  @override
+  String get kycCodeSent => 'تم إرسال الرمز. تحقق من محاكي Firebase Auth.';
+
+  @override
+  String get kycSubmitted => 'تم إرسال KYC لإجراء الفحوص التلقائية';
+
+  @override
+  String get kycMissingName => 'أدخل اسمك القانوني';
+
+  @override
+  String get kycMissingDob => 'اختر تاريخ ميلادك';
+
+  @override
+  String get kycMissingId => 'ارفع هويتك أو جواز سفرك';
+
+  @override
+  String get kycMissingSelfie => 'التقط صورة ذاتية';
+
+  @override
+  String get kycMissingAddress => 'ارفع إثبات العنوان';
+
+  @override
+  String get kycMissingPhone => 'أدخل رقم هاتفك';
+
+  @override
+  String get kycInvalidPhone =>
+      'أدخل رقم هاتفك بالصيغة الدولية، مثال: +12025550190.';
+
+  @override
+  String get kycMissingCode => 'أدخل رمز التحقق من الهاتف';
+
+  @override
+  String get kycUpdateFailed =>
+      'تعذّر تحديث بيانات KYC الخاصة بك. يُرجى المحاولة مرة أخرى.';
+
+  @override
+  String get paymentConfirmFunding => 'تأكيد التمويل';
+
+  @override
+  String get paymentSetup => 'إعداد التمويل المشفَّر';
+
+  @override
+  String get paymentStatusDraft => 'مسودة';
+
+  @override
+  String get paymentStatusActive => 'نشط';
+
+  @override
+  String get paymentRail => 'قناة الدفع';
+
+  @override
+  String get paymentAmount => 'مبلغ الاستثمار';
+
+  @override
+  String get paymentAmountHint => 'المبلغ بالدولار الأمريكي';
+
+  @override
+  String paymentBelowMinimum(String minimum) {
+    return 'الحد الأدنى لهذه الفرصة هو $minimum.';
+  }
+
+  @override
+  String get paymentDemoAmount =>
+      'يمكن تعديل المبلغ التجريبي قبل إنشاء طلب الإيداع.';
+
+  @override
+  String get paymentQuotePaymentAsset => 'أصل الدفع';
+
+  @override
+  String get paymentQuoteAmount => 'المبلغ';
+
+  @override
+  String get paymentQuoteNetwork => 'الشبكة';
+
+  @override
+  String get paymentNetworkAfterRequest => 'يتم تحديدها بعد الطلب';
+
+  @override
+  String get paymentQuote => 'عرض السعر';
+
+  @override
+  String get paymentQuoteByBackend => 'يُنشأ بواسطة الخادم';
+
+  @override
+  String get paymentNetworkFee => 'رسوم الشبكة';
+
+  @override
+  String get paymentFeeByBackend => 'تُحسب بواسطة الخادم';
+
+  @override
+  String get paymentSettlement => 'التسوية';
+
+  @override
+  String get paymentPendingConfirmation => 'في انتظار التأكيد';
+
+  @override
+  String get paymentConfirmableTitle => 'إجراء مالي قابل للتأكيد';
+
+  @override
+  String get paymentConfirmableBody =>
+      'أنت تُصرّح بعملية شراء BrickShares ممولة بالعملات المشفرة. قد تستغرق التسوية تأكيدات الشبكة.';
+
+  @override
+  String get paymentCreateRequest => 'إنشاء طلب إيداع';
+
+  @override
+  String get paymentSubmitProof => 'إرسال الإثبات للمراجعة';
+
+  @override
+  String get paymentIncreaseAmount => 'ارفع المبلغ إلى الحد الأدنى للفرصة.';
+
+  @override
+  String get paymentDepositCreated => 'تم إنشاء طلب الإيداع';
+
+  @override
+  String get paymentEnterHash => 'أدخل تجزئة المعاملة';
+
+  @override
+  String get paymentUploadProof => 'ارفع إثبات الدفع';
+
+  @override
+  String get paymentDepositInstructions => 'تعليمات الإيداع';
+
+  @override
+  String get paymentWalletAddress => 'عنوان المحفظة';
+
+  @override
+  String get paymentTransactionHash => 'تجزئة المعاملة';
+
+  @override
+  String get paymentHashHint => 'الصق تجزئة معاملة البلوكتشين';
+
+  @override
+  String get paymentStepQuote => 'عرض السعر';
+
+  @override
+  String get paymentStepSend => 'إرسال';
+
+  @override
+  String get paymentStepReview => 'مراجعة';
+
+  @override
+  String get paymentCopy => 'نسخ';
+
+  @override
+  String get paymentWalletCopied => 'تم نسخ عنوان المحفظة';
+
+  @override
+  String get supportNewRequest => 'طلب دعم جديد';
+
+  @override
+  String get supportNoRequestsTitle => 'لا توجد طلبات دعم بعد';
+
+  @override
+  String get supportNoRequestsBody =>
+      'ابدأ محادثة مع فريق BrickClub عندما تحتاج إلى مساعدة بشأن الحساب أو KYC أو المحفظة أو الاستثمار.';
+
+  @override
+  String get supportSendRequest => 'إرسال الطلب';
+
+  @override
+  String get supportReplyTitle => 'الرد على الدعم';
+
+  @override
+  String get supportSendReply => 'إرسال الرد';
+
+  @override
+  String supportMessagesCount(int count) {
+    return '$count رسالة';
+  }
+
+  @override
+  String get supportRequestClosed => 'تم إغلاق الطلب';
+
+  @override
+  String get supportReply => 'رد';
+
+  @override
+  String get supportTalkDirectly => 'تحدث إلينا مباشرةً';
+
+  @override
+  String get supportTalkBody =>
+      'تفضّل محادثة سريعة؟ تواصل مع فريق دعم BrickClub عبر WhatsApp أو Telegram للحصول على مساعدة أسرع.';
+
+  @override
+  String get supportNoMessagesYet => 'لا توجد رسائل بعد';
+
+  @override
+  String get supportTeamName => 'دعم BrickClub';
+
+  @override
+  String get supportYou => 'أنت';
+
+  @override
+  String get supportSubject => 'الموضوع';
+
+  @override
+  String get supportSubjectHint => 'بماذا تحتاج المساعدة؟';
+
+  @override
+  String get supportMessage => 'الرسالة';
+
+  @override
+  String get supportMessageHint => 'اكتب رسالتك';
+
+  @override
+  String get supportEnterSubject => 'أدخل موضوعًا';
+
+  @override
+  String get supportEnterMessage => 'أدخل رسالة';
+
+  @override
+  String get supportMessageSent => 'تم إرسال الرسالة';
+
+  @override
+  String supportCouldNotOpen(String url) {
+    return 'تعذّر فتح $url';
+  }
 }

@@ -687,4 +687,381 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get themeDarkDescription =>
       'Use the classic dark BrickClub interface.';
+
+  @override
+  String get commonSending => 'Sending...';
+
+  @override
+  String get commonSubmitting => 'Submitting...';
+
+  @override
+  String get filtersAssetClass => 'Asset class';
+
+  @override
+  String get filtersRiskLevel => 'Risk level';
+
+  @override
+  String get filtersPaymentMethod => 'Payment method';
+
+  @override
+  String get filtersReset => 'Reset';
+
+  @override
+  String filtersShow(int count) {
+    return 'Show $count';
+  }
+
+  @override
+  String get successTitle => 'Proof submitted';
+
+  @override
+  String get successBody =>
+      'Your proof of payment is awaiting admin verification. We will notify you after review.';
+
+  @override
+  String get successSettlementStatus => 'Settlement status';
+
+  @override
+  String get successViewPortfolio => 'View portfolio';
+
+  @override
+  String get detailVerifiedDocs => 'Verified docs';
+
+  @override
+  String detailAssetLine(String assetClass, String location) {
+    return '$assetClass BrickShares | $location';
+  }
+
+  @override
+  String get detailLiquidity => 'Liquidity';
+
+  @override
+  String get detailFundingStatus => 'Funding status';
+
+  @override
+  String detailFundedPercent(String percent) {
+    return '$percent% funded';
+  }
+
+  @override
+  String get detailFundingNote =>
+      'Supported payment options and quote expiry are shown before settlement confirmation.';
+
+  @override
+  String get detailInvestButton => 'Invest with crypto funding';
+
+  @override
+  String get kycStatusApproved => 'Financial actions are unlocked.';
+
+  @override
+  String get kycStatusSubmitted => 'Your documents are under review.';
+
+  @override
+  String get kycStatusRejectedDefault => 'Review the request and resubmit.';
+
+  @override
+  String get kycStatusDefault =>
+      'Required before purchases and wallet changes.';
+
+  @override
+  String get kycChipPhone => 'Phone';
+
+  @override
+  String get kycChipIdentity => 'Identity';
+
+  @override
+  String get kycChipOk => 'OK';
+
+  @override
+  String get kycChipNeeded => 'Needed';
+
+  @override
+  String get kycViewDetails => 'View KYC details';
+
+  @override
+  String get kycVerifyIdentity => 'Verify identity';
+
+  @override
+  String get kycFullName => 'Full legal name';
+
+  @override
+  String get kycFullNameHint => 'Name exactly as shown on your ID';
+
+  @override
+  String get kycDob => 'Date of birth';
+
+  @override
+  String get kycSelectDate => 'Select date';
+
+  @override
+  String get kycGovId => 'Government ID or passport';
+
+  @override
+  String get kycUploadId => 'Upload ID document';
+
+  @override
+  String get kycSelfie => 'Selfie / face verification';
+
+  @override
+  String get kycCaptureSelfie => 'Capture selfie';
+
+  @override
+  String get kycAddressProof => 'Physical address proof';
+
+  @override
+  String get kycUploadAddress => 'Upload utility bill or lease';
+
+  @override
+  String get kycPhoneVerification => 'Phone verification';
+
+  @override
+  String get kycSendCode => 'Send code';
+
+  @override
+  String get kycVerificationCodeHint => 'Verification code';
+
+  @override
+  String get kycEmailVerification => 'Email verification';
+
+  @override
+  String get kycEmailVerified => 'Email verified';
+
+  @override
+  String get kycEmailNotVerified => 'Email not verified';
+
+  @override
+  String get kycSendEmail => 'Send email';
+
+  @override
+  String get kycSubmitForReview => 'Submit for review';
+
+  @override
+  String get kycEmulatorNote =>
+      'Phone codes appear in the Firebase Auth emulator. Development emails appear in Mailpit.';
+
+  @override
+  String get kycEmailSent => 'Verification email sent';
+
+  @override
+  String get kycEnterPhoneFirst => 'Enter your phone number first';
+
+  @override
+  String get kycCodeSent => 'Code sent. Check the Firebase Auth emulator.';
+
+  @override
+  String get kycSubmitted => 'KYC submitted for automatic checks';
+
+  @override
+  String get kycMissingName => 'Enter your legal name';
+
+  @override
+  String get kycMissingDob => 'Select your date of birth';
+
+  @override
+  String get kycMissingId => 'Upload your ID or passport';
+
+  @override
+  String get kycMissingSelfie => 'Capture a selfie';
+
+  @override
+  String get kycMissingAddress => 'Upload address proof';
+
+  @override
+  String get kycMissingPhone => 'Enter your phone number';
+
+  @override
+  String get kycInvalidPhone =>
+      'Enter your phone number in international format, e.g. +12025550190.';
+
+  @override
+  String get kycMissingCode => 'Enter the phone verification code';
+
+  @override
+  String get kycUpdateFailed =>
+      'We could not update your KYC details. Please try again.';
+
+  @override
+  String get paymentConfirmFunding => 'Confirm funding';
+
+  @override
+  String get paymentSetup => 'Crypto funding setup';
+
+  @override
+  String get paymentStatusDraft => 'Draft';
+
+  @override
+  String get paymentStatusActive => 'Active';
+
+  @override
+  String get paymentRail => 'Payment rail';
+
+  @override
+  String get paymentAmount => 'Investment amount';
+
+  @override
+  String get paymentAmountHint => 'Amount in USD';
+
+  @override
+  String paymentBelowMinimum(String minimum) {
+    return 'Minimum for this opportunity is $minimum.';
+  }
+
+  @override
+  String get paymentDemoAmount =>
+      'Demo amount can be adjusted before creating the deposit request.';
+
+  @override
+  String get paymentQuotePaymentAsset => 'Payment asset';
+
+  @override
+  String get paymentQuoteAmount => 'Amount';
+
+  @override
+  String get paymentQuoteNetwork => 'Network';
+
+  @override
+  String get paymentNetworkAfterRequest => 'Selected after request';
+
+  @override
+  String get paymentQuote => 'Quote';
+
+  @override
+  String get paymentQuoteByBackend => 'Created by backend';
+
+  @override
+  String get paymentNetworkFee => 'Network fee';
+
+  @override
+  String get paymentFeeByBackend => 'Calculated by backend';
+
+  @override
+  String get paymentSettlement => 'Settlement';
+
+  @override
+  String get paymentPendingConfirmation => 'Pending confirmation';
+
+  @override
+  String get paymentConfirmableTitle => 'Confirmable financial action';
+
+  @override
+  String get paymentConfirmableBody =>
+      'You are authorizing a crypto-funded BrickShares purchase. Settlement may take network confirmations.';
+
+  @override
+  String get paymentCreateRequest => 'Create deposit request';
+
+  @override
+  String get paymentSubmitProof => 'Submit proof for review';
+
+  @override
+  String get paymentIncreaseAmount =>
+      'Increase the amount to the opportunity minimum.';
+
+  @override
+  String get paymentDepositCreated => 'Deposit request created';
+
+  @override
+  String get paymentEnterHash => 'Enter the transaction hash';
+
+  @override
+  String get paymentUploadProof => 'Upload proof of payment';
+
+  @override
+  String get paymentDepositInstructions => 'Deposit instructions';
+
+  @override
+  String get paymentWalletAddress => 'Wallet address';
+
+  @override
+  String get paymentTransactionHash => 'Transaction hash';
+
+  @override
+  String get paymentHashHint => 'Paste blockchain transaction hash';
+
+  @override
+  String get paymentStepQuote => 'Quote';
+
+  @override
+  String get paymentStepSend => 'Send';
+
+  @override
+  String get paymentStepReview => 'Review';
+
+  @override
+  String get paymentCopy => 'Copy';
+
+  @override
+  String get paymentWalletCopied => 'Wallet address copied';
+
+  @override
+  String get supportNewRequest => 'New support request';
+
+  @override
+  String get supportNoRequestsTitle => 'No support requests yet';
+
+  @override
+  String get supportNoRequestsBody =>
+      'Start a conversation with the BrickClub team when you need account, KYC, wallet, or investment help.';
+
+  @override
+  String get supportSendRequest => 'Send request';
+
+  @override
+  String get supportReplyTitle => 'Reply to support';
+
+  @override
+  String get supportSendReply => 'Send reply';
+
+  @override
+  String supportMessagesCount(int count) {
+    return '$count messages';
+  }
+
+  @override
+  String get supportRequestClosed => 'Request closed';
+
+  @override
+  String get supportReply => 'Reply';
+
+  @override
+  String get supportTalkDirectly => 'Talk to us directly';
+
+  @override
+  String get supportTalkBody =>
+      'Prefer a quick chat? Reach the BrickClub support team on WhatsApp or Telegram for faster help.';
+
+  @override
+  String get supportNoMessagesYet => 'No messages yet';
+
+  @override
+  String get supportTeamName => 'BrickClub support';
+
+  @override
+  String get supportYou => 'You';
+
+  @override
+  String get supportSubject => 'Subject';
+
+  @override
+  String get supportSubjectHint => 'What do you need help with?';
+
+  @override
+  String get supportMessage => 'Message';
+
+  @override
+  String get supportMessageHint => 'Type your message';
+
+  @override
+  String get supportEnterSubject => 'Enter a subject';
+
+  @override
+  String get supportEnterMessage => 'Enter a message';
+
+  @override
+  String get supportMessageSent => 'Message sent';
+
+  @override
+  String supportCouldNotOpen(String url) {
+    return 'Could not open $url';
+  }
 }

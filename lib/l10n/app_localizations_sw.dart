@@ -695,4 +695,384 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get themeDarkDescription =>
       'Tumia kiolesura cha giza cha kawaida cha BrickClub.';
+
+  @override
+  String get commonSending => 'Inatuma…';
+
+  @override
+  String get commonSubmitting => 'Inawasilisha…';
+
+  @override
+  String get filtersAssetClass => 'Aina ya mali';
+
+  @override
+  String get filtersRiskLevel => 'Kiwango cha hatari';
+
+  @override
+  String get filtersPaymentMethod => 'Njia ya malipo';
+
+  @override
+  String get filtersReset => 'Weka upya';
+
+  @override
+  String filtersShow(int count) {
+    return 'Onyesha $count';
+  }
+
+  @override
+  String get successTitle => 'Uthibitisho umewasilishwa';
+
+  @override
+  String get successBody =>
+      'Uthibitisho wako wa malipo unasubiri uhakiki wa msimamizi. Tutakujulisha baada ya ukaguzi.';
+
+  @override
+  String get successSettlementStatus => 'Hali ya malipo';
+
+  @override
+  String get successViewPortfolio => 'Tazama kasha';
+
+  @override
+  String get detailVerifiedDocs => 'Nyaraka zilizothibitishwa';
+
+  @override
+  String detailAssetLine(String assetClass, String location) {
+    return '$assetClass BrickShares | $location';
+  }
+
+  @override
+  String get detailLiquidity => 'Ukwasi';
+
+  @override
+  String get detailFundingStatus => 'Hali ya ufadhili';
+
+  @override
+  String detailFundedPercent(String percent) {
+    return 'Imefadhiliwa $percent%';
+  }
+
+  @override
+  String get detailFundingNote =>
+      'Njia za malipo zinazotumika na mwisho wa bei huonyeshwa kabla ya uthibitisho wa malipo.';
+
+  @override
+  String get detailInvestButton => 'Wekeza kwa ufadhili wa sarafu-fiche';
+
+  @override
+  String get kycStatusApproved => 'Shughuli za kifedha zimefunguliwa.';
+
+  @override
+  String get kycStatusSubmitted => 'Nyaraka zako zinakaguliwa.';
+
+  @override
+  String get kycStatusRejectedDefault => 'Kagua ombi na uwasilishe tena.';
+
+  @override
+  String get kycStatusDefault =>
+      'Inahitajika kabla ya ununuzi na mabadiliko ya pochi.';
+
+  @override
+  String get kycChipPhone => 'Simu';
+
+  @override
+  String get kycChipIdentity => 'Utambulisho';
+
+  @override
+  String get kycChipOk => 'Sawa';
+
+  @override
+  String get kycChipNeeded => 'Inahitajika';
+
+  @override
+  String get kycViewDetails => 'Tazama maelezo ya KYC';
+
+  @override
+  String get kycVerifyIdentity => 'Thibitisha utambulisho';
+
+  @override
+  String get kycFullName => 'Jina kamili rasmi';
+
+  @override
+  String get kycFullNameHint =>
+      'Jina kama linavyoonekana kwenye kitambulisho chako';
+
+  @override
+  String get kycDob => 'Tarehe ya kuzaliwa';
+
+  @override
+  String get kycSelectDate => 'Chagua tarehe';
+
+  @override
+  String get kycGovId => 'Kitambulisho cha serikali au pasipoti';
+
+  @override
+  String get kycUploadId => 'Pakia hati ya kitambulisho';
+
+  @override
+  String get kycSelfie => 'Selfie / uthibitisho wa uso';
+
+  @override
+  String get kycCaptureSelfie => 'Piga selfie';
+
+  @override
+  String get kycAddressProof => 'Uthibitisho wa anwani halisi';
+
+  @override
+  String get kycUploadAddress => 'Pakia bili ya huduma au mkataba wa kukodi';
+
+  @override
+  String get kycPhoneVerification => 'Uthibitisho wa simu';
+
+  @override
+  String get kycSendCode => 'Tuma msimbo';
+
+  @override
+  String get kycVerificationCodeHint => 'Msimbo wa uthibitisho';
+
+  @override
+  String get kycEmailVerification => 'Uthibitisho wa barua pepe';
+
+  @override
+  String get kycEmailVerified => 'Barua pepe imethibitishwa';
+
+  @override
+  String get kycEmailNotVerified => 'Barua pepe haijathibitishwa';
+
+  @override
+  String get kycSendEmail => 'Tuma barua pepe';
+
+  @override
+  String get kycSubmitForReview => 'Wasilisha kwa ukaguzi';
+
+  @override
+  String get kycEmulatorNote =>
+      'Misimbo ya simu inaonekana kwenye emuleta ya Firebase Auth. Barua pepe za maendeleo zinaonekana katika Mailpit.';
+
+  @override
+  String get kycEmailSent => 'Barua pepe ya uthibitisho imetumwa';
+
+  @override
+  String get kycEnterPhoneFirst => 'Weka nambari yako ya simu kwanza';
+
+  @override
+  String get kycCodeSent =>
+      'Msimbo umetumwa. Angalia emuleta ya Firebase Auth.';
+
+  @override
+  String get kycSubmitted => 'KYC imewasilishwa kwa ukaguzi wa kiotomatiki';
+
+  @override
+  String get kycMissingName => 'Weka jina lako rasmi';
+
+  @override
+  String get kycMissingDob => 'Chagua tarehe yako ya kuzaliwa';
+
+  @override
+  String get kycMissingId => 'Pakia kitambulisho chako au pasipoti';
+
+  @override
+  String get kycMissingSelfie => 'Piga selfie';
+
+  @override
+  String get kycMissingAddress => 'Pakia uthibitisho wa anwani';
+
+  @override
+  String get kycMissingPhone => 'Weka nambari yako ya simu';
+
+  @override
+  String get kycInvalidPhone =>
+      'Weka nambari yako ya simu kwa muundo wa kimataifa, mf. +12025550190.';
+
+  @override
+  String get kycMissingCode => 'Weka msimbo wa uthibitisho wa simu';
+
+  @override
+  String get kycUpdateFailed =>
+      'Hatukuweza kusasisha maelezo yako ya KYC. Tafadhali jaribu tena.';
+
+  @override
+  String get paymentConfirmFunding => 'Thibitisha ufadhili';
+
+  @override
+  String get paymentSetup => 'Usanidi wa ufadhili wa sarafu-fiche';
+
+  @override
+  String get paymentStatusDraft => 'Rasimu';
+
+  @override
+  String get paymentStatusActive => 'Inaendelea';
+
+  @override
+  String get paymentRail => 'Njia ya malipo';
+
+  @override
+  String get paymentAmount => 'Kiasi cha uwekezaji';
+
+  @override
+  String get paymentAmountHint => 'Kiasi kwa USD';
+
+  @override
+  String paymentBelowMinimum(String minimum) {
+    return 'Kiwango cha chini cha fursa hii ni $minimum.';
+  }
+
+  @override
+  String get paymentDemoAmount =>
+      'Kiasi cha onyesho kinaweza kurekebishwa kabla ya kuunda ombi la amana.';
+
+  @override
+  String get paymentQuotePaymentAsset => 'Mali ya malipo';
+
+  @override
+  String get paymentQuoteAmount => 'Kiasi';
+
+  @override
+  String get paymentQuoteNetwork => 'Mtandao';
+
+  @override
+  String get paymentNetworkAfterRequest => 'Huchaguliwa baada ya ombi';
+
+  @override
+  String get paymentQuote => 'Bei';
+
+  @override
+  String get paymentQuoteByBackend => 'Imeundwa na seva';
+
+  @override
+  String get paymentNetworkFee => 'Ada ya mtandao';
+
+  @override
+  String get paymentFeeByBackend => 'Imehesabiwa na seva';
+
+  @override
+  String get paymentSettlement => 'Malipo';
+
+  @override
+  String get paymentPendingConfirmation => 'Inasubiri uthibitisho';
+
+  @override
+  String get paymentConfirmableTitle =>
+      'Kitendo cha kifedha kinachoweza kuthibitishwa';
+
+  @override
+  String get paymentConfirmableBody =>
+      'Unaidhinisha ununuzi wa BrickShares uliofadhiliwa kwa sarafu-fiche. Malipo yanaweza kuhitaji uthibitisho wa mtandao.';
+
+  @override
+  String get paymentCreateRequest => 'Unda ombi la amana';
+
+  @override
+  String get paymentSubmitProof => 'Wasilisha uthibitisho kwa ukaguzi';
+
+  @override
+  String get paymentIncreaseAmount =>
+      'Ongeza kiasi hadi kiwango cha chini cha fursa.';
+
+  @override
+  String get paymentDepositCreated => 'Ombi la amana limeundwa';
+
+  @override
+  String get paymentEnterHash => 'Weka hashi ya muamala';
+
+  @override
+  String get paymentUploadProof => 'Pakia uthibitisho wa malipo';
+
+  @override
+  String get paymentDepositInstructions => 'Maelekezo ya amana';
+
+  @override
+  String get paymentWalletAddress => 'Anwani ya pochi';
+
+  @override
+  String get paymentTransactionHash => 'Hashi ya muamala';
+
+  @override
+  String get paymentHashHint => 'Bandika hashi ya muamala wa blockchain';
+
+  @override
+  String get paymentStepQuote => 'Bei';
+
+  @override
+  String get paymentStepSend => 'Tuma';
+
+  @override
+  String get paymentStepReview => 'Kagua';
+
+  @override
+  String get paymentCopy => 'Nakili';
+
+  @override
+  String get paymentWalletCopied => 'Anwani ya pochi imenakiliwa';
+
+  @override
+  String get supportNewRequest => 'Ombi jipya la msaada';
+
+  @override
+  String get supportNoRequestsTitle => 'Bado hakuna maombi ya msaada';
+
+  @override
+  String get supportNoRequestsBody =>
+      'Anzisha mazungumzo na timu ya BrickClub unapohitaji msaada wa akaunti, KYC, pochi, au uwekezaji.';
+
+  @override
+  String get supportSendRequest => 'Tuma ombi';
+
+  @override
+  String get supportReplyTitle => 'Jibu kwa msaada';
+
+  @override
+  String get supportSendReply => 'Tuma jibu';
+
+  @override
+  String supportMessagesCount(int count) {
+    return 'Ujumbe $count';
+  }
+
+  @override
+  String get supportRequestClosed => 'Ombi limefungwa';
+
+  @override
+  String get supportReply => 'Jibu';
+
+  @override
+  String get supportTalkDirectly => 'Zungumza nasi moja kwa moja';
+
+  @override
+  String get supportTalkBody =>
+      'Unapendelea gumzo la haraka? Wasiliana na timu ya msaada ya BrickClub kupitia WhatsApp au Telegram kwa msaada wa haraka.';
+
+  @override
+  String get supportNoMessagesYet => 'Bado hakuna ujumbe';
+
+  @override
+  String get supportTeamName => 'Msaada wa BrickClub';
+
+  @override
+  String get supportYou => 'Wewe';
+
+  @override
+  String get supportSubject => 'Mada';
+
+  @override
+  String get supportSubjectHint => 'Unahitaji msaada wa nini?';
+
+  @override
+  String get supportMessage => 'Ujumbe';
+
+  @override
+  String get supportMessageHint => 'Andika ujumbe wako';
+
+  @override
+  String get supportEnterSubject => 'Weka mada';
+
+  @override
+  String get supportEnterMessage => 'Weka ujumbe';
+
+  @override
+  String get supportMessageSent => 'Ujumbe umetumwa';
+
+  @override
+  String supportCouldNotOpen(String url) {
+    return 'Imeshindwa kufungua $url';
+  }
 }

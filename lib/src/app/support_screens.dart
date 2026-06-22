@@ -17,10 +17,11 @@ class SupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PhoneFrame(
       child: Scaffold(
         backgroundColor: AppColors.background,
-        appBar: detailAppBar(context, 'Support'),
+        appBar: detailAppBar(context, l10n.profileSupport),
         body: StreamBuilder<List<SupportTicket>>(
           stream: repository.watchMyTickets(),
           builder: (context, snapshot) {
@@ -30,7 +31,7 @@ class SupportScreen extends StatelessWidget {
               children: [
                 PrimaryButton(
                   key: const ValueKey('new-support-ticket'),
-                  label: 'New support request',
+                  label: l10n.supportNewRequest,
                   onPressed: () => _showCreateTicket(context),
                 ),
                 SizedBox(height: 18),
@@ -48,10 +49,10 @@ class SupportScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('No support requests yet', style: AppText.h2),
+                        Text(l10n.supportNoRequestsTitle, style: AppText.h2),
                         SizedBox(height: 8),
                         Text(
-                          'Start a conversation with the BrickClub team when you need account, KYC, wallet, or investment help.',
+                          l10n.supportNoRequestsBody,
                           style: AppText.body,
                         ),
                       ],
@@ -83,6 +84,7 @@ class SupportScreen extends StatelessWidget {
   }
 
   Future<void> _showCreateTicket(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -91,9 +93,9 @@ class SupportScreen extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (_) => _SupportComposerSheet(
-        title: 'New support request',
+        title: l10n.supportNewRequest,
         subjectEnabled: true,
-        submitLabel: 'Send request',
+        submitLabel: l10n.supportSendRequest,
         onSubmit: (subject, message) async {
           await repository.createTicket(subject: subject, message: message);
         },
@@ -114,6 +116,7 @@ class SupportThreadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PhoneFrame(
       child: Scaffold(
         backgroundColor: AppColors.background,
@@ -126,7 +129,10 @@ class SupportThreadScreen extends StatelessWidget {
                 Expanded(
                   child: Text(ticket.status.label, style: AppText.goldBody),
                 ),
-                Text('${ticket.messages.length} messages', style: AppText.tiny),
+                Text(
+                  l10n.supportMessagesCount(ticket.messages.length),
+                  style: AppText.tiny,
+                ),
               ],
             ),
             SizedBox(height: 16),
@@ -135,7 +141,7 @@ class SupportThreadScreen extends StatelessWidget {
             SizedBox(height: 16),
             PrimaryButton(
               key: const ValueKey('reply-support-ticket'),
-              label: ticket.isClosed ? 'Request closed' : 'Reply',
+              label: ticket.isClosed ? l10n.supportRequestClosed : l10n.supportReply,
               onPressed: ticket.isClosed ? null : () => _showReply(context),
             ),
           ],
@@ -145,6 +151,7 @@ class SupportThreadScreen extends StatelessWidget {
   }
 
   Future<void> _showReply(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -153,9 +160,9 @@ class SupportThreadScreen extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (_) => _SupportComposerSheet(
-        title: 'Reply to support',
+        title: l10n.supportReplyTitle,
         subjectEnabled: false,
-        submitLabel: 'Send reply',
+        submitLabel: l10n.supportSendReply,
         onSubmit: (_, message) async {
           await repository.replyToTicket(ticketId: ticket.id, message: message);
         },
@@ -169,15 +176,15 @@ class _SupportContactCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Panel(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Talk to us directly', style: AppText.h2),
+          Text(l10n.supportTalkDirectly, style: AppText.h2),
           SizedBox(height: 8),
           Text(
-            'Prefer a quick chat? Reach the BrickClub support team on WhatsApp '
-            'or Telegram for faster help.',
+            l10n.supportTalkBody,
             style: AppText.body,
           ),
           SizedBox(height: 16),
@@ -208,7 +215,7 @@ class _SupportContactCard extends StatelessWidget {
       mode: LaunchMode.externalApplication,
     );
     if (!launched && context.mounted) {
-      showMessage(context, 'Could not open $url');
+      showMessage(context, AppLocalizations.of(context).supportCouldNotOpen(url));
     }
   }
 }
@@ -295,7 +302,8 @@ class _SupportTicketTile extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                ticket.latestMessage?.body ?? 'No messages yet',
+                ticket.latestMessage?.body ??
+                    AppLocalizations.of(context).supportNoMessagesYet,
                 style: AppText.body,
               ),
               SizedBox(height: 12),
@@ -325,7 +333,9 @@ class _SupportMessageBubble extends StatelessWidget {
         crossAxisAlignment: alignment,
         children: [
           Text(
-            message.isAdmin ? 'BrickClub support' : 'You',
+            message.isAdmin
+                ? AppLocalizations.of(context).supportTeamName
+                : AppLocalizations.of(context).supportYou,
             style: AppText.tinyLight,
           ),
           SizedBox(height: 5),
@@ -376,6 +386,7 @@ class _SupportComposerSheetState extends State<_SupportComposerSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.fromLTRB(
         22,
@@ -390,17 +401,17 @@ class _SupportComposerSheetState extends State<_SupportComposerSheet> {
           Text(widget.title, style: AppText.h2),
           if (widget.subjectEnabled) ...[
             SizedBox(height: 16),
-            const FieldLabel('Subject'),
+            FieldLabel(l10n.supportSubject),
             SizedBox(height: 8),
             AppTextField(
               key: const ValueKey('support-subject'),
               controller: subjectController,
-              hintText: 'What do you need help with?',
+              hintText: l10n.supportSubjectHint,
               prefixIcon: Icons.support_agent_rounded,
             ),
           ],
           SizedBox(height: 16),
-          const FieldLabel('Message'),
+          FieldLabel(l10n.supportMessage),
           SizedBox(height: 8),
           TextField(
             key: const ValueKey('support-message'),
@@ -411,7 +422,7 @@ class _SupportComposerSheetState extends State<_SupportComposerSheet> {
             decoration: InputDecoration(
               filled: true,
               fillColor: AppColors.surface,
-              hintText: 'Type your message',
+              hintText: l10n.supportMessageHint,
               hintStyle: AppText.placeholder,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -430,7 +441,7 @@ class _SupportComposerSheetState extends State<_SupportComposerSheet> {
           SizedBox(height: 18),
           PrimaryButton(
             key: const ValueKey('send-support-message'),
-            label: submitting ? 'Sending...' : widget.submitLabel,
+            label: submitting ? l10n.commonSending : widget.submitLabel,
             onPressed: submitting ? null : _submit,
           ),
         ],
@@ -439,14 +450,15 @@ class _SupportComposerSheetState extends State<_SupportComposerSheet> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context);
     final subject = subjectController.text.trim();
     final message = messageController.text.trim();
     if (widget.subjectEnabled && subject.isEmpty) {
-      showMessage(context, 'Enter a subject');
+      showMessage(context, l10n.supportEnterSubject);
       return;
     }
     if (message.isEmpty) {
-      showMessage(context, 'Enter a message');
+      showMessage(context, l10n.supportEnterMessage);
       return;
     }
 
@@ -455,7 +467,7 @@ class _SupportComposerSheetState extends State<_SupportComposerSheet> {
       await widget.onSubmit(subject, message);
       if (mounted) {
         Navigator.pop(context);
-        showMessage(context, 'Message sent');
+        showMessage(context, l10n.supportMessageSent);
       }
     } catch (error) {
       if (mounted) showMessage(context, _friendlyUnexpectedMessage(error));

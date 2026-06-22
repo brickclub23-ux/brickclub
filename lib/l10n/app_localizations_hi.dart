@@ -692,4 +692,380 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get themeDarkDescription =>
       'क्लासिक गहरा BrickClub इंटरफ़ेस उपयोग करें।';
+
+  @override
+  String get commonSending => 'भेजा जा रहा है…';
+
+  @override
+  String get commonSubmitting => 'सबमिट हो रहा है…';
+
+  @override
+  String get filtersAssetClass => 'संपत्ति वर्ग';
+
+  @override
+  String get filtersRiskLevel => 'जोखिम स्तर';
+
+  @override
+  String get filtersPaymentMethod => 'भुगतान विधि';
+
+  @override
+  String get filtersReset => 'रीसेट';
+
+  @override
+  String filtersShow(int count) {
+    return '$count दिखाएँ';
+  }
+
+  @override
+  String get successTitle => 'प्रमाण सबमिट किया गया';
+
+  @override
+  String get successBody =>
+      'आपका भुगतान प्रमाण एडमिन सत्यापन की प्रतीक्षा में है। समीक्षा के बाद हम आपको सूचित करेंगे।';
+
+  @override
+  String get successSettlementStatus => 'निपटान स्थिति';
+
+  @override
+  String get successViewPortfolio => 'पोर्टफ़ोलियो देखें';
+
+  @override
+  String get detailVerifiedDocs => 'सत्यापित दस्तावेज़';
+
+  @override
+  String detailAssetLine(String assetClass, String location) {
+    return '$assetClass BrickShares | $location';
+  }
+
+  @override
+  String get detailLiquidity => 'तरलता';
+
+  @override
+  String get detailFundingStatus => 'वित्तपोषण स्थिति';
+
+  @override
+  String detailFundedPercent(String percent) {
+    return '$percent% वित्तपोषित';
+  }
+
+  @override
+  String get detailFundingNote =>
+      'समर्थित भुगतान विकल्प और कोट समाप्ति निपटान पुष्टि से पहले दिखाए जाते हैं।';
+
+  @override
+  String get detailInvestButton => 'क्रिप्टो वित्तपोषण से निवेश करें';
+
+  @override
+  String get kycStatusApproved => 'वित्तीय कार्य अनलॉक हैं।';
+
+  @override
+  String get kycStatusSubmitted => 'आपके दस्तावेज़ समीक्षाधीन हैं।';
+
+  @override
+  String get kycStatusRejectedDefault =>
+      'अनुरोध की समीक्षा करें और फिर से सबमिट करें।';
+
+  @override
+  String get kycStatusDefault => 'खरीद और वॉलेट परिवर्तन से पहले आवश्यक।';
+
+  @override
+  String get kycChipPhone => 'फ़ोन';
+
+  @override
+  String get kycChipIdentity => 'पहचान';
+
+  @override
+  String get kycChipOk => 'ठीक';
+
+  @override
+  String get kycChipNeeded => 'आवश्यक';
+
+  @override
+  String get kycViewDetails => 'KYC विवरण देखें';
+
+  @override
+  String get kycVerifyIdentity => 'पहचान सत्यापित करें';
+
+  @override
+  String get kycFullName => 'पूरा कानूनी नाम';
+
+  @override
+  String get kycFullNameHint => 'नाम ठीक वैसे ही जैसे आपके पहचान-पत्र पर है';
+
+  @override
+  String get kycDob => 'जन्म तिथि';
+
+  @override
+  String get kycSelectDate => 'तिथि चुनें';
+
+  @override
+  String get kycGovId => 'सरकारी पहचान-पत्र या पासपोर्ट';
+
+  @override
+  String get kycUploadId => 'पहचान दस्तावेज़ अपलोड करें';
+
+  @override
+  String get kycSelfie => 'सेल्फ़ी / चेहरा सत्यापन';
+
+  @override
+  String get kycCaptureSelfie => 'सेल्फ़ी लें';
+
+  @override
+  String get kycAddressProof => 'भौतिक पता प्रमाण';
+
+  @override
+  String get kycUploadAddress => 'उपयोगिता बिल या लीज़ अपलोड करें';
+
+  @override
+  String get kycPhoneVerification => 'फ़ोन सत्यापन';
+
+  @override
+  String get kycSendCode => 'कोड भेजें';
+
+  @override
+  String get kycVerificationCodeHint => 'सत्यापन कोड';
+
+  @override
+  String get kycEmailVerification => 'ईमेल सत्यापन';
+
+  @override
+  String get kycEmailVerified => 'ईमेल सत्यापित';
+
+  @override
+  String get kycEmailNotVerified => 'ईमेल सत्यापित नहीं';
+
+  @override
+  String get kycSendEmail => 'ईमेल भेजें';
+
+  @override
+  String get kycSubmitForReview => 'समीक्षा के लिए सबमिट करें';
+
+  @override
+  String get kycEmulatorNote =>
+      'फ़ोन कोड Firebase Auth एमुलेटर में दिखते हैं। डेवलपमेंट ईमेल Mailpit में दिखते हैं।';
+
+  @override
+  String get kycEmailSent => 'सत्यापन ईमेल भेजा गया';
+
+  @override
+  String get kycEnterPhoneFirst => 'पहले अपना फ़ोन नंबर दर्ज करें';
+
+  @override
+  String get kycCodeSent => 'कोड भेजा गया। Firebase Auth एमुलेटर देखें।';
+
+  @override
+  String get kycSubmitted => 'स्वचालित जाँच के लिए KYC सबमिट किया गया';
+
+  @override
+  String get kycMissingName => 'अपना कानूनी नाम दर्ज करें';
+
+  @override
+  String get kycMissingDob => 'अपनी जन्म तिथि चुनें';
+
+  @override
+  String get kycMissingId => 'अपना पहचान-पत्र या पासपोर्ट अपलोड करें';
+
+  @override
+  String get kycMissingSelfie => 'एक सेल्फ़ी लें';
+
+  @override
+  String get kycMissingAddress => 'पता प्रमाण अपलोड करें';
+
+  @override
+  String get kycMissingPhone => 'अपना फ़ोन नंबर दर्ज करें';
+
+  @override
+  String get kycInvalidPhone =>
+      'अपना फ़ोन नंबर अंतरराष्ट्रीय प्रारूप में दर्ज करें, जैसे +12025550190।';
+
+  @override
+  String get kycMissingCode => 'फ़ोन सत्यापन कोड दर्ज करें';
+
+  @override
+  String get kycUpdateFailed =>
+      'हम आपके KYC विवरण अपडेट नहीं कर सके। कृपया फिर से प्रयास करें।';
+
+  @override
+  String get paymentConfirmFunding => 'वित्तपोषण की पुष्टि करें';
+
+  @override
+  String get paymentSetup => 'क्रिप्टो वित्तपोषण सेटअप';
+
+  @override
+  String get paymentStatusDraft => 'ड्राफ़्ट';
+
+  @override
+  String get paymentStatusActive => 'सक्रिय';
+
+  @override
+  String get paymentRail => 'भुगतान चैनल';
+
+  @override
+  String get paymentAmount => 'निवेश राशि';
+
+  @override
+  String get paymentAmountHint => 'राशि USD में';
+
+  @override
+  String paymentBelowMinimum(String minimum) {
+    return 'इस अवसर के लिए न्यूनतम $minimum है।';
+  }
+
+  @override
+  String get paymentDemoAmount =>
+      'जमा अनुरोध बनाने से पहले डेमो राशि समायोजित की जा सकती है।';
+
+  @override
+  String get paymentQuotePaymentAsset => 'भुगतान संपत्ति';
+
+  @override
+  String get paymentQuoteAmount => 'राशि';
+
+  @override
+  String get paymentQuoteNetwork => 'नेटवर्क';
+
+  @override
+  String get paymentNetworkAfterRequest => 'अनुरोध के बाद चुना गया';
+
+  @override
+  String get paymentQuote => 'कोट';
+
+  @override
+  String get paymentQuoteByBackend => 'बैकएंड द्वारा बनाया गया';
+
+  @override
+  String get paymentNetworkFee => 'नेटवर्क शुल्क';
+
+  @override
+  String get paymentFeeByBackend => 'बैकएंड द्वारा गणना';
+
+  @override
+  String get paymentSettlement => 'निपटान';
+
+  @override
+  String get paymentPendingConfirmation => 'पुष्टि लंबित';
+
+  @override
+  String get paymentConfirmableTitle => 'पुष्टि योग्य वित्तीय कार्य';
+
+  @override
+  String get paymentConfirmableBody =>
+      'आप एक क्रिप्टो-वित्तपोषित BrickShares खरीद को अधिकृत कर रहे हैं। निपटान में नेटवर्क पुष्टि लग सकती है।';
+
+  @override
+  String get paymentCreateRequest => 'जमा अनुरोध बनाएँ';
+
+  @override
+  String get paymentSubmitProof => 'समीक्षा के लिए प्रमाण सबमिट करें';
+
+  @override
+  String get paymentIncreaseAmount => 'राशि को अवसर के न्यूनतम तक बढ़ाएँ।';
+
+  @override
+  String get paymentDepositCreated => 'जमा अनुरोध बनाया गया';
+
+  @override
+  String get paymentEnterHash => 'लेन-देन हैश दर्ज करें';
+
+  @override
+  String get paymentUploadProof => 'भुगतान प्रमाण अपलोड करें';
+
+  @override
+  String get paymentDepositInstructions => 'जमा निर्देश';
+
+  @override
+  String get paymentWalletAddress => 'वॉलेट पता';
+
+  @override
+  String get paymentTransactionHash => 'लेन-देन हैश';
+
+  @override
+  String get paymentHashHint => 'ब्लॉकचेन लेन-देन हैश पेस्ट करें';
+
+  @override
+  String get paymentStepQuote => 'कोट';
+
+  @override
+  String get paymentStepSend => 'भेजें';
+
+  @override
+  String get paymentStepReview => 'समीक्षा';
+
+  @override
+  String get paymentCopy => 'कॉपी करें';
+
+  @override
+  String get paymentWalletCopied => 'वॉलेट पता कॉपी किया गया';
+
+  @override
+  String get supportNewRequest => 'नया सहायता अनुरोध';
+
+  @override
+  String get supportNoRequestsTitle => 'अभी कोई सहायता अनुरोध नहीं';
+
+  @override
+  String get supportNoRequestsBody =>
+      'जब आपको खाता, KYC, वॉलेट, या निवेश में सहायता चाहिए हो तो BrickClub टीम से बातचीत शुरू करें।';
+
+  @override
+  String get supportSendRequest => 'अनुरोध भेजें';
+
+  @override
+  String get supportReplyTitle => 'सहायता को उत्तर दें';
+
+  @override
+  String get supportSendReply => 'उत्तर भेजें';
+
+  @override
+  String supportMessagesCount(int count) {
+    return '$count संदेश';
+  }
+
+  @override
+  String get supportRequestClosed => 'अनुरोध बंद';
+
+  @override
+  String get supportReply => 'उत्तर दें';
+
+  @override
+  String get supportTalkDirectly => 'हमसे सीधे बात करें';
+
+  @override
+  String get supportTalkBody =>
+      'तेज़ चैट पसंद है? तेज़ सहायता के लिए BrickClub सहायता टीम से WhatsApp या Telegram पर संपर्क करें।';
+
+  @override
+  String get supportNoMessagesYet => 'अभी कोई संदेश नहीं';
+
+  @override
+  String get supportTeamName => 'BrickClub सहायता';
+
+  @override
+  String get supportYou => 'आप';
+
+  @override
+  String get supportSubject => 'विषय';
+
+  @override
+  String get supportSubjectHint => 'आपको किसमें सहायता चाहिए?';
+
+  @override
+  String get supportMessage => 'संदेश';
+
+  @override
+  String get supportMessageHint => 'अपना संदेश लिखें';
+
+  @override
+  String get supportEnterSubject => 'एक विषय दर्ज करें';
+
+  @override
+  String get supportEnterMessage => 'एक संदेश दर्ज करें';
+
+  @override
+  String get supportMessageSent => 'संदेश भेजा गया';
+
+  @override
+  String supportCouldNotOpen(String url) {
+    return '$url नहीं खोला जा सका';
+  }
 }

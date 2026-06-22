@@ -1351,6 +1351,714 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use the classic dark BrickClub interface.'**
   String get themeDarkDescription;
+
+  /// No description provided for @commonSending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending...'**
+  String get commonSending;
+
+  /// No description provided for @commonSubmitting.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting...'**
+  String get commonSubmitting;
+
+  /// No description provided for @filtersAssetClass.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset class'**
+  String get filtersAssetClass;
+
+  /// No description provided for @filtersRiskLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk level'**
+  String get filtersRiskLevel;
+
+  /// No description provided for @filtersPaymentMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment method'**
+  String get filtersPaymentMethod;
+
+  /// No description provided for @filtersReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get filtersReset;
+
+  /// No description provided for @filtersShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show {count}'**
+  String filtersShow(int count);
+
+  /// No description provided for @successTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Proof submitted'**
+  String get successTitle;
+
+  /// No description provided for @successBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your proof of payment is awaiting admin verification. We will notify you after review.'**
+  String get successBody;
+
+  /// No description provided for @successSettlementStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Settlement status'**
+  String get successSettlementStatus;
+
+  /// No description provided for @successViewPortfolio.
+  ///
+  /// In en, this message translates to:
+  /// **'View portfolio'**
+  String get successViewPortfolio;
+
+  /// No description provided for @detailVerifiedDocs.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified docs'**
+  String get detailVerifiedDocs;
+
+  /// No description provided for @detailAssetLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{assetClass} BrickShares | {location}'**
+  String detailAssetLine(String assetClass, String location);
+
+  /// No description provided for @detailLiquidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Liquidity'**
+  String get detailLiquidity;
+
+  /// No description provided for @detailFundingStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Funding status'**
+  String get detailFundingStatus;
+
+  /// No description provided for @detailFundedPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% funded'**
+  String detailFundedPercent(String percent);
+
+  /// No description provided for @detailFundingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Supported payment options and quote expiry are shown before settlement confirmation.'**
+  String get detailFundingNote;
+
+  /// No description provided for @detailInvestButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Invest with crypto funding'**
+  String get detailInvestButton;
+
+  /// No description provided for @kycStatusApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial actions are unlocked.'**
+  String get kycStatusApproved;
+
+  /// No description provided for @kycStatusSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Your documents are under review.'**
+  String get kycStatusSubmitted;
+
+  /// No description provided for @kycStatusRejectedDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the request and resubmit.'**
+  String get kycStatusRejectedDefault;
+
+  /// No description provided for @kycStatusDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Required before purchases and wallet changes.'**
+  String get kycStatusDefault;
+
+  /// No description provided for @kycChipPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get kycChipPhone;
+
+  /// No description provided for @kycChipIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity'**
+  String get kycChipIdentity;
+
+  /// No description provided for @kycChipOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get kycChipOk;
+
+  /// No description provided for @kycChipNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Needed'**
+  String get kycChipNeeded;
+
+  /// No description provided for @kycViewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View KYC details'**
+  String get kycViewDetails;
+
+  /// No description provided for @kycVerifyIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify identity'**
+  String get kycVerifyIdentity;
+
+  /// No description provided for @kycFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full legal name'**
+  String get kycFullName;
+
+  /// No description provided for @kycFullNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name exactly as shown on your ID'**
+  String get kycFullNameHint;
+
+  /// No description provided for @kycDob.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of birth'**
+  String get kycDob;
+
+  /// No description provided for @kycSelectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date'**
+  String get kycSelectDate;
+
+  /// No description provided for @kycGovId.
+  ///
+  /// In en, this message translates to:
+  /// **'Government ID or passport'**
+  String get kycGovId;
+
+  /// No description provided for @kycUploadId.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload ID document'**
+  String get kycUploadId;
+
+  /// No description provided for @kycSelfie.
+  ///
+  /// In en, this message translates to:
+  /// **'Selfie / face verification'**
+  String get kycSelfie;
+
+  /// No description provided for @kycCaptureSelfie.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture selfie'**
+  String get kycCaptureSelfie;
+
+  /// No description provided for @kycAddressProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Physical address proof'**
+  String get kycAddressProof;
+
+  /// No description provided for @kycUploadAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload utility bill or lease'**
+  String get kycUploadAddress;
+
+  /// No description provided for @kycPhoneVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone verification'**
+  String get kycPhoneVerification;
+
+  /// No description provided for @kycSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get kycSendCode;
+
+  /// No description provided for @kycVerificationCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code'**
+  String get kycVerificationCodeHint;
+
+  /// No description provided for @kycEmailVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Email verification'**
+  String get kycEmailVerification;
+
+  /// No description provided for @kycEmailVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Email verified'**
+  String get kycEmailVerified;
+
+  /// No description provided for @kycEmailNotVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Email not verified'**
+  String get kycEmailNotVerified;
+
+  /// No description provided for @kycSendEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Send email'**
+  String get kycSendEmail;
+
+  /// No description provided for @kycSubmitForReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit for review'**
+  String get kycSubmitForReview;
+
+  /// No description provided for @kycEmulatorNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone codes appear in the Firebase Auth emulator. Development emails appear in Mailpit.'**
+  String get kycEmulatorNote;
+
+  /// No description provided for @kycEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email sent'**
+  String get kycEmailSent;
+
+  /// No description provided for @kycEnterPhoneFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number first'**
+  String get kycEnterPhoneFirst;
+
+  /// No description provided for @kycCodeSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent. Check the Firebase Auth emulator.'**
+  String get kycCodeSent;
+
+  /// No description provided for @kycSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'KYC submitted for automatic checks'**
+  String get kycSubmitted;
+
+  /// No description provided for @kycMissingName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your legal name'**
+  String get kycMissingName;
+
+  /// No description provided for @kycMissingDob.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your date of birth'**
+  String get kycMissingDob;
+
+  /// No description provided for @kycMissingId.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload your ID or passport'**
+  String get kycMissingId;
+
+  /// No description provided for @kycMissingSelfie.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture a selfie'**
+  String get kycMissingSelfie;
+
+  /// No description provided for @kycMissingAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload address proof'**
+  String get kycMissingAddress;
+
+  /// No description provided for @kycMissingPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get kycMissingPhone;
+
+  /// No description provided for @kycInvalidPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number in international format, e.g. +12025550190.'**
+  String get kycInvalidPhone;
+
+  /// No description provided for @kycMissingCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the phone verification code'**
+  String get kycMissingCode;
+
+  /// No description provided for @kycUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not update your KYC details. Please try again.'**
+  String get kycUpdateFailed;
+
+  /// No description provided for @paymentConfirmFunding.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm funding'**
+  String get paymentConfirmFunding;
+
+  /// No description provided for @paymentSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto funding setup'**
+  String get paymentSetup;
+
+  /// No description provided for @paymentStatusDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get paymentStatusDraft;
+
+  /// No description provided for @paymentStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get paymentStatusActive;
+
+  /// No description provided for @paymentRail.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment rail'**
+  String get paymentRail;
+
+  /// No description provided for @paymentAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment amount'**
+  String get paymentAmount;
+
+  /// No description provided for @paymentAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount in USD'**
+  String get paymentAmountHint;
+
+  /// No description provided for @paymentBelowMinimum.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum for this opportunity is {minimum}.'**
+  String paymentBelowMinimum(String minimum);
+
+  /// No description provided for @paymentDemoAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Demo amount can be adjusted before creating the deposit request.'**
+  String get paymentDemoAmount;
+
+  /// No description provided for @paymentQuotePaymentAsset.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment asset'**
+  String get paymentQuotePaymentAsset;
+
+  /// No description provided for @paymentQuoteAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get paymentQuoteAmount;
+
+  /// No description provided for @paymentQuoteNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Network'**
+  String get paymentQuoteNetwork;
+
+  /// No description provided for @paymentNetworkAfterRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected after request'**
+  String get paymentNetworkAfterRequest;
+
+  /// No description provided for @paymentQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote'**
+  String get paymentQuote;
+
+  /// No description provided for @paymentQuoteByBackend.
+  ///
+  /// In en, this message translates to:
+  /// **'Created by backend'**
+  String get paymentQuoteByBackend;
+
+  /// No description provided for @paymentNetworkFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Network fee'**
+  String get paymentNetworkFee;
+
+  /// No description provided for @paymentFeeByBackend.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculated by backend'**
+  String get paymentFeeByBackend;
+
+  /// No description provided for @paymentSettlement.
+  ///
+  /// In en, this message translates to:
+  /// **'Settlement'**
+  String get paymentSettlement;
+
+  /// No description provided for @paymentPendingConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending confirmation'**
+  String get paymentPendingConfirmation;
+
+  /// No description provided for @paymentConfirmableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmable financial action'**
+  String get paymentConfirmableTitle;
+
+  /// No description provided for @paymentConfirmableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You are authorizing a crypto-funded BrickShares purchase. Settlement may take network confirmations.'**
+  String get paymentConfirmableBody;
+
+  /// No description provided for @paymentCreateRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Create deposit request'**
+  String get paymentCreateRequest;
+
+  /// No description provided for @paymentSubmitProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit proof for review'**
+  String get paymentSubmitProof;
+
+  /// No description provided for @paymentIncreaseAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Increase the amount to the opportunity minimum.'**
+  String get paymentIncreaseAmount;
+
+  /// No description provided for @paymentDepositCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit request created'**
+  String get paymentDepositCreated;
+
+  /// No description provided for @paymentEnterHash.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the transaction hash'**
+  String get paymentEnterHash;
+
+  /// No description provided for @paymentUploadProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload proof of payment'**
+  String get paymentUploadProof;
+
+  /// No description provided for @paymentDepositInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit instructions'**
+  String get paymentDepositInstructions;
+
+  /// No description provided for @paymentWalletAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet address'**
+  String get paymentWalletAddress;
+
+  /// No description provided for @paymentTransactionHash.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction hash'**
+  String get paymentTransactionHash;
+
+  /// No description provided for @paymentHashHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste blockchain transaction hash'**
+  String get paymentHashHint;
+
+  /// No description provided for @paymentStepQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote'**
+  String get paymentStepQuote;
+
+  /// No description provided for @paymentStepSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get paymentStepSend;
+
+  /// No description provided for @paymentStepReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get paymentStepReview;
+
+  /// No description provided for @paymentCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get paymentCopy;
+
+  /// No description provided for @paymentWalletCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet address copied'**
+  String get paymentWalletCopied;
+
+  /// No description provided for @supportNewRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'New support request'**
+  String get supportNewRequest;
+
+  /// No description provided for @supportNoRequestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No support requests yet'**
+  String get supportNoRequestsTitle;
+
+  /// No description provided for @supportNoRequestsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a conversation with the BrickClub team when you need account, KYC, wallet, or investment help.'**
+  String get supportNoRequestsBody;
+
+  /// No description provided for @supportSendRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Send request'**
+  String get supportSendRequest;
+
+  /// No description provided for @supportReplyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply to support'**
+  String get supportReplyTitle;
+
+  /// No description provided for @supportSendReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reply'**
+  String get supportSendReply;
+
+  /// No description provided for @supportMessagesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} messages'**
+  String supportMessagesCount(int count);
+
+  /// No description provided for @supportRequestClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Request closed'**
+  String get supportRequestClosed;
+
+  /// No description provided for @supportReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get supportReply;
+
+  /// No description provided for @supportTalkDirectly.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to us directly'**
+  String get supportTalkDirectly;
+
+  /// No description provided for @supportTalkBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer a quick chat? Reach the BrickClub support team on WhatsApp or Telegram for faster help.'**
+  String get supportTalkBody;
+
+  /// No description provided for @supportNoMessagesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get supportNoMessagesYet;
+
+  /// No description provided for @supportTeamName.
+  ///
+  /// In en, this message translates to:
+  /// **'BrickClub support'**
+  String get supportTeamName;
+
+  /// No description provided for @supportYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get supportYou;
+
+  /// No description provided for @supportSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get supportSubject;
+
+  /// No description provided for @supportSubjectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you need help with?'**
+  String get supportSubjectHint;
+
+  /// No description provided for @supportMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get supportMessage;
+
+  /// No description provided for @supportMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your message'**
+  String get supportMessageHint;
+
+  /// No description provided for @supportEnterSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a subject'**
+  String get supportEnterSubject;
+
+  /// No description provided for @supportEnterMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a message'**
+  String get supportEnterMessage;
+
+  /// No description provided for @supportMessageSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Message sent'**
+  String get supportMessageSent;
+
+  /// No description provided for @supportCouldNotOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open {url}'**
+  String supportCouldNotOpen(String url);
 }
 
 class _AppLocalizationsDelegate
