@@ -53,6 +53,7 @@ class _PhoneSignInSheetState extends State<_PhoneSignInSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final bottom = MediaQuery.viewInsetsOf(context).bottom;
     return Padding(
       padding: EdgeInsets.fromLTRB(24, 20, 24, 24 + bottom),
@@ -72,7 +73,7 @@ class _PhoneSignInSheetState extends State<_PhoneSignInSheet> {
           ),
           const SizedBox(height: 20),
           Text(
-            _inOtpStep ? 'Enter verification code' : 'Sign in with phone',
+            _inOtpStep ? l10n.phoneOtpTitle : l10n.phoneTitle,
             style: TextStyle(
               color: AppColors.primary,
               fontSize: 22,
@@ -83,15 +84,15 @@ class _PhoneSignInSheetState extends State<_PhoneSignInSheet> {
           const SizedBox(height: 6),
           Text(
             _inOtpStep
-                ? 'We sent a 6-digit code to ${_phoneController.text.trim()}.'
-                : 'Enter your phone number with country code (e.g. +1 415 555 2671).',
+                ? l10n.phoneOtpSubtitle(_phoneController.text.trim())
+                : l10n.phoneSubtitle,
             style: TextStyle(color: AppColors.secondary, fontSize: 14, height: 1.45),
           ),
           const SizedBox(height: 20),
           if (!_inOtpStep) ...[
             AppTextField(
               controller: _phoneController,
-              hintText: '+1 415 555 2671',
+              hintText: l10n.phoneHint,
               keyboardType: TextInputType.phone,
               prefixIcon: Icons.phone_outlined,
               autofillHints: const [AutofillHints.telephoneNumber],
@@ -99,7 +100,7 @@ class _PhoneSignInSheetState extends State<_PhoneSignInSheet> {
           ] else ...[
             AppTextField(
               controller: _codeController,
-              hintText: '000000',
+              hintText: l10n.phoneCodeHint,
               keyboardType: TextInputType.number,
               prefixIcon: Icons.sms_outlined,
             ),
@@ -111,19 +112,19 @@ class _PhoneSignInSheetState extends State<_PhoneSignInSheet> {
           const SizedBox(height: 18),
           if (!_inOtpStep)
             PrimaryButton(
-              label: _sendingCode ? 'Sending code…' : 'Send verification code',
+              label: _sendingCode ? l10n.phoneSendingCode : l10n.phoneSendCode,
               onPressed: _sendingCode ? null : _sendCode,
             )
           else ...[
             PrimaryButton(
-              label: _confirmingCode ? 'Verifying…' : 'Confirm code',
+              label: _confirmingCode ? l10n.phoneVerifying : l10n.phoneConfirmCode,
               onPressed: _confirmingCode ? null : _confirmCode,
             ),
             const SizedBox(height: 10),
             Center(
               child: TextButton(
                 onPressed: _sendingCode ? null : _resetToPhoneStep,
-                child: const Text('Use a different number'),
+                child: Text(l10n.phoneUseDifferentNumber),
               ),
             ),
           ],

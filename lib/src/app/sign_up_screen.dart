@@ -41,6 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PhoneFrame(
       child: Scaffold(
         backgroundColor: AppColors.background,
@@ -61,8 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const _BrandLockup(height: 112),
                   SizedBox(height: 10),
                   Text(
-                    'Create your BrickShares account. Wallet verification '
-                    'and KYC come next.',
+                    l10n.signUpIntro,
                     style: AppText.bodyLarge,
                   ),
                   SizedBox(height: 26),
@@ -71,9 +71,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Create account', style: AppText.h2),
+                        Text(l10n.signUpCreateAccount, style: AppText.h2),
                         Text(
-                          'Use your legal names exactly as they appear on your ID.',
+                          l10n.signUpLegalNamesHint,
                           style: AppText.body,
                         ),
                         SizedBox(height: 18),
@@ -81,10 +81,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           builder: (context, constraints) {
                             final stackNames = constraints.maxWidth < 350;
                             final firstName = _SignUpField(
-                              label: 'First name',
+                              label: l10n.signUpFirstName,
                               child: AppTextField(
                                 controller: firstNameController,
-                                hintText: 'Legal first name',
+                                hintText: l10n.signUpFirstNameHint,
                                 compact: true,
                                 prefixIcon: Icons.badge_outlined,
                                 textInputAction: TextInputAction.next,
@@ -92,10 +92,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             );
                             final lastName = _SignUpField(
-                              label: 'Last name',
+                              label: l10n.signUpLastName,
                               child: AppTextField(
                                 controller: lastNameController,
-                                hintText: 'Legal last name',
+                                hintText: l10n.signUpLastNameHint,
                                 compact: true,
                                 prefixIcon: Icons.badge_outlined,
                                 textInputAction: TextInputAction.next,
@@ -124,10 +124,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(height: 14),
                         _SignUpField(
-                          label: 'Email',
+                          label: l10n.commonEmail,
                           child: AppTextField(
                             controller: emailController,
-                            hintText: 'you@example.com',
+                            hintText: l10n.commonEmailHint,
                             keyboardType: TextInputType.emailAddress,
                             compact: true,
                             prefixIcon: Icons.alternate_email_rounded,
@@ -137,10 +137,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(height: 14),
                         _SignUpField(
-                          label: 'Password',
+                          label: l10n.commonPassword,
                           child: AppTextField(
                             controller: passwordController,
-                            hintText: 'Create a password',
+                            hintText: l10n.signUpPasswordHint,
                             obscureText: true,
                             compact: true,
                             prefixIcon: Icons.lock_outline_rounded,
@@ -150,10 +150,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(height: 14),
                         _SignUpField(
-                          label: 'Confirm password',
+                          label: l10n.signUpConfirmPassword,
                           child: AppTextField(
                             controller: confirmPasswordController,
-                            hintText: 'Confirm your password',
+                            hintText: l10n.signUpConfirmPasswordHint,
                             obscureText: true,
                             compact: true,
                             prefixIcon: Icons.lock_reset_rounded,
@@ -178,8 +178,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               child: Padding(
                                 padding: EdgeInsets.only(top: 10),
                                 child: Text(
-                                  'I agree to terms, risk disclosures, and '
-                                  'settlement confirmation notices.',
+                                  l10n.signUpAgree,
                                   style: AppText.small,
                                 ),
                               ),
@@ -197,8 +196,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   PrimaryButton(
                     key: const ValueKey('create-account-submit'),
                     label: creatingAccount
-                        ? 'Creating account...'
-                        : 'Create account',
+                        ? l10n.signUpProgress
+                        : l10n.signUpCreateAccount,
                     onPressed: accepted && !creatingAccount
                         ? _createAccount
                         : null,
@@ -207,23 +206,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   GoogleAuthButton(
                     key: const ValueKey('google-sign-up'),
                     label: signingUpWithGoogle
-                        ? 'Connecting...'
-                        : 'Sign up with Google',
+                        ? l10n.authConnecting
+                        : l10n.signUpGoogle,
                     onPressed: creatingAccount || signingUpWithGoogle
                         ? null
                         : _signUpWithGoogle,
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Financial actions require KYC and verified wallet setup '
-                    'after account creation.',
+                    l10n.signUpDisclosure,
                     textAlign: TextAlign.center,
                     style: AppText.disclosure,
                   ),
                   SizedBox(height: 10),
                   SecondaryButton(
                     key: const ValueKey('account-login-button'),
-                    label: 'Already have an account? Sign in',
+                    label: l10n.signUpHaveAccount,
                     onPressed: widget.onSignIn,
                   ),
                 ],

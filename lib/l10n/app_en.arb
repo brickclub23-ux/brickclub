@@ -23,5 +23,215 @@
   "languageSystemDefault": "System default",
   "@languageSystemDefault": {
     "description": "Option that follows the device's language automatically."
+  },
+
+  "commonEmail": "Email",
+  "@commonEmail": {
+    "description": "Label for an email address input field."
+  },
+  "commonEmailHint": "you@example.com",
+  "@commonEmailHint": {
+    "description": "Placeholder shown inside an email input field."
+  },
+  "commonPassword": "Password",
+  "@commonPassword": {
+    "description": "Label for a password input field."
+  },
+  "authConnecting": "Connecting...",
+  "@authConnecting": {
+    "description": "Button label while a Google sign-in/sign-up is in progress."
+  },
+
+  "signInWelcomeTitle": "Welcome back",
+  "@signInWelcomeTitle": {
+    "description": "Sign-in heading shown to members."
+  },
+  "signInAdminTitle": "Admin sign in",
+  "@signInAdminTitle": {
+    "description": "Sign-in heading shown when admin access is toggled on."
+  },
+  "signInMemberSubtitle": "Continue to your BrickShares portfolio.",
+  "@signInMemberSubtitle": {
+    "description": "Sign-in subtitle shown to members."
+  },
+  "signInAdminSubtitle": "Access user, asset, and crypto payment operations.",
+  "@signInAdminSubtitle": {
+    "description": "Sign-in subtitle shown when admin access is toggled on."
+  },
+  "signInPasswordHint": "Enter your password",
+  "@signInPasswordHint": {
+    "description": "Placeholder for the password field on the sign-in screen."
+  },
+  "signInForgotPassword": "Forgot password?",
+  "@signInForgotPassword": {
+    "description": "Link that triggers a password reset email."
+  },
+  "signInProgress": "Signing in...",
+  "@signInProgress": {
+    "description": "Sign-in button label while signing in."
+  },
+  "signInOpenAdminDashboard": "Open admin dashboard",
+  "@signInOpenAdminDashboard": {
+    "description": "Sign-in submit button label in admin mode."
+  },
+  "signInSubmit": "Sign in securely",
+  "@signInSubmit": {
+    "description": "Sign-in submit button label in member mode."
+  },
+  "signInGoogleAdmin": "Continue as admin with Google",
+  "@signInGoogleAdmin": {
+    "description": "Google sign-in button label in admin mode."
+  },
+  "signInGoogle": "Continue with Google",
+  "@signInGoogle": {
+    "description": "Google sign-in button label in member mode."
+  },
+  "signInPhone": "Continue with phone",
+  "@signInPhone": {
+    "description": "Button that opens the phone sign-in sheet."
+  },
+  "signInUseMember": "Use member sign in",
+  "@signInUseMember": {
+    "description": "Toggle to switch from admin sign-in back to member sign-in."
+  },
+  "signInUseAdmin": "Sign in as an admin",
+  "@signInUseAdmin": {
+    "description": "Toggle to switch to admin sign-in."
+  },
+  "signInCreateAccount": "Create a BrickClub account",
+  "@signInCreateAccount": {
+    "description": "Link from the sign-in screen to account creation."
+  },
+  "signInGoogleNoAdmin": "This Google account does not have admin access.",
+  "@signInGoogleNoAdmin": {
+    "description": "Error when a Google account lacks admin access."
+  },
+  "signInNoAdmin": "This account does not have admin access.",
+  "@signInNoAdmin": {
+    "description": "Error when an email account lacks admin access."
+  },
+  "signInResetSent": "Password reset instructions sent",
+  "@signInResetSent": {
+    "description": "Confirmation after a password reset email is sent."
+  },
+  "signInStoryTitle": "Ownership, made\nmore accessible.",
+  "@signInStoryTitle": {
+    "description": "Marketing headline on the wide sign-in side panel."
+  },
+  "signInStoryBody": "Review verified opportunities, settle with confidence, and keep every asset in view.",
+  "@signInStoryBody": {
+    "description": "Marketing body text on the wide sign-in side panel."
+  },
+
+  "signUpIntro": "Create your BrickShares account. Wallet verification and KYC come next.",
+  "@signUpIntro": {
+    "description": "Intro text at the top of the sign-up screen."
+  },
+  "signUpCreateAccount": "Create account",
+  "@signUpCreateAccount": {
+    "description": "Sign-up panel title and submit button label."
+  },
+  "signUpLegalNamesHint": "Use your legal names exactly as they appear on your ID.",
+  "@signUpLegalNamesHint": {
+    "description": "Guidance under the Create account panel title."
+  },
+  "signUpFirstName": "First name",
+  "@signUpFirstName": {
+    "description": "Label for the first name field."
+  },
+  "signUpFirstNameHint": "Legal first name",
+  "@signUpFirstNameHint": {
+    "description": "Placeholder for the first name field."
+  },
+  "signUpLastName": "Last name",
+  "@signUpLastName": {
+    "description": "Label for the last name field."
+  },
+  "signUpLastNameHint": "Legal last name",
+  "@signUpLastNameHint": {
+    "description": "Placeholder for the last name field."
+  },
+  "signUpPasswordHint": "Create a password",
+  "@signUpPasswordHint": {
+    "description": "Placeholder for the password field on sign-up."
+  },
+  "signUpConfirmPassword": "Confirm password",
+  "@signUpConfirmPassword": {
+    "description": "Label for the confirm password field."
+  },
+  "signUpConfirmPasswordHint": "Confirm your password",
+  "@signUpConfirmPasswordHint": {
+    "description": "Placeholder for the confirm password field."
+  },
+  "signUpAgree": "I agree to terms, risk disclosures, and settlement confirmation notices.",
+  "@signUpAgree": {
+    "description": "Consent checkbox label on sign-up."
+  },
+  "signUpProgress": "Creating account...",
+  "@signUpProgress": {
+    "description": "Submit button label while the account is being created."
+  },
+  "signUpGoogle": "Sign up with Google",
+  "@signUpGoogle": {
+    "description": "Google sign-up button label."
+  },
+  "signUpDisclosure": "Financial actions require KYC and verified wallet setup after account creation.",
+  "@signUpDisclosure": {
+    "description": "Disclosure text near the bottom of the sign-up screen."
+  },
+  "signUpHaveAccount": "Already have an account? Sign in",
+  "@signUpHaveAccount": {
+    "description": "Link from sign-up back to sign-in."
+  },
+
+  "phoneTitle": "Sign in with phone",
+  "@phoneTitle": {
+    "description": "Title of the phone sign-in sheet (number step)."
+  },
+  "phoneOtpTitle": "Enter verification code",
+  "@phoneOtpTitle": {
+    "description": "Title of the phone sign-in sheet (code step)."
+  },
+  "phoneSubtitle": "Enter your phone number with country code (e.g. +1 415 555 2671).",
+  "@phoneSubtitle": {
+    "description": "Instruction on the phone number step."
+  },
+  "phoneOtpSubtitle": "We sent a 6-digit code to {phone}.",
+  "@phoneOtpSubtitle": {
+    "description": "Instruction on the code step, naming the destination number.",
+    "placeholders": {
+      "phone": {
+        "type": "String",
+        "example": "+1 415 555 2671"
+      }
+    }
+  },
+  "phoneHint": "+1 415 555 2671",
+  "@phoneHint": {
+    "description": "Placeholder for the phone number field."
+  },
+  "phoneCodeHint": "000000",
+  "@phoneCodeHint": {
+    "description": "Placeholder for the verification code field."
+  },
+  "phoneSendingCode": "Sending code…",
+  "@phoneSendingCode": {
+    "description": "Button label while the SMS code is being sent."
+  },
+  "phoneSendCode": "Send verification code",
+  "@phoneSendCode": {
+    "description": "Button that requests an SMS verification code."
+  },
+  "phoneVerifying": "Verifying…",
+  "@phoneVerifying": {
+    "description": "Button label while the code is being verified."
+  },
+  "phoneConfirmCode": "Confirm code",
+  "@phoneConfirmCode": {
+    "description": "Button that submits the verification code."
+  },
+  "phoneUseDifferentNumber": "Use a different number",
+  "@phoneUseDifferentNumber": {
+    "description": "Link to return to the phone number step."
   }
 }
