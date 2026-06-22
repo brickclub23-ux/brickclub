@@ -901,6 +901,456 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'© 2026 BrickClub'**
   String get footerCopyright;
+
+  /// No description provided for @commonViewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View all'**
+  String get commonViewAll;
+
+  /// No description provided for @commonCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get commonCancel;
+
+  /// No description provided for @navInvest.
+  ///
+  /// In en, this message translates to:
+  /// **'Invest'**
+  String get navInvest;
+
+  /// No description provided for @navWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get navWallet;
+
+  /// No description provided for @navPortfolio.
+  ///
+  /// In en, this message translates to:
+  /// **'Portfolio'**
+  String get navPortfolio;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// No description provided for @kycGateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete KYC first'**
+  String get kycGateTitle;
+
+  /// No description provided for @kycGateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Status: {status}. Purchases, withdrawals, wallet changes, and crypto settlement unlock after approval.'**
+  String kycGateBody(String status);
+
+  /// No description provided for @kycGateViewStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'View KYC status'**
+  String get kycGateViewStatus;
+
+  /// No description provided for @kycGateComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete KYC'**
+  String get kycGateComplete;
+
+  /// No description provided for @homeFeaturedOpportunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured opportunity'**
+  String get homeFeaturedOpportunity;
+
+  /// No description provided for @homeNoLiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No live BrickShares yet'**
+  String get homeNoLiveTitle;
+
+  /// No description provided for @homeNoLiveBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Published, verified assets will appear here.'**
+  String get homeNoLiveBody;
+
+  /// No description provided for @homeViewInvest.
+  ///
+  /// In en, this message translates to:
+  /// **'View invest'**
+  String get homeViewInvest;
+
+  /// No description provided for @homeYourHoldings.
+  ///
+  /// In en, this message translates to:
+  /// **'Your holdings'**
+  String get homeYourHoldings;
+
+  /// No description provided for @homeRecentActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent activity'**
+  String get homeRecentActivity;
+
+  /// No description provided for @holdingsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No holdings yet'**
+  String get holdingsEmptyTitle;
+
+  /// No description provided for @holdingsEmptyHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified deposits will appear here as BrickShares.'**
+  String get holdingsEmptyHome;
+
+  /// No description provided for @activityEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No activity yet'**
+  String get activityEmptyTitle;
+
+  /// No description provided for @activityEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit requests and settlement updates will appear here.'**
+  String get activityEmptyBody;
+
+  /// No description provided for @dashboardErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load account data'**
+  String get dashboardErrorTitle;
+
+  /// No description provided for @dashboardErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the backend connection and try again.'**
+  String get dashboardErrorBody;
+
+  /// No description provided for @investSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore verified multi-asset BrickShares'**
+  String get investSubtitle;
+
+  /// No description provided for @investSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name, location, or asset class'**
+  String get investSearchHint;
+
+  /// No description provided for @investAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available {count}'**
+  String investAvailable(int count);
+
+  /// No description provided for @investFilteredIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Filtered income\nBrickShares'**
+  String get investFilteredIncome;
+
+  /// No description provided for @investOpportunitiesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} opportunities'**
+  String investOpportunitiesCount(int count);
+
+  /// No description provided for @investLoadingOpportunities.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading opportunities'**
+  String get investLoadingOpportunities;
+
+  /// No description provided for @investFiltersAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get investFiltersAction;
+
+  /// No description provided for @investNoMatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No BrickShares match'**
+  String get investNoMatchTitle;
+
+  /// No description provided for @investNoMatchEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin-published verified assets will appear here.'**
+  String get investNoMatchEmpty;
+
+  /// No description provided for @investNoMatchSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'No BrickShares match “{query}”. Try a different search or adjust your filters.'**
+  String investNoMatchSearch(String query);
+
+  /// No description provided for @investNoMatchFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different asset class, risk level, or payment method.'**
+  String get investNoMatchFilters;
+
+  /// No description provided for @investResetFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset filters'**
+  String get investResetFilters;
+
+  /// No description provided for @walletCryptoActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto order activity'**
+  String get walletCryptoActivity;
+
+  /// No description provided for @walletFundingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto funding readiness'**
+  String get walletFundingTitle;
+
+  /// No description provided for @walletFundingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a verified wallet before sending funds. Network, fees, quote expiry, and settlement status are shown before confirmation.'**
+  String get walletFundingBody;
+
+  /// No description provided for @walletAddWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add verified wallet'**
+  String get walletAddWallet;
+
+  /// No description provided for @walletVerificationStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet verification started'**
+  String get walletVerificationStarted;
+
+  /// No description provided for @walletSettlementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settlement confirmation required'**
+  String get walletSettlementTitle;
+
+  /// No description provided for @walletSettlementBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases, withdrawals, and wallet changes require final confirmation.'**
+  String get walletSettlementBody;
+
+  /// No description provided for @walletVerifiedBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified wallet balance'**
+  String get walletVerifiedBalance;
+
+  /// No description provided for @portfolioCurrentValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Current portfolio value'**
+  String get portfolioCurrentValue;
+
+  /// No description provided for @portfolioInvested.
+  ///
+  /// In en, this message translates to:
+  /// **'Invested'**
+  String get portfolioInvested;
+
+  /// No description provided for @portfolioProfitLoss.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit / loss'**
+  String get portfolioProfitLoss;
+
+  /// No description provided for @portfolioReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Return'**
+  String get portfolioReturn;
+
+  /// No description provided for @portfolioDividends.
+  ///
+  /// In en, this message translates to:
+  /// **'Dividends received: {amount}'**
+  String portfolioDividends(String amount);
+
+  /// No description provided for @portfolioHoldings.
+  ///
+  /// In en, this message translates to:
+  /// **'Holdings'**
+  String get portfolioHoldings;
+
+  /// No description provided for @portfolioHoldingsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved investments appear here automatically.'**
+  String get portfolioHoldingsEmptyBody;
+
+  /// No description provided for @portfolioAllocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Allocation'**
+  String get portfolioAllocation;
+
+  /// No description provided for @portfolioAllocationEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No allocation yet'**
+  String get portfolioAllocationEmptyTitle;
+
+  /// No description provided for @portfolioAllocationEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your asset mix appears after deposits verify.'**
+  String get portfolioAllocationEmptyBody;
+
+  /// No description provided for @portfolioInvestedOwnership.
+  ///
+  /// In en, this message translates to:
+  /// **'Invested {invested} · {ownership} ownership'**
+  String portfolioInvestedOwnership(String invested, String ownership);
+
+  /// No description provided for @profileSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get profileSettings;
+
+  /// No description provided for @profileThemeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{mode} theme'**
+  String profileThemeSubtitle(String mode);
+
+  /// No description provided for @profileSecurityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Security & privacy'**
+  String get profileSecurityTitle;
+
+  /// No description provided for @profileSecuritySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified wallet and biometrics'**
+  String get profileSecuritySubtitle;
+
+  /// No description provided for @profileDocumentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get profileDocumentsTitle;
+
+  /// No description provided for @profileDocumentsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statements, risk disclosures'**
+  String get profileDocumentsSubtitle;
+
+  /// No description provided for @profileRowOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} opened'**
+  String profileRowOpened(String title);
+
+  /// No description provided for @profileSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get profileSupport;
+
+  /// No description provided for @profileSupportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Message the BrickClub team'**
+  String get profileSupportSubtitle;
+
+  /// No description provided for @profileLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get profileLogout;
+
+  /// No description provided for @profileLogoutConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out?'**
+  String get profileLogoutConfirmTitle;
+
+  /// No description provided for @profileLogoutConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You will need to sign in again to access your account.'**
+  String get profileLogoutConfirmBody;
+
+  /// No description provided for @profileDefaultName.
+  ///
+  /// In en, this message translates to:
+  /// **'BrickClub member'**
+  String get profileDefaultName;
+
+  /// No description provided for @profileDefaultSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account and BrickShares details'**
+  String get profileDefaultSubtitle;
+
+  /// No description provided for @themeScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get themeScreenTitle;
+
+  /// No description provided for @themeAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get themeAppearance;
+
+  /// No description provided for @themeAppearanceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how BrickClub looks on this device.'**
+  String get themeAppearanceDescription;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @themeSystemDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow this device automatically.'**
+  String get themeSystemDescription;
+
+  /// No description provided for @themeLightDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a bright interface with dark text.'**
+  String get themeLightDescription;
+
+  /// No description provided for @themeDarkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the classic dark BrickClub interface.'**
+  String get themeDarkDescription;
 }
 
 class _AppLocalizationsDelegate

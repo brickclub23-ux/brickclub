@@ -441,4 +441,264 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get footerCopyright => '© 2026 BrickClub';
+
+  @override
+  String get commonViewAll => 'Ver todo';
+
+  @override
+  String get commonCancel => 'Cancelar';
+
+  @override
+  String get navInvest => 'Invertir';
+
+  @override
+  String get navWallet => 'Cartera';
+
+  @override
+  String get navPortfolio => 'Portafolio';
+
+  @override
+  String get navProfile => 'Perfil';
+
+  @override
+  String get kycGateTitle => 'Completa el KYC primero';
+
+  @override
+  String kycGateBody(String status) {
+    return 'Estado: $status. Las compras, retiros, cambios de cartera y la liquidación cripto se desbloquean tras la aprobación.';
+  }
+
+  @override
+  String get kycGateViewStatus => 'Ver estado del KYC';
+
+  @override
+  String get kycGateComplete => 'Completar KYC';
+
+  @override
+  String get homeFeaturedOpportunity => 'Oportunidad destacada';
+
+  @override
+  String get homeNoLiveTitle => 'Aún no hay BrickShares activas';
+
+  @override
+  String get homeNoLiveBody =>
+      'Los activos publicados y verificados aparecerán aquí.';
+
+  @override
+  String get homeViewInvest => 'Ver invertir';
+
+  @override
+  String get homeYourHoldings => 'Tus posiciones';
+
+  @override
+  String get homeRecentActivity => 'Actividad reciente';
+
+  @override
+  String get holdingsEmptyTitle => 'Aún no hay posiciones';
+
+  @override
+  String get holdingsEmptyHome =>
+      'Los depósitos verificados aparecerán aquí como BrickShares.';
+
+  @override
+  String get activityEmptyTitle => 'Aún no hay actividad';
+
+  @override
+  String get activityEmptyBody =>
+      'Las solicitudes de depósito y las actualizaciones de liquidación aparecerán aquí.';
+
+  @override
+  String get dashboardErrorTitle =>
+      'No se pudieron cargar los datos de la cuenta';
+
+  @override
+  String get dashboardErrorBody =>
+      'Comprueba la conexión con el backend e inténtalo de nuevo.';
+
+  @override
+  String get investSubtitle => 'Explora BrickShares multiactivo verificadas';
+
+  @override
+  String get investSearchHint =>
+      'Busca por nombre, ubicación o clase de activo';
+
+  @override
+  String investAvailable(int count) {
+    return 'Disponibles $count';
+  }
+
+  @override
+  String get investFilteredIncome => 'BrickShares de ingresos\nfiltradas';
+
+  @override
+  String investOpportunitiesCount(int count) {
+    return '$count oportunidades';
+  }
+
+  @override
+  String get investLoadingOpportunities => 'Cargando oportunidades';
+
+  @override
+  String get investFiltersAction => 'Filtros';
+
+  @override
+  String get investNoMatchTitle => 'No hay BrickShares que coincidan';
+
+  @override
+  String get investNoMatchEmpty =>
+      'Los activos verificados publicados por el administrador aparecerán aquí.';
+
+  @override
+  String investNoMatchSearch(String query) {
+    return 'Ninguna BrickShare coincide con «$query». Prueba otra búsqueda o ajusta los filtros.';
+  }
+
+  @override
+  String get investNoMatchFilters =>
+      'Prueba otra clase de activo, nivel de riesgo o método de pago.';
+
+  @override
+  String get investResetFilters => 'Restablecer filtros';
+
+  @override
+  String get walletCryptoActivity => 'Actividad de órdenes cripto';
+
+  @override
+  String get walletFundingTitle => 'Preparación para financiación cripto';
+
+  @override
+  String get walletFundingBody =>
+      'Añade una cartera verificada antes de enviar fondos. La red, las comisiones, la caducidad de la cotización y el estado de liquidación se muestran antes de confirmar.';
+
+  @override
+  String get walletAddWallet => 'Añadir cartera verificada';
+
+  @override
+  String get walletVerificationStarted => 'Verificación de cartera iniciada';
+
+  @override
+  String get walletSettlementTitle => 'Se requiere confirmación de liquidación';
+
+  @override
+  String get walletSettlementBody =>
+      'Las compras, retiros y cambios de cartera requieren confirmación final.';
+
+  @override
+  String get walletVerifiedBalance => 'Saldo de cartera verificada';
+
+  @override
+  String get portfolioCurrentValue => 'Valor actual del portafolio';
+
+  @override
+  String get portfolioInvested => 'Invertido';
+
+  @override
+  String get portfolioProfitLoss => 'Ganancia / pérdida';
+
+  @override
+  String get portfolioReturn => 'Rendimiento';
+
+  @override
+  String portfolioDividends(String amount) {
+    return 'Dividendos recibidos: $amount';
+  }
+
+  @override
+  String get portfolioHoldings => 'Posiciones';
+
+  @override
+  String get portfolioHoldingsEmptyBody =>
+      'Las inversiones aprobadas aparecen aquí automáticamente.';
+
+  @override
+  String get portfolioAllocation => 'Asignación';
+
+  @override
+  String get portfolioAllocationEmptyTitle => 'Aún no hay asignación';
+
+  @override
+  String get portfolioAllocationEmptyBody =>
+      'Tu combinación de activos aparece tras verificar los depósitos.';
+
+  @override
+  String portfolioInvestedOwnership(String invested, String ownership) {
+    return 'Invertido $invested · $ownership de propiedad';
+  }
+
+  @override
+  String get profileSettings => 'Ajustes';
+
+  @override
+  String profileThemeSubtitle(String mode) {
+    return 'Tema $mode';
+  }
+
+  @override
+  String get profileSecurityTitle => 'Seguridad y privacidad';
+
+  @override
+  String get profileSecuritySubtitle => 'Cartera verificada y biometría';
+
+  @override
+  String get profileDocumentsTitle => 'Documentos';
+
+  @override
+  String get profileDocumentsSubtitle =>
+      'Estados de cuenta, divulgaciones de riesgo';
+
+  @override
+  String profileRowOpened(String title) {
+    return '$title abierto';
+  }
+
+  @override
+  String get profileSupport => 'Soporte';
+
+  @override
+  String get profileSupportSubtitle => 'Escribe al equipo de BrickClub';
+
+  @override
+  String get profileLogout => 'Cerrar sesión';
+
+  @override
+  String get profileLogoutConfirmTitle => '¿Cerrar sesión?';
+
+  @override
+  String get profileLogoutConfirmBody =>
+      'Tendrás que iniciar sesión de nuevo para acceder a tu cuenta.';
+
+  @override
+  String get profileDefaultName => 'Miembro de BrickClub';
+
+  @override
+  String get profileDefaultSubtitle =>
+      'Datos de tu cuenta y de tus BrickShares';
+
+  @override
+  String get themeScreenTitle => 'Tema';
+
+  @override
+  String get themeAppearance => 'Apariencia';
+
+  @override
+  String get themeAppearanceDescription =>
+      'Elige cómo se ve BrickClub en este dispositivo.';
+
+  @override
+  String get themeLight => 'Claro';
+
+  @override
+  String get themeDark => 'Oscuro';
+
+  @override
+  String get themeSystemDescription =>
+      'Seguir este dispositivo automáticamente.';
+
+  @override
+  String get themeLightDescription =>
+      'Usar una interfaz clara con texto oscuro.';
+
+  @override
+  String get themeDarkDescription =>
+      'Usar la clásica interfaz oscura de BrickClub.';
 }

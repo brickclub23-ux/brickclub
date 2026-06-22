@@ -92,6 +92,7 @@ void requireApprovedKyc(
     return;
   }
 
+  final l10n = AppLocalizations.of(context);
   showModalBottomSheet<void>(
     context: context,
     backgroundColor: AppColors.panel,
@@ -106,19 +107,18 @@ void requireApprovedKyc(
         children: [
           Icon(Icons.verified_user_outlined, color: AppColors.gold),
           SizedBox(height: 16),
-          Text('Complete KYC first', style: AppText.h2),
+          Text(l10n.kycGateTitle, style: AppText.h2),
           SizedBox(height: 8),
           Text(
-            'Status: ${kyc.label}. Purchases, withdrawals, wallet changes, '
-            'and crypto settlement unlock after approval.',
+            l10n.kycGateBody(kyc.label),
             style: AppText.bodyLarge,
           ),
           SizedBox(height: 20),
           PrimaryButton(
             key: const ValueKey('start-kyc-gate'),
             label: kyc.status == KycStatus.submitted
-                ? 'View KYC status'
-                : 'Complete KYC',
+                ? l10n.kycGateViewStatus
+                : l10n.kycGateComplete,
             onPressed: () {
               Navigator.pop(sheetContext);
               onStartKyc();

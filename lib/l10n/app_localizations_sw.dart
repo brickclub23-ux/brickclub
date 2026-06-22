@@ -439,4 +439,260 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get footerCopyright => '© 2026 BrickClub';
+
+  @override
+  String get commonViewAll => 'Tazama zote';
+
+  @override
+  String get commonCancel => 'Ghairi';
+
+  @override
+  String get navInvest => 'Wekeza';
+
+  @override
+  String get navWallet => 'Pochi';
+
+  @override
+  String get navPortfolio => 'Kasha';
+
+  @override
+  String get navProfile => 'Wasifu';
+
+  @override
+  String get kycGateTitle => 'Kamilisha KYC kwanza';
+
+  @override
+  String kycGateBody(String status) {
+    return 'Hali: $status. Ununuzi, utoaji, mabadiliko ya pochi, na malipo ya sarafu-fiche hufunguliwa baada ya kuidhinishwa.';
+  }
+
+  @override
+  String get kycGateViewStatus => 'Tazama hali ya KYC';
+
+  @override
+  String get kycGateComplete => 'Kamilisha KYC';
+
+  @override
+  String get homeFeaturedOpportunity => 'Fursa iliyoangaziwa';
+
+  @override
+  String get homeNoLiveTitle => 'Bado hakuna BrickShares zinazoendelea';
+
+  @override
+  String get homeNoLiveBody =>
+      'Mali zilizochapishwa na kuthibitishwa zitaonekana hapa.';
+
+  @override
+  String get homeViewInvest => 'Tazama uwekezaji';
+
+  @override
+  String get homeYourHoldings => 'Umiliki wako';
+
+  @override
+  String get homeRecentActivity => 'Shughuli za hivi karibuni';
+
+  @override
+  String get holdingsEmptyTitle => 'Bado hakuna umiliki';
+
+  @override
+  String get holdingsEmptyHome =>
+      'Amana zilizothibitishwa zitaonekana hapa kama BrickShares.';
+
+  @override
+  String get activityEmptyTitle => 'Bado hakuna shughuli';
+
+  @override
+  String get activityEmptyBody =>
+      'Maombi ya amana na masasisho ya malipo yataonekana hapa.';
+
+  @override
+  String get dashboardErrorTitle => 'Imeshindwa kupakia data ya akaunti';
+
+  @override
+  String get dashboardErrorBody => 'Kagua muunganisho wa seva na ujaribu tena.';
+
+  @override
+  String get investSubtitle =>
+      'Chunguza BrickShares za mali nyingi zilizothibitishwa';
+
+  @override
+  String get investSearchHint => 'Tafuta kwa jina, eneo, au aina ya mali';
+
+  @override
+  String investAvailable(int count) {
+    return 'Zinazopatikana $count';
+  }
+
+  @override
+  String get investFilteredIncome => 'BrickShares za mapato\nzilizochujwa';
+
+  @override
+  String investOpportunitiesCount(int count) {
+    return 'Fursa $count';
+  }
+
+  @override
+  String get investLoadingOpportunities => 'Inapakia fursa';
+
+  @override
+  String get investFiltersAction => 'Vichujio';
+
+  @override
+  String get investNoMatchTitle => 'Hakuna BrickShares zinazolingana';
+
+  @override
+  String get investNoMatchEmpty =>
+      'Mali zilizothibitishwa zilizochapishwa na msimamizi zitaonekana hapa.';
+
+  @override
+  String investNoMatchSearch(String query) {
+    return 'Hakuna BrickShares zinazolingana na «$query». Jaribu utafutaji mwingine au rekebisha vichujio.';
+  }
+
+  @override
+  String get investNoMatchFilters =>
+      'Jaribu aina nyingine ya mali, kiwango cha hatari, au njia ya malipo.';
+
+  @override
+  String get investResetFilters => 'Weka upya vichujio';
+
+  @override
+  String get walletCryptoActivity => 'Shughuli za maagizo ya sarafu-fiche';
+
+  @override
+  String get walletFundingTitle => 'Utayari wa ufadhili wa sarafu-fiche';
+
+  @override
+  String get walletFundingBody =>
+      'Ongeza pochi iliyothibitishwa kabla ya kutuma fedha. Mtandao, ada, mwisho wa bei, na hali ya malipo huonyeshwa kabla ya uthibitisho.';
+
+  @override
+  String get walletAddWallet => 'Ongeza pochi iliyothibitishwa';
+
+  @override
+  String get walletVerificationStarted => 'Uthibitishaji wa pochi umeanza';
+
+  @override
+  String get walletSettlementTitle => 'Uthibitisho wa malipo unahitajika';
+
+  @override
+  String get walletSettlementBody =>
+      'Ununuzi, utoaji, na mabadiliko ya pochi yanahitaji uthibitisho wa mwisho.';
+
+  @override
+  String get walletVerifiedBalance => 'Salio la pochi iliyothibitishwa';
+
+  @override
+  String get portfolioCurrentValue => 'Thamani ya sasa ya kasha';
+
+  @override
+  String get portfolioInvested => 'Iliyowekezwa';
+
+  @override
+  String get portfolioProfitLoss => 'Faida / hasara';
+
+  @override
+  String get portfolioReturn => 'Faida';
+
+  @override
+  String portfolioDividends(String amount) {
+    return 'Gawio lililopokelewa: $amount';
+  }
+
+  @override
+  String get portfolioHoldings => 'Umiliki';
+
+  @override
+  String get portfolioHoldingsEmptyBody =>
+      'Uwekezaji ulioidhinishwa unaonekana hapa kiotomatiki.';
+
+  @override
+  String get portfolioAllocation => 'Mgawanyo';
+
+  @override
+  String get portfolioAllocationEmptyTitle => 'Bado hakuna mgawanyo';
+
+  @override
+  String get portfolioAllocationEmptyBody =>
+      'Mchanganyiko wa mali zako utaonekana baada ya amana kuthibitishwa.';
+
+  @override
+  String portfolioInvestedOwnership(String invested, String ownership) {
+    return 'Iliyowekezwa $invested · umiliki $ownership';
+  }
+
+  @override
+  String get profileSettings => 'Mipangilio';
+
+  @override
+  String profileThemeSubtitle(String mode) {
+    return 'Mandhari $mode';
+  }
+
+  @override
+  String get profileSecurityTitle => 'Usalama na faragha';
+
+  @override
+  String get profileSecuritySubtitle => 'Pochi iliyothibitishwa na bayometriki';
+
+  @override
+  String get profileDocumentsTitle => 'Nyaraka';
+
+  @override
+  String get profileDocumentsSubtitle =>
+      'Taarifa za akaunti, ufichuzi wa hatari';
+
+  @override
+  String profileRowOpened(String title) {
+    return '$title imefunguliwa';
+  }
+
+  @override
+  String get profileSupport => 'Msaada';
+
+  @override
+  String get profileSupportSubtitle => 'Tuma ujumbe kwa timu ya BrickClub';
+
+  @override
+  String get profileLogout => 'Toka';
+
+  @override
+  String get profileLogoutConfirmTitle => 'Utoke?';
+
+  @override
+  String get profileLogoutConfirmBody =>
+      'Utahitaji kuingia tena ili kufikia akaunti yako.';
+
+  @override
+  String get profileDefaultName => 'Mwanachama wa BrickClub';
+
+  @override
+  String get profileDefaultSubtitle => 'Maelezo ya akaunti yako na BrickShares';
+
+  @override
+  String get themeScreenTitle => 'Mandhari';
+
+  @override
+  String get themeAppearance => 'Mwonekano';
+
+  @override
+  String get themeAppearanceDescription =>
+      'Chagua jinsi BrickClub inavyoonekana kwenye kifaa hiki.';
+
+  @override
+  String get themeLight => 'Angavu';
+
+  @override
+  String get themeDark => 'Giza';
+
+  @override
+  String get themeSystemDescription => 'Fuata kifaa hiki kiotomatiki.';
+
+  @override
+  String get themeLightDescription =>
+      'Tumia kiolesura angavu chenye maandishi meusi.';
+
+  @override
+  String get themeDarkDescription =>
+      'Tumia kiolesura cha giza cha kawaida cha BrickClub.';
 }

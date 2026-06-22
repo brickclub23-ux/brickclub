@@ -26,8 +26,9 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return AppPage(
-      title: 'Profile',
+      title: l10n.navProfile,
       simpleHeader: true,
       children: [
         Container(
@@ -49,9 +50,9 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_profileName, style: AppText.h2),
+                    Text(_profileNameFor(l10n), style: AppText.h2),
                     Text(
-                      _profileSubtitle,
+                      _profileSubtitleFor(l10n),
                       style: AppText.body,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -65,8 +66,8 @@ class ProfileScreen extends StatelessWidget {
         KycStatusCard(kyc: kyc, onStartKyc: onStartKyc),
         ProfileRow(
           key: const ValueKey('profile-settings'),
-          title: 'Settings',
-          subtitle: '${_themeModeLabel(themeMode)} theme',
+          title: l10n.profileSettings,
+          subtitle: l10n.profileThemeSubtitle(_themeModeLabel(l10n, themeMode)),
           onTap: () => Navigator.of(context, rootNavigator: true).push(
             MaterialPageRoute(
               builder: (_) => ThemeSettingsScreen(
@@ -90,18 +91,18 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         for (final item in [
-          ('Security & privacy', 'Verified wallet and biometrics'),
-          ('Documents', 'Statements, risk disclosures'),
+          (l10n.profileSecurityTitle, l10n.profileSecuritySubtitle),
+          (l10n.profileDocumentsTitle, l10n.profileDocumentsSubtitle),
         ])
           ProfileRow(
             title: item.$1,
             subtitle: item.$2,
-            onTap: () => showMessage(context, '${item.$1} opened'),
+            onTap: () => showMessage(context, l10n.profileRowOpened(item.$1)),
           ),
         ProfileRow(
           key: const ValueKey('profile-support'),
-          title: 'Support',
-          subtitle: 'Message the BrickClub team',
+          title: l10n.profileSupport,
+          subtitle: l10n.profileSupportSubtitle,
           onTap: () => Navigator.of(context, rootNavigator: true).push(
             MaterialPageRoute(
               builder: (_) => SupportScreen(repository: supportRepository),
@@ -115,24 +116,25 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Future<void> _confirmSignOut(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
     final confirmed = await showAdaptiveDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
         backgroundColor: AppColors.panel,
-        title: Text('Log out?', style: AppText.h2),
+        title: Text(l10n.profileLogoutConfirmTitle, style: AppText.h2),
         content: Text(
-          'You will need to sign in again to access your account.',
+          l10n.profileLogoutConfirmBody,
           style: AppText.body,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text('Cancel'),
+            child: Text(l10n.commonCancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red.shade400),
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text('Log out'),
+            child: Text(l10n.profileLogout),
           ),
         ],
       ),
@@ -142,21 +144,21 @@ class ProfileScreen extends StatelessWidget {
     }
   }
 
-  String get _profileName {
+  String _profileNameFor(AppLocalizations l10n) {
     final signedInName = user?.displayName?.trim();
     if (signedInName != null && signedInName.isNotEmpty) return signedInName;
 
     final legalName = kyc.fullLegalName?.trim();
     if (legalName != null && legalName.isNotEmpty) return legalName;
 
-    return user?.primaryLabel ?? 'BrickClub member';
+    return user?.primaryLabel ?? l10n.profileDefaultName;
   }
 
-  String get _profileSubtitle {
+  String _profileSubtitleFor(AppLocalizations l10n) {
     final email = user?.email?.trim();
     if (email != null && email.isNotEmpty) return email;
 
-    return 'Your account and BrickShares details';
+    return l10n.profileDefaultSubtitle;
   }
 }
 
@@ -188,7 +190,7 @@ class _LogoutButton extends StatelessWidget {
               Icon(Icons.logout_rounded, color: color, size: 20),
               SizedBox(width: 14),
               Text(
-                'Log out',
+                AppLocalizations.of(context).profileLogout,
                 style: AppText.cardHeadingSmall.copyWith(color: color),
               ),
             ],
@@ -229,17 +231,18 @@ class _ThemeSettingsScreenState extends State<ThemeSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PhoneFrame(
       child: Scaffold(
         backgroundColor: AppColors.background,
-        appBar: detailAppBar(context, 'Theme'),
+        appBar: detailAppBar(context, l10n.themeScreenTitle),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
           children: [
-            Text('Appearance', style: AppText.h2),
+            Text(l10n.themeAppearance, style: AppText.h2),
             SizedBox(height: 8),
             Text(
-              'Choose how BrickClub looks on this device.',
+              l10n.themeAppearanceDescription,
               style: AppText.bodyLarge,
             ),
             SizedBox(height: 18),
@@ -252,9 +255,12 @@ class _ThemeSettingsScreenState extends State<ThemeSettingsScreen> {
                       color: Colors.transparent,
                       child: ListTile(
                         key: ValueKey('theme-${mode.name}'),
-                        title: Text(_themeModeLabel(mode), style: AppText.h2),
+                        title: Text(
+                          _themeModeLabel(l10n, mode),
+                          style: AppText.h2,
+                        ),
                         subtitle: Text(
-                          _themeModeDescription(mode),
+                          _themeModeDescription(l10n, mode),
                           style: AppText.body,
                         ),
                         trailing: Icon(
@@ -278,17 +284,18 @@ class _ThemeSettingsScreenState extends State<ThemeSettingsScreen> {
   }
 }
 
-String _themeModeLabel(ThemeMode mode) => switch (mode) {
-  ThemeMode.system => 'System default',
-  ThemeMode.light => 'Light',
-  ThemeMode.dark => 'Dark',
+String _themeModeLabel(AppLocalizations l10n, ThemeMode mode) => switch (mode) {
+  ThemeMode.system => l10n.languageSystemDefault,
+  ThemeMode.light => l10n.themeLight,
+  ThemeMode.dark => l10n.themeDark,
 };
 
-String _themeModeDescription(ThemeMode mode) => switch (mode) {
-  ThemeMode.system => 'Follow this device automatically.',
-  ThemeMode.light => 'Use a bright interface with dark text.',
-  ThemeMode.dark => 'Use the classic dark BrickClub interface.',
-};
+String _themeModeDescription(AppLocalizations l10n, ThemeMode mode) =>
+    switch (mode) {
+      ThemeMode.system => l10n.themeSystemDescription,
+      ThemeMode.light => l10n.themeLightDescription,
+      ThemeMode.dark => l10n.themeDarkDescription,
+    };
 
 /// Selectable languages, labelled by their own endonym so each is recognisable
 /// regardless of the currently active locale. Order matches business priority.

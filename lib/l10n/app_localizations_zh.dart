@@ -407,4 +407,245 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get footerCopyright => '© 2026 BrickClub';
+
+  @override
+  String get commonViewAll => '查看全部';
+
+  @override
+  String get commonCancel => '取消';
+
+  @override
+  String get navInvest => '投资';
+
+  @override
+  String get navWallet => '钱包';
+
+  @override
+  String get navPortfolio => '投资组合';
+
+  @override
+  String get navProfile => '我的';
+
+  @override
+  String get kycGateTitle => '请先完成 KYC';
+
+  @override
+  String kycGateBody(String status) {
+    return '状态：$status。审核通过后，购买、提现、钱包变更和加密结算将解锁。';
+  }
+
+  @override
+  String get kycGateViewStatus => '查看 KYC 状态';
+
+  @override
+  String get kycGateComplete => '完成 KYC';
+
+  @override
+  String get homeFeaturedOpportunity => '精选机会';
+
+  @override
+  String get homeNoLiveTitle => '暂无在线 BrickShares';
+
+  @override
+  String get homeNoLiveBody => '已发布的已验证资产将显示在此处。';
+
+  @override
+  String get homeViewInvest => '查看投资';
+
+  @override
+  String get homeYourHoldings => '您的持仓';
+
+  @override
+  String get homeRecentActivity => '近期活动';
+
+  @override
+  String get holdingsEmptyTitle => '暂无持仓';
+
+  @override
+  String get holdingsEmptyHome => '已验证的存款将以 BrickShares 形式显示在此处。';
+
+  @override
+  String get activityEmptyTitle => '暂无活动';
+
+  @override
+  String get activityEmptyBody => '存款请求和结算更新将显示在此处。';
+
+  @override
+  String get dashboardErrorTitle => '无法加载账户数据';
+
+  @override
+  String get dashboardErrorBody => '请检查后端连接后重试。';
+
+  @override
+  String get investSubtitle => '探索经过验证的多资产 BrickShares';
+
+  @override
+  String get investSearchHint => '按名称、地点或资产类别搜索';
+
+  @override
+  String investAvailable(int count) {
+    return '可用 $count';
+  }
+
+  @override
+  String get investFilteredIncome => '筛选的收益型\nBrickShares';
+
+  @override
+  String investOpportunitiesCount(int count) {
+    return '$count 个机会';
+  }
+
+  @override
+  String get investLoadingOpportunities => '正在加载机会';
+
+  @override
+  String get investFiltersAction => '筛选';
+
+  @override
+  String get investNoMatchTitle => '没有匹配的 BrickShares';
+
+  @override
+  String get investNoMatchEmpty => '管理员发布的已验证资产将显示在此处。';
+
+  @override
+  String investNoMatchSearch(String query) {
+    return '没有与“$query”匹配的 BrickShares。请尝试其他搜索或调整筛选条件。';
+  }
+
+  @override
+  String get investNoMatchFilters => '请尝试其他资产类别、风险等级或支付方式。';
+
+  @override
+  String get investResetFilters => '重置筛选';
+
+  @override
+  String get walletCryptoActivity => '加密订单活动';
+
+  @override
+  String get walletFundingTitle => '加密出资准备';
+
+  @override
+  String get walletFundingBody => '在汇款前添加已验证的钱包。确认前会显示网络、手续费、报价有效期和结算状态。';
+
+  @override
+  String get walletAddWallet => '添加已验证钱包';
+
+  @override
+  String get walletVerificationStarted => '钱包验证已开始';
+
+  @override
+  String get walletSettlementTitle => '需要结算确认';
+
+  @override
+  String get walletSettlementBody => '购买、提现和钱包变更需要最终确认。';
+
+  @override
+  String get walletVerifiedBalance => '已验证钱包余额';
+
+  @override
+  String get portfolioCurrentValue => '当前投资组合价值';
+
+  @override
+  String get portfolioInvested => '已投资';
+
+  @override
+  String get portfolioProfitLoss => '盈亏';
+
+  @override
+  String get portfolioReturn => '回报';
+
+  @override
+  String portfolioDividends(String amount) {
+    return '已收到股息：$amount';
+  }
+
+  @override
+  String get portfolioHoldings => '持仓';
+
+  @override
+  String get portfolioHoldingsEmptyBody => '已批准的投资将自动显示在此处。';
+
+  @override
+  String get portfolioAllocation => '资产配置';
+
+  @override
+  String get portfolioAllocationEmptyTitle => '暂无配置';
+
+  @override
+  String get portfolioAllocationEmptyBody => '您的资产组合将在存款验证后显示。';
+
+  @override
+  String portfolioInvestedOwnership(String invested, String ownership) {
+    return '已投资 $invested · 持有 $ownership';
+  }
+
+  @override
+  String get profileSettings => '设置';
+
+  @override
+  String profileThemeSubtitle(String mode) {
+    return '$mode主题';
+  }
+
+  @override
+  String get profileSecurityTitle => '安全与隐私';
+
+  @override
+  String get profileSecuritySubtitle => '已验证钱包和生物识别';
+
+  @override
+  String get profileDocumentsTitle => '文件';
+
+  @override
+  String get profileDocumentsSubtitle => '对账单、风险披露';
+
+  @override
+  String profileRowOpened(String title) {
+    return '已打开$title';
+  }
+
+  @override
+  String get profileSupport => '支持';
+
+  @override
+  String get profileSupportSubtitle => '联系 BrickClub 团队';
+
+  @override
+  String get profileLogout => '退出登录';
+
+  @override
+  String get profileLogoutConfirmTitle => '退出登录？';
+
+  @override
+  String get profileLogoutConfirmBody => '您需要重新登录才能访问您的账户。';
+
+  @override
+  String get profileDefaultName => 'BrickClub 会员';
+
+  @override
+  String get profileDefaultSubtitle => '您的账户和 BrickShares 详情';
+
+  @override
+  String get themeScreenTitle => '主题';
+
+  @override
+  String get themeAppearance => '外观';
+
+  @override
+  String get themeAppearanceDescription => '选择 BrickClub 在此设备上的外观。';
+
+  @override
+  String get themeLight => '浅色';
+
+  @override
+  String get themeDark => '深色';
+
+  @override
+  String get themeSystemDescription => '自动跟随此设备。';
+
+  @override
+  String get themeLightDescription => '使用明亮界面和深色文字。';
+
+  @override
+  String get themeDarkDescription => '使用经典的 BrickClub 深色界面。';
 }
