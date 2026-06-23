@@ -1018,4 +1018,137 @@ class AppLocalizationsZh extends AppLocalizations {
   String supportCouldNotOpen(String url) {
     return '无法打开 $url';
   }
+
+  @override
+  String get navHome => '首页';
+
+  @override
+  String get navMore => '更多';
+
+  @override
+  String get notificationsNone => '暂无新通知';
+
+  @override
+  String get profileInMore => '个人资料在“更多”中';
+
+  @override
+  String get investmentCardCryptoFunding => '加密出资';
+
+  @override
+  String get commonShowPassword => '显示密码';
+
+  @override
+  String get commonHidePassword => '隐藏密码';
+
+  @override
+  String get errAuthEmulatorUnreachable =>
+      '应用无法连接 Firebase Auth 模拟器。请重新构建调试应用并确保 Firebase 模拟器正在运行。';
+
+  @override
+  String get errInvalidEmail => '请输入有效的电子邮箱地址。';
+
+  @override
+  String get errMissingEmail => '请输入您的电子邮箱地址。';
+
+  @override
+  String get errMissingPassword => '请输入您的密码。';
+
+  @override
+  String get errUserNotFound => '该邮箱没有对应的账户。';
+
+  @override
+  String get errWrongPassword => '邮箱或密码不正确。';
+
+  @override
+  String get errEmailInUse => '该邮箱已存在账户。';
+
+  @override
+  String get errWeakPassword => '请使用至少 6 个字符的更强密码。';
+
+  @override
+  String get errOperationNotAllowed => '电子邮箱登录尚未启用。请联系支持。';
+
+  @override
+  String get errUserDisabled => '此账户已被停用。请联系支持寻求帮助。';
+
+  @override
+  String get errTooManyRequests => '尝试次数过多。请稍候片刻再试。';
+
+  @override
+  String get errNetworkFailed => '无法连接。请检查您的网络后重试。';
+
+  @override
+  String get errRequiresRecentLogin => '进行此更改前请重新登录。';
+
+  @override
+  String get errExpiredActionCode => '此链接已过期。请重新申请后再试。';
+
+  @override
+  String get errInvalidActionCode => '此链接已失效。请重新申请后再试。';
+
+  @override
+  String get errAccountRequestFailed => '我们无法完成该账户请求。请重试。';
+
+  @override
+  String get errResetUnavailable => '密码重置邮件暂时不可用。请稍后再试。';
+
+  @override
+  String get errResetNotAvailable => '目前无法重置密码。';
+
+  @override
+  String get errResetFailed => '我们无法发送重置邮件。请重试。';
+
+  @override
+  String get errSignInAgain => '请重新登录以继续。';
+
+  @override
+  String get errAdminNoPermission => '您的账户没有权限执行此操作。';
+
+  @override
+  String get errEmailEnvUnavailable => '此环境中无法发送邮件。';
+
+  @override
+  String get errAddEmailFirst => '请先为您的账户添加电子邮箱地址。';
+
+  @override
+  String get errPermissionDenied => '您没有权限执行此操作。';
+
+  @override
+  String get errGeneric => '出错了。请重试。';
+
+  @override
+  String get errKycInvalidCode => '请输入模拟器中的短信验证码。';
+
+  @override
+  String get errKycCredentialInUse => '该电话号码已关联到另一个账户。';
+
+  @override
+  String get errKycTooManyRequests => '验证尝试次数过多。请稍后再试。';
+
+  @override
+  String get errKycPhoneFailed => '电话验证失败。请重试。';
+
+  @override
+  String get errKycSignInAgain => '请重新登录以继续 KYC。';
+
+  @override
+  String get errKycNoPermission => '您没有权限更新此 KYC 资料。';
+
+  @override
+  String get errKycUnavailable => 'KYC 服务暂时不可用。请稍后再试。';
+
+  @override
+  String get errKycDeadline => '请求耗时过长。请检查您的网络后重试。';
+
+  @override
+  String get errKycStorageUnauthorized => '您没有权限上传此文件。';
+
+  @override
+  String get errKycStorageCanceled => '文件上传已取消。';
+
+  @override
+  String get errKycStorageRetry => '上传耗时过长。请检查您的网络后重试。';
+
+  @override
+  String get errKycStorageQuota => '文件上传暂时不可用。请稍后再试。';
 }

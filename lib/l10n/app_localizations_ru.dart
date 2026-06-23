@@ -1070,4 +1070,159 @@ class AppLocalizationsRu extends AppLocalizations {
   String supportCouldNotOpen(String url) {
     return 'Не удалось открыть $url';
   }
+
+  @override
+  String get navHome => 'Главная';
+
+  @override
+  String get navMore => 'Ещё';
+
+  @override
+  String get notificationsNone => 'Нет новых уведомлений';
+
+  @override
+  String get profileInMore => 'Профиль находится в разделе «Ещё»';
+
+  @override
+  String get investmentCardCryptoFunding => 'Криптофинансирование';
+
+  @override
+  String get commonShowPassword => 'Показать пароль';
+
+  @override
+  String get commonHidePassword => 'Скрыть пароль';
+
+  @override
+  String get errAuthEmulatorUnreachable =>
+      'Приложению не удалось подключиться к эмулятору Firebase Auth. Пересоберите отладочное приложение и убедитесь, что эмуляторы Firebase запущены.';
+
+  @override
+  String get errInvalidEmail => 'Введите действительный адрес эл. почты.';
+
+  @override
+  String get errMissingEmail => 'Введите адрес эл. почты.';
+
+  @override
+  String get errMissingPassword => 'Введите пароль.';
+
+  @override
+  String get errUserNotFound => 'Аккаунт с такой почтой не найден.';
+
+  @override
+  String get errWrongPassword => 'Неверная почта или пароль.';
+
+  @override
+  String get errEmailInUse => 'Аккаунт с такой почтой уже существует.';
+
+  @override
+  String get errWeakPassword =>
+      'Используйте более надёжный пароль не менее 6 символов.';
+
+  @override
+  String get errOperationNotAllowed =>
+      'Вход по эл. почте пока не включён. Свяжитесь с поддержкой.';
+
+  @override
+  String get errUserDisabled =>
+      'Этот аккаунт отключён. Обратитесь в поддержку за помощью.';
+
+  @override
+  String get errTooManyRequests =>
+      'Слишком много попыток. Подождите немного и попробуйте снова.';
+
+  @override
+  String get errNetworkFailed =>
+      'Не удалось подключиться. Проверьте интернет и попробуйте снова.';
+
+  @override
+  String get errRequiresRecentLogin =>
+      'Войдите снова, прежде чем вносить это изменение.';
+
+  @override
+  String get errExpiredActionCode =>
+      'Срок действия этой ссылки истёк. Запросите новую и попробуйте снова.';
+
+  @override
+  String get errInvalidActionCode =>
+      'Эта ссылка больше недействительна. Запросите новую и попробуйте снова.';
+
+  @override
+  String get errAccountRequestFailed =>
+      'Не удалось выполнить этот запрос аккаунта. Повторите попытку.';
+
+  @override
+  String get errResetUnavailable =>
+      'Письмо для сброса пароля временно недоступно. Повторите попытку позже.';
+
+  @override
+  String get errResetNotAvailable => 'Сброс пароля сейчас недоступен.';
+
+  @override
+  String get errResetFailed =>
+      'Не удалось отправить письмо для сброса. Повторите попытку.';
+
+  @override
+  String get errSignInAgain => 'Войдите снова, чтобы продолжить.';
+
+  @override
+  String get errAdminNoPermission =>
+      'У вашего аккаунта нет прав для этого действия.';
+
+  @override
+  String get errEmailEnvUnavailable =>
+      'Отправка писем недоступна в этой среде.';
+
+  @override
+  String get errAddEmailFirst => 'Сначала добавьте адрес эл. почты к аккаунту.';
+
+  @override
+  String get errPermissionDenied => 'У вас нет прав для этого действия.';
+
+  @override
+  String get errGeneric => 'Что-то пошло не так. Повторите попытку.';
+
+  @override
+  String get errKycInvalidCode => 'Введите SMS-код из эмулятора.';
+
+  @override
+  String get errKycCredentialInUse =>
+      'Этот номер телефона уже привязан к другому аккаунту.';
+
+  @override
+  String get errKycTooManyRequests =>
+      'Слишком много попыток подтверждения. Повторите позже.';
+
+  @override
+  String get errKycPhoneFailed =>
+      'Не удалось подтвердить телефон. Повторите попытку.';
+
+  @override
+  String get errKycSignInAgain => 'Войдите снова, чтобы продолжить KYC.';
+
+  @override
+  String get errKycNoPermission =>
+      'У вас нет прав для обновления этого профиля KYC.';
+
+  @override
+  String get errKycUnavailable =>
+      'Сервисы KYC временно недоступны. Повторите попытку позже.';
+
+  @override
+  String get errKycDeadline =>
+      'Запрос занял слишком много времени. Проверьте соединение и повторите попытку.';
+
+  @override
+  String get errKycStorageUnauthorized =>
+      'У вас нет прав для загрузки этого документа.';
+
+  @override
+  String get errKycStorageCanceled => 'Загрузка документа отменена.';
+
+  @override
+  String get errKycStorageRetry =>
+      'Загрузка заняла слишком много времени. Проверьте соединение и повторите попытку.';
+
+  @override
+  String get errKycStorageQuota =>
+      'Загрузка документов временно недоступна. Повторите попытку позже.';
 }

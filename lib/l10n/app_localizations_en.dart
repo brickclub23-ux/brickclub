@@ -1064,4 +1064,160 @@ class AppLocalizationsEn extends AppLocalizations {
   String supportCouldNotOpen(String url) {
     return 'Could not open $url';
   }
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navMore => 'More';
+
+  @override
+  String get notificationsNone => 'No new notifications';
+
+  @override
+  String get profileInMore => 'Profile is in More';
+
+  @override
+  String get investmentCardCryptoFunding => 'Crypto funding';
+
+  @override
+  String get commonShowPassword => 'Show password';
+
+  @override
+  String get commonHidePassword => 'Hide password';
+
+  @override
+  String get errAuthEmulatorUnreachable =>
+      'The app could not reach the Firebase Auth emulator. Rebuild the debug app and make sure the Firebase emulators are running.';
+
+  @override
+  String get errInvalidEmail => 'Enter a valid email address.';
+
+  @override
+  String get errMissingEmail => 'Enter your email address.';
+
+  @override
+  String get errMissingPassword => 'Enter your password.';
+
+  @override
+  String get errUserNotFound => 'No account exists for that email.';
+
+  @override
+  String get errWrongPassword => 'Email or password is incorrect.';
+
+  @override
+  String get errEmailInUse => 'An account already exists for that email.';
+
+  @override
+  String get errWeakPassword =>
+      'Use a stronger password with at least 6 characters.';
+
+  @override
+  String get errOperationNotAllowed =>
+      'Email sign in is not enabled yet. Contact support.';
+
+  @override
+  String get errUserDisabled =>
+      'This account has been disabled. Contact support for help.';
+
+  @override
+  String get errTooManyRequests =>
+      'Too many attempts. Please wait a moment before trying again.';
+
+  @override
+  String get errNetworkFailed =>
+      'We could not connect. Check your internet and try again.';
+
+  @override
+  String get errRequiresRecentLogin =>
+      'Sign in again before making this change.';
+
+  @override
+  String get errExpiredActionCode =>
+      'This link has expired. Request a new one and try again.';
+
+  @override
+  String get errInvalidActionCode =>
+      'This link is no longer valid. Request a new one and try again.';
+
+  @override
+  String get errAccountRequestFailed =>
+      'We could not complete that account request. Please try again.';
+
+  @override
+  String get errResetUnavailable =>
+      'Password reset email is temporarily unavailable. Please try again shortly.';
+
+  @override
+  String get errResetNotAvailable =>
+      'Password reset is not available right now.';
+
+  @override
+  String get errResetFailed =>
+      'We could not send the reset email. Please try again.';
+
+  @override
+  String get errSignInAgain => 'Sign in again to continue.';
+
+  @override
+  String get errAdminNoPermission =>
+      'Your account does not have permission to do that.';
+
+  @override
+  String get errEmailEnvUnavailable =>
+      'Email sending is not available in this environment.';
+
+  @override
+  String get errAddEmailFirst => 'Add an email address to your account first.';
+
+  @override
+  String get errPermissionDenied => 'You do not have permission to do that.';
+
+  @override
+  String get errGeneric => 'Something went wrong. Please try again.';
+
+  @override
+  String get errKycInvalidCode => 'Enter the SMS code from the emulator.';
+
+  @override
+  String get errKycCredentialInUse =>
+      'That phone number is already linked to another account.';
+
+  @override
+  String get errKycTooManyRequests =>
+      'Too many verification attempts. Try again later.';
+
+  @override
+  String get errKycPhoneFailed =>
+      'Phone verification failed. Please try again.';
+
+  @override
+  String get errKycSignInAgain => 'Sign in again to continue with KYC.';
+
+  @override
+  String get errKycNoPermission =>
+      'You do not have permission to update this KYC profile.';
+
+  @override
+  String get errKycUnavailable =>
+      'KYC services are temporarily unavailable. Please try again shortly.';
+
+  @override
+  String get errKycDeadline =>
+      'The request took too long. Please check your connection and try again.';
+
+  @override
+  String get errKycStorageUnauthorized =>
+      'You do not have permission to upload this document.';
+
+  @override
+  String get errKycStorageCanceled => 'Document upload was cancelled.';
+
+  @override
+  String get errKycStorageRetry =>
+      'The upload took too long. Please check your connection and try again.';
+
+  @override
+  String get errKycStorageQuota =>
+      'Document uploads are temporarily unavailable. Please try again later.';
 }

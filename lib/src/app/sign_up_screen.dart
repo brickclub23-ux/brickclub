@@ -234,6 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _signUpWithGoogle() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       authMessage = null;
       signingUpWithGoogle = true;
@@ -246,7 +247,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     } catch (error) {
       if (mounted) {
-        _showAuthMessage(_authErrorMessage(error));
+        _showAuthMessage(_authErrorMessage(l10n, error));
       }
     } finally {
       if (mounted) {
@@ -256,6 +257,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _createAccount() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       authMessage = null;
       creatingAccount = true;
@@ -276,7 +278,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     } catch (error) {
       if (mounted) {
-        _showAuthMessage(_authErrorMessage(error));
+        _showAuthMessage(_authErrorMessage(l10n, error));
       }
     } finally {
       if (mounted) {

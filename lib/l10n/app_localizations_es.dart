@@ -1084,4 +1084,162 @@ class AppLocalizationsEs extends AppLocalizations {
   String supportCouldNotOpen(String url) {
     return 'No se pudo abrir $url';
   }
+
+  @override
+  String get navHome => 'Inicio';
+
+  @override
+  String get navMore => 'Más';
+
+  @override
+  String get notificationsNone => 'No hay notificaciones nuevas';
+
+  @override
+  String get profileInMore => 'El perfil está en Más';
+
+  @override
+  String get investmentCardCryptoFunding => 'Financiación cripto';
+
+  @override
+  String get commonShowPassword => 'Mostrar contraseña';
+
+  @override
+  String get commonHidePassword => 'Ocultar contraseña';
+
+  @override
+  String get errAuthEmulatorUnreachable =>
+      'La app no pudo conectar con el emulador de Firebase Auth. Recompila la app de depuración y asegúrate de que los emuladores de Firebase estén en ejecución.';
+
+  @override
+  String get errInvalidEmail => 'Introduce una dirección de correo válida.';
+
+  @override
+  String get errMissingEmail => 'Introduce tu dirección de correo.';
+
+  @override
+  String get errMissingPassword => 'Introduce tu contraseña.';
+
+  @override
+  String get errUserNotFound => 'No existe ninguna cuenta para ese correo.';
+
+  @override
+  String get errWrongPassword => 'El correo o la contraseña son incorrectos.';
+
+  @override
+  String get errEmailInUse => 'Ya existe una cuenta para ese correo.';
+
+  @override
+  String get errWeakPassword =>
+      'Usa una contraseña más fuerte de al menos 6 caracteres.';
+
+  @override
+  String get errOperationNotAllowed =>
+      'El inicio de sesión por correo aún no está habilitado. Contacta con soporte.';
+
+  @override
+  String get errUserDisabled =>
+      'Esta cuenta ha sido deshabilitada. Contacta con soporte para obtener ayuda.';
+
+  @override
+  String get errTooManyRequests =>
+      'Demasiados intentos. Espera un momento antes de volver a intentarlo.';
+
+  @override
+  String get errNetworkFailed =>
+      'No pudimos conectar. Comprueba tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get errRequiresRecentLogin =>
+      'Inicia sesión de nuevo antes de hacer este cambio.';
+
+  @override
+  String get errExpiredActionCode =>
+      'Este enlace ha caducado. Solicita uno nuevo e inténtalo de nuevo.';
+
+  @override
+  String get errInvalidActionCode =>
+      'Este enlace ya no es válido. Solicita uno nuevo e inténtalo de nuevo.';
+
+  @override
+  String get errAccountRequestFailed =>
+      'No pudimos completar esa solicitud de cuenta. Inténtalo de nuevo.';
+
+  @override
+  String get errResetUnavailable =>
+      'El correo de restablecimiento de contraseña no está disponible temporalmente. Inténtalo de nuevo en breve.';
+
+  @override
+  String get errResetNotAvailable =>
+      'El restablecimiento de contraseña no está disponible ahora mismo.';
+
+  @override
+  String get errResetFailed =>
+      'No pudimos enviar el correo de restablecimiento. Inténtalo de nuevo.';
+
+  @override
+  String get errSignInAgain => 'Inicia sesión de nuevo para continuar.';
+
+  @override
+  String get errAdminNoPermission =>
+      'Tu cuenta no tiene permiso para hacer eso.';
+
+  @override
+  String get errEmailEnvUnavailable =>
+      'El envío de correos no está disponible en este entorno.';
+
+  @override
+  String get errAddEmailFirst =>
+      'Añade primero una dirección de correo a tu cuenta.';
+
+  @override
+  String get errPermissionDenied => 'No tienes permiso para hacer eso.';
+
+  @override
+  String get errGeneric => 'Algo salió mal. Inténtalo de nuevo.';
+
+  @override
+  String get errKycInvalidCode => 'Introduce el código SMS del emulador.';
+
+  @override
+  String get errKycCredentialInUse =>
+      'Ese número de teléfono ya está vinculado a otra cuenta.';
+
+  @override
+  String get errKycTooManyRequests =>
+      'Demasiados intentos de verificación. Inténtalo más tarde.';
+
+  @override
+  String get errKycPhoneFailed =>
+      'La verificación del teléfono falló. Inténtalo de nuevo.';
+
+  @override
+  String get errKycSignInAgain =>
+      'Inicia sesión de nuevo para continuar con el KYC.';
+
+  @override
+  String get errKycNoPermission =>
+      'No tienes permiso para actualizar este perfil de KYC.';
+
+  @override
+  String get errKycUnavailable =>
+      'Los servicios de KYC no están disponibles temporalmente. Inténtalo de nuevo en breve.';
+
+  @override
+  String get errKycDeadline =>
+      'La solicitud tardó demasiado. Comprueba tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get errKycStorageUnauthorized =>
+      'No tienes permiso para subir este documento.';
+
+  @override
+  String get errKycStorageCanceled => 'La subida del documento se canceló.';
+
+  @override
+  String get errKycStorageRetry =>
+      'La subida tardó demasiado. Comprueba tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get errKycStorageQuota =>
+      'Las subidas de documentos no están disponibles temporalmente. Inténtalo de nuevo más tarde.';
 }

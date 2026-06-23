@@ -1058,4 +1058,153 @@ class AppLocalizationsAr extends AppLocalizations {
   String supportCouldNotOpen(String url) {
     return 'تعذّر فتح $url';
   }
+
+  @override
+  String get navHome => 'الرئيسية';
+
+  @override
+  String get navMore => 'المزيد';
+
+  @override
+  String get notificationsNone => 'لا توجد إشعارات جديدة';
+
+  @override
+  String get profileInMore => 'الملف الشخصي موجود في «المزيد»';
+
+  @override
+  String get investmentCardCryptoFunding => 'تمويل مشفَّر';
+
+  @override
+  String get commonShowPassword => 'إظهار كلمة المرور';
+
+  @override
+  String get commonHidePassword => 'إخفاء كلمة المرور';
+
+  @override
+  String get errAuthEmulatorUnreachable =>
+      'تعذّر على التطبيق الوصول إلى محاكي Firebase Auth. أعد بناء تطبيق التصحيح وتأكد من تشغيل محاكيات Firebase.';
+
+  @override
+  String get errInvalidEmail => 'أدخل عنوان بريد إلكتروني صالحًا.';
+
+  @override
+  String get errMissingEmail => 'أدخل عنوان بريدك الإلكتروني.';
+
+  @override
+  String get errMissingPassword => 'أدخل كلمة المرور.';
+
+  @override
+  String get errUserNotFound => 'لا يوجد حساب لهذا البريد الإلكتروني.';
+
+  @override
+  String get errWrongPassword => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+
+  @override
+  String get errEmailInUse => 'يوجد حساب بالفعل لهذا البريد الإلكتروني.';
+
+  @override
+  String get errWeakPassword => 'استخدم كلمة مرور أقوى لا تقل عن 6 أحرف.';
+
+  @override
+  String get errOperationNotAllowed =>
+      'تسجيل الدخول بالبريد الإلكتروني غير مُفعّل بعد. تواصل مع الدعم.';
+
+  @override
+  String get errUserDisabled => 'تم تعطيل هذا الحساب. تواصل مع الدعم للمساعدة.';
+
+  @override
+  String get errTooManyRequests =>
+      'محاولات كثيرة جدًا. انتظر لحظة قبل المحاولة مرة أخرى.';
+
+  @override
+  String get errNetworkFailed =>
+      'تعذّر الاتصال. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.';
+
+  @override
+  String get errRequiresRecentLogin =>
+      'سجّل الدخول مرة أخرى قبل إجراء هذا التغيير.';
+
+  @override
+  String get errExpiredActionCode =>
+      'انتهت صلاحية هذا الرابط. اطلب رابطًا جديدًا وحاول مرة أخرى.';
+
+  @override
+  String get errInvalidActionCode =>
+      'لم يعد هذا الرابط صالحًا. اطلب رابطًا جديدًا وحاول مرة أخرى.';
+
+  @override
+  String get errAccountRequestFailed =>
+      'تعذّر إكمال طلب الحساب هذا. يُرجى المحاولة مرة أخرى.';
+
+  @override
+  String get errResetUnavailable =>
+      'بريد إعادة تعيين كلمة المرور غير متاح مؤقتًا. يُرجى المحاولة قريبًا.';
+
+  @override
+  String get errResetNotAvailable =>
+      'إعادة تعيين كلمة المرور غير متاحة حاليًا.';
+
+  @override
+  String get errResetFailed =>
+      'تعذّر إرسال بريد إعادة التعيين. يُرجى المحاولة مرة أخرى.';
+
+  @override
+  String get errSignInAgain => 'سجّل الدخول مرة أخرى للمتابعة.';
+
+  @override
+  String get errAdminNoPermission => 'حسابك لا يملك صلاحية القيام بذلك.';
+
+  @override
+  String get errEmailEnvUnavailable =>
+      'إرسال البريد الإلكتروني غير متاح في هذه البيئة.';
+
+  @override
+  String get errAddEmailFirst => 'أضف عنوان بريد إلكتروني إلى حسابك أولًا.';
+
+  @override
+  String get errPermissionDenied => 'ليس لديك صلاحية القيام بذلك.';
+
+  @override
+  String get errGeneric => 'حدث خطأ ما. يُرجى المحاولة مرة أخرى.';
+
+  @override
+  String get errKycInvalidCode => 'أدخل رمز الرسالة النصية من المحاكي.';
+
+  @override
+  String get errKycCredentialInUse => 'رقم الهاتف هذا مرتبط بالفعل بحساب آخر.';
+
+  @override
+  String get errKycTooManyRequests => 'محاولات تحقق كثيرة جدًا. حاول لاحقًا.';
+
+  @override
+  String get errKycPhoneFailed =>
+      'فشل التحقق من الهاتف. يُرجى المحاولة مرة أخرى.';
+
+  @override
+  String get errKycSignInAgain => 'سجّل الدخول مرة أخرى لمتابعة KYC.';
+
+  @override
+  String get errKycNoPermission => 'ليس لديك صلاحية تحديث ملف KYC هذا.';
+
+  @override
+  String get errKycUnavailable =>
+      'خدمات KYC غير متاحة مؤقتًا. يُرجى المحاولة قريبًا.';
+
+  @override
+  String get errKycDeadline =>
+      'استغرق الطلب وقتًا طويلًا. تحقق من اتصالك وحاول مرة أخرى.';
+
+  @override
+  String get errKycStorageUnauthorized => 'ليس لديك صلاحية رفع هذا المستند.';
+
+  @override
+  String get errKycStorageCanceled => 'تم إلغاء رفع المستند.';
+
+  @override
+  String get errKycStorageRetry =>
+      'استغرق الرفع وقتًا طويلًا. تحقق من اتصالك وحاول مرة أخرى.';
+
+  @override
+  String get errKycStorageQuota =>
+      'رفع المستندات غير متاح مؤقتًا. يُرجى المحاولة لاحقًا.';
 }

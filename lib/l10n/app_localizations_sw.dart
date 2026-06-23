@@ -1075,4 +1075,160 @@ class AppLocalizationsSw extends AppLocalizations {
   String supportCouldNotOpen(String url) {
     return 'Imeshindwa kufungua $url';
   }
+
+  @override
+  String get navHome => 'Mwanzo';
+
+  @override
+  String get navMore => 'Zaidi';
+
+  @override
+  String get notificationsNone => 'Hakuna arifa mpya';
+
+  @override
+  String get profileInMore => 'Wasifu uko kwenye Zaidi';
+
+  @override
+  String get investmentCardCryptoFunding => 'Ufadhili wa sarafu-fiche';
+
+  @override
+  String get commonShowPassword => 'Onyesha nenosiri';
+
+  @override
+  String get commonHidePassword => 'Ficha nenosiri';
+
+  @override
+  String get errAuthEmulatorUnreachable =>
+      'Programu haikuweza kufikia emuleta ya Firebase Auth. Jenga upya programu ya utatuzi na uhakikishe emuleta za Firebase zinaendelea.';
+
+  @override
+  String get errInvalidEmail => 'Weka anwani halali ya barua pepe.';
+
+  @override
+  String get errMissingEmail => 'Weka anwani yako ya barua pepe.';
+
+  @override
+  String get errMissingPassword => 'Weka nenosiri lako.';
+
+  @override
+  String get errUserNotFound => 'Hakuna akaunti ya barua pepe hiyo.';
+
+  @override
+  String get errWrongPassword => 'Barua pepe au nenosiri si sahihi.';
+
+  @override
+  String get errEmailInUse => 'Tayari kuna akaunti ya barua pepe hiyo.';
+
+  @override
+  String get errWeakPassword =>
+      'Tumia nenosiri imara zaidi lenye angalau herufi 6.';
+
+  @override
+  String get errOperationNotAllowed =>
+      'Kuingia kwa barua pepe bado hakujawezeshwa. Wasiliana na usaidizi.';
+
+  @override
+  String get errUserDisabled =>
+      'Akaunti hii imezimwa. Wasiliana na usaidizi kwa msaada.';
+
+  @override
+  String get errTooManyRequests =>
+      'Majaribio mengi mno. Subiri kidogo kabla ya kujaribu tena.';
+
+  @override
+  String get errNetworkFailed =>
+      'Hatukuweza kuunganisha. Angalia mtandao wako na ujaribu tena.';
+
+  @override
+  String get errRequiresRecentLogin =>
+      'Ingia tena kabla ya kufanya mabadiliko haya.';
+
+  @override
+  String get errExpiredActionCode =>
+      'Kiungo hiki kimeisha muda. Omba kipya na ujaribu tena.';
+
+  @override
+  String get errInvalidActionCode =>
+      'Kiungo hiki hakitumiki tena. Omba kipya na ujaribu tena.';
+
+  @override
+  String get errAccountRequestFailed =>
+      'Hatukuweza kukamilisha ombi hilo la akaunti. Tafadhali jaribu tena.';
+
+  @override
+  String get errResetUnavailable =>
+      'Barua pepe ya kuweka upya nenosiri haipatikani kwa muda. Tafadhali jaribu tena hivi karibuni.';
+
+  @override
+  String get errResetNotAvailable =>
+      'Kuweka upya nenosiri hakupatikani kwa sasa.';
+
+  @override
+  String get errResetFailed =>
+      'Hatukuweza kutuma barua pepe ya kuweka upya. Tafadhali jaribu tena.';
+
+  @override
+  String get errSignInAgain => 'Ingia tena ili kuendelea.';
+
+  @override
+  String get errAdminNoPermission =>
+      'Akaunti yako haina ruhusa ya kufanya hivyo.';
+
+  @override
+  String get errEmailEnvUnavailable =>
+      'Kutuma barua pepe hakupatikani katika mazingira haya.';
+
+  @override
+  String get errAddEmailFirst =>
+      'Ongeza anwani ya barua pepe kwenye akaunti yako kwanza.';
+
+  @override
+  String get errPermissionDenied => 'Huna ruhusa ya kufanya hivyo.';
+
+  @override
+  String get errGeneric => 'Hitilafu imetokea. Tafadhali jaribu tena.';
+
+  @override
+  String get errKycInvalidCode => 'Weka msimbo wa SMS kutoka kwa emuleta.';
+
+  @override
+  String get errKycCredentialInUse =>
+      'Nambari hiyo ya simu tayari imeunganishwa na akaunti nyingine.';
+
+  @override
+  String get errKycTooManyRequests =>
+      'Majaribio mengi mno ya uthibitisho. Jaribu baadaye.';
+
+  @override
+  String get errKycPhoneFailed =>
+      'Uthibitisho wa simu umeshindwa. Tafadhali jaribu tena.';
+
+  @override
+  String get errKycSignInAgain => 'Ingia tena ili kuendelea na KYC.';
+
+  @override
+  String get errKycNoPermission =>
+      'Huna ruhusa ya kusasisha wasifu huu wa KYC.';
+
+  @override
+  String get errKycUnavailable =>
+      'Huduma za KYC hazipatikani kwa muda. Tafadhali jaribu tena hivi karibuni.';
+
+  @override
+  String get errKycDeadline =>
+      'Ombi limechukua muda mrefu mno. Tafadhali angalia muunganisho wako na ujaribu tena.';
+
+  @override
+  String get errKycStorageUnauthorized => 'Huna ruhusa ya kupakia hati hii.';
+
+  @override
+  String get errKycStorageCanceled => 'Upakiaji wa hati umeghairiwa.';
+
+  @override
+  String get errKycStorageRetry =>
+      'Upakiaji umechukua muda mrefu mno. Tafadhali angalia muunganisho wako na ujaribu tena.';
+
+  @override
+  String get errKycStorageQuota =>
+      'Upakiaji wa hati haupatikani kwa muda. Tafadhali jaribu tena baadaye.';
 }

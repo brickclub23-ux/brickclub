@@ -233,7 +233,7 @@ class _SignInScreenState extends State<SignInScreen> {
       widget.onMemberSignedIn();
     } catch (error) {
       if (mounted) {
-        _showAuthMessage(_authErrorMessage(error));
+        _showAuthMessage(_authErrorMessage(l10n, error));
       }
     } finally {
       if (mounted) {
@@ -278,7 +278,7 @@ class _SignInScreenState extends State<SignInScreen> {
       widget.onMemberSignedIn();
     } catch (error) {
       if (mounted) {
-        _showAuthMessage(_authErrorMessage(error));
+        _showAuthMessage(_authErrorMessage(l10n, error));
       }
     } finally {
       if (mounted) {
@@ -305,7 +305,7 @@ class _SignInScreenState extends State<SignInScreen> {
       }
     } catch (error) {
       if (mounted) {
-        _showAuthMessage(_authErrorMessage(error));
+        _showAuthMessage(_authErrorMessage(l10n, error));
       }
     }
   }

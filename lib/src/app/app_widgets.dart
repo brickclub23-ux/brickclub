@@ -62,6 +62,7 @@ class AppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return SizedBox(
       height: 48,
       child: Row(
@@ -70,7 +71,7 @@ class AppHeader extends StatelessWidget {
           SizedBox(width: 10),
           Expanded(child: Text(title, style: AppText.topTitle)),
           HeaderCircle(
-            onTap: () => showMessage(context, 'No new notifications'),
+            onTap: () => showMessage(context, l10n.notificationsNone),
             child: Icon(
               Icons.notifications_none_rounded,
               color: AppColors.secondary,
@@ -82,7 +83,7 @@ class AppHeader extends StatelessWidget {
             key: const ValueKey('profile-header-button'),
             onTap:
                 onProfileTap ??
-                () => showMessage(context, 'Profile is in More'),
+                () => showMessage(context, l10n.profileInMore),
             child: Icon(
               Icons.person_outline_rounded,
               color: AppColors.gold,
@@ -101,20 +102,32 @@ class AppBottomNav extends StatelessWidget {
   final int index;
   final ValueChanged<int> onChanged;
 
-  static final items = [
-    (Icons.home_outlined, Icons.home_rounded, 'Home'),
-    (Icons.trending_up_rounded, Icons.trending_up_rounded, 'Invest'),
+  // The third field is a stable id used for the widget key (e.g. 'nav-home');
+  // the visible label is resolved from it via [_label] so localization never
+  // changes the key.
+  static const items = [
+    (Icons.home_outlined, Icons.home_rounded, 'home'),
+    (Icons.trending_up_rounded, Icons.trending_up_rounded, 'invest'),
     (
       Icons.account_balance_wallet_outlined,
       Icons.account_balance_wallet_rounded,
-      'Wallet',
+      'wallet',
     ),
-    (Icons.pie_chart_outline_rounded, Icons.pie_chart_rounded, 'Portfolio'),
-    (Icons.menu_rounded, Icons.menu_rounded, 'More'),
+    (Icons.pie_chart_outline_rounded, Icons.pie_chart_rounded, 'portfolio'),
+    (Icons.menu_rounded, Icons.menu_rounded, 'more'),
   ];
+
+  static String _label(AppLocalizations l10n, String id) => switch (id) {
+    'home' => l10n.navHome,
+    'invest' => l10n.navInvest,
+    'wallet' => l10n.navWallet,
+    'portfolio' => l10n.navPortfolio,
+    _ => l10n.navMore,
+  };
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       decoration: BoxDecoration(
         color: AppColors.background,
@@ -129,10 +142,10 @@ class AppBottomNav extends StatelessWidget {
               for (var i = 0; i < items.length; i++)
                 Expanded(
                   child: _BottomNavItem(
-                    key: ValueKey('nav-${items[i].$3.toLowerCase()}'),
+                    key: ValueKey('nav-${items[i].$3}'),
                     icon: items[i].$1,
                     selectedIcon: items[i].$2,
-                    label: items[i].$3,
+                    label: _label(l10n, items[i].$3),
                     selected: i == index,
                     onTap: () => onChanged(i),
                   ),
@@ -356,7 +369,11 @@ class InvestmentCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Crypto funding', style: AppText.tiny),
+                            Text(
+                              AppLocalizations.of(context)
+                                  .investmentCardCryptoFunding,
+                              style: AppText.tiny,
+                            ),
                             Text('62%', style: AppText.tinyLight),
                           ],
                         ),
@@ -752,7 +769,9 @@ class _AppTextFieldState extends State<AppTextField> {
           ),
           suffixIcon: widget.obscureText
               ? IconButton(
-                  tooltip: obscured ? 'Show password' : 'Hide password',
+                  tooltip: obscured
+                      ? AppLocalizations.of(context).commonShowPassword
+                      : AppLocalizations.of(context).commonHidePassword,
                   onPressed: () => setState(() => obscured = !obscured),
                   icon: Icon(
                     obscured
@@ -1111,7 +1130,7 @@ void showMessage(BuildContext context, String message) {
     );
 }
 
-String _authErrorMessage(Object error) {
+String _authErrorMessage(AppLocalizations l10n, Object error) {
   if (error is AuthValidationException) {
     return error.message;
   }
@@ -1121,70 +1140,78 @@ String _authErrorMessage(Object error) {
   if (error is FirebaseAuthException) {
     final message = error.message?.toLowerCase() ?? '';
     if (message.contains('cleartext') || message.contains('10.0.2.2')) {
-      return 'The app could not reach the Firebase Auth emulator. Rebuild the debug app and make sure the Firebase emulators are running.';
+      return l10n.errAuthEmulatorUnreachable;
     }
 
     return switch (error.code) {
-      'invalid-email' => 'Enter a valid email address.',
-      'missing-email' => 'Enter your email address.',
-      'missing-password' => 'Enter your password.',
-      'user-not-found' => 'No account exists for that email.',
-      'wrong-password' ||
-      'invalid-credential' => 'Email or password is incorrect.',
-      'email-already-in-use' => 'An account already exists for that email.',
-      'weak-password' => 'Use a stronger password with at least 6 characters.',
-      'operation-not-allowed' =>
-        'Email sign in is not enabled yet. Contact support.',
-      'user-disabled' =>
-        'This account has been disabled. Contact support for help.',
-      'too-many-requests' =>
-        'Too many attempts. Please wait a moment before trying again.',
-      'network-request-failed' =>
-        'We could not connect. Check your internet and try again.',
-      'requires-recent-login' => 'Sign in again before making this change.',
-      'expired-action-code' =>
-        'This link has expired. Request a new one and try again.',
-      'invalid-action-code' =>
-        'This link is no longer valid. Request a new one and try again.',
-      'internal-error' =>
-        'We could not complete that account request. Please try again.',
-      _ => 'We could not complete that account request. Please try again.',
+      'invalid-email' => l10n.errInvalidEmail,
+      'missing-email' => l10n.errMissingEmail,
+      'missing-password' => l10n.errMissingPassword,
+      'user-not-found' => l10n.errUserNotFound,
+      'wrong-password' || 'invalid-credential' => l10n.errWrongPassword,
+      'email-already-in-use' => l10n.errEmailInUse,
+      'weak-password' => l10n.errWeakPassword,
+      'operation-not-allowed' => l10n.errOperationNotAllowed,
+      'user-disabled' => l10n.errUserDisabled,
+      'too-many-requests' => l10n.errTooManyRequests,
+      'network-request-failed' => l10n.errNetworkFailed,
+      'requires-recent-login' => l10n.errRequiresRecentLogin,
+      'expired-action-code' => l10n.errExpiredActionCode,
+      'invalid-action-code' => l10n.errInvalidActionCode,
+      'internal-error' => l10n.errAccountRequestFailed,
+      _ => l10n.errAccountRequestFailed,
     };
   }
 
   if (error is FirebaseFunctionsException) {
     return switch (error.code) {
-      'invalid-argument' => 'Enter a valid email address.',
-      'unavailable' =>
-        'Password reset email is temporarily unavailable. Please try again shortly.',
+      'invalid-argument' => l10n.errInvalidEmail,
+      'unavailable' => l10n.errResetUnavailable,
       'failed-precondition' => _friendlyFirebaseMessage(
         error.message,
-        fallback: 'Password reset is not available right now.',
+        fallback: l10n.errResetNotAvailable,
+        l10n: l10n,
       ),
-      _ => 'We could not send the reset email. Please try again.',
+      _ => l10n.errResetFailed,
     };
   }
 
-  return _friendlyUnexpectedMessage(error);
+  return _friendlyUnexpectedMessage(error, l10n);
 }
 
-String _friendlyFirebaseMessage(String? message, {required String fallback}) {
+String _friendlyFirebaseMessage(
+  String? message, {
+  required String fallback,
+  AppLocalizations? l10n,
+}) {
   final normalized = message?.trim();
   if (normalized == null || normalized.isEmpty) return fallback;
 
+  // Admin (English-only) callers omit l10n and keep the English copy.
+  if (l10n == null) {
+    return switch (normalized) {
+      'Authentication is required.' => 'Sign in again to continue.',
+      'Admin access is required.' =>
+        'Your account does not have permission to do that.',
+      'Development email is only available in the Functions emulator.' =>
+        'Email sending is not available in this environment.',
+      'User has no email address.' =>
+        'Add an email address to your account first.',
+      _ => fallback,
+    };
+  }
+
   return switch (normalized) {
-    'Authentication is required.' => 'Sign in again to continue.',
-    'Admin access is required.' =>
-      'Your account does not have permission to do that.',
+    'Authentication is required.' => l10n.errSignInAgain,
+    'Admin access is required.' => l10n.errAdminNoPermission,
     'Development email is only available in the Functions emulator.' =>
-      'Email sending is not available in this environment.',
-    'User has no email address.' =>
-      'Add an email address to your account first.',
+      l10n.errEmailEnvUnavailable,
+    'User has no email address.' => l10n.errAddEmailFirst,
     _ => fallback,
   };
 }
 
-String _friendlyUnexpectedMessage(Object error) {
+String _friendlyUnexpectedMessage(Object error, [AppLocalizations? l10n]) {
   // Callable backend errors carry a deliberate, user-facing message (e.g.
   // "Selected payment asset is not enabled."). For the validation codes our
   // Cloud Functions throw on purpose, surface that message instead of a generic
@@ -1203,9 +1230,10 @@ String _friendlyUnexpectedMessage(Object error) {
           return message;
         }
       case 'unauthenticated':
-        return 'Sign in again to continue.';
+        return l10n?.errSignInAgain ?? 'Sign in again to continue.';
       case 'permission-denied':
-        return 'You do not have permission to do that.';
+        return l10n?.errPermissionDenied ??
+            'You do not have permission to do that.';
     }
   }
 
@@ -1214,14 +1242,16 @@ String _friendlyUnexpectedMessage(Object error) {
       text.contains('socket') ||
       text.contains('host lookup') ||
       text.contains('unavailable')) {
-    return 'We could not connect. Check your internet and try again.';
+    return l10n?.errNetworkFailed ??
+        'We could not connect. Check your internet and try again.';
   }
 
   if (text.contains('permission-denied') ||
       text.contains('permission denied')) {
-    return 'You do not have permission to do that.';
+    return l10n?.errPermissionDenied ??
+        'You do not have permission to do that.';
   }
 
-  return 'Something went wrong. Please try again.';
+  return l10n?.errGeneric ?? 'Something went wrong. Please try again.';
 }
 
