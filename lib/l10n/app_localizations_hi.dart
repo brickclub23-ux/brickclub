@@ -1068,4 +1068,158 @@ class AppLocalizationsHi extends AppLocalizations {
   String supportCouldNotOpen(String url) {
     return '$url नहीं खोला जा सका';
   }
+
+  @override
+  String get navHome => 'होम';
+
+  @override
+  String get navMore => 'अधिक';
+
+  @override
+  String get notificationsNone => 'कोई नई सूचना नहीं';
+
+  @override
+  String get profileInMore => 'प्रोफ़ाइल \'अधिक\' में है';
+
+  @override
+  String get investmentCardCryptoFunding => 'क्रिप्टो वित्तपोषण';
+
+  @override
+  String get commonShowPassword => 'पासवर्ड दिखाएँ';
+
+  @override
+  String get commonHidePassword => 'पासवर्ड छिपाएँ';
+
+  @override
+  String get errAuthEmulatorUnreachable =>
+      'ऐप Firebase Auth एमुलेटर तक नहीं पहुँच सका। डीबग ऐप फिर से बनाएँ और सुनिश्चित करें कि Firebase एमुलेटर चल रहे हैं।';
+
+  @override
+  String get errInvalidEmail => 'एक मान्य ईमेल पता दर्ज करें।';
+
+  @override
+  String get errMissingEmail => 'अपना ईमेल पता दर्ज करें।';
+
+  @override
+  String get errMissingPassword => 'अपना पासवर्ड दर्ज करें।';
+
+  @override
+  String get errUserNotFound => 'उस ईमेल के लिए कोई खाता मौजूद नहीं है।';
+
+  @override
+  String get errWrongPassword => 'ईमेल या पासवर्ड गलत है।';
+
+  @override
+  String get errEmailInUse => 'उस ईमेल के लिए पहले से एक खाता मौजूद है।';
+
+  @override
+  String get errWeakPassword =>
+      'कम से कम 6 अक्षरों वाला अधिक मज़बूत पासवर्ड उपयोग करें।';
+
+  @override
+  String get errOperationNotAllowed =>
+      'ईमेल साइन इन अभी सक्षम नहीं है। सहायता से संपर्क करें।';
+
+  @override
+  String get errUserDisabled =>
+      'यह खाता अक्षम कर दिया गया है। मदद के लिए सहायता से संपर्क करें।';
+
+  @override
+  String get errTooManyRequests =>
+      'बहुत अधिक प्रयास। फिर से प्रयास करने से पहले थोड़ा प्रतीक्षा करें।';
+
+  @override
+  String get errNetworkFailed =>
+      'हम कनेक्ट नहीं कर सके। अपना इंटरनेट जाँचें और फिर से प्रयास करें।';
+
+  @override
+  String get errRequiresRecentLogin =>
+      'यह बदलाव करने से पहले फिर से साइन इन करें।';
+
+  @override
+  String get errExpiredActionCode =>
+      'यह लिंक समाप्त हो गया है। नया अनुरोध करें और फिर से प्रयास करें।';
+
+  @override
+  String get errInvalidActionCode =>
+      'यह लिंक अब मान्य नहीं है। नया अनुरोध करें और फिर से प्रयास करें।';
+
+  @override
+  String get errAccountRequestFailed =>
+      'हम वह खाता अनुरोध पूरा नहीं कर सके। कृपया फिर से प्रयास करें।';
+
+  @override
+  String get errResetUnavailable =>
+      'पासवर्ड रीसेट ईमेल अस्थायी रूप से अनुपलब्ध है। कृपया शीघ्र ही फिर से प्रयास करें।';
+
+  @override
+  String get errResetNotAvailable => 'पासवर्ड रीसेट अभी उपलब्ध नहीं है।';
+
+  @override
+  String get errResetFailed =>
+      'हम रीसेट ईमेल नहीं भेज सके। कृपया फिर से प्रयास करें।';
+
+  @override
+  String get errSignInAgain => 'जारी रखने के लिए फिर से साइन इन करें।';
+
+  @override
+  String get errAdminNoPermission => 'आपके खाते को ऐसा करने की अनुमति नहीं है।';
+
+  @override
+  String get errEmailEnvUnavailable =>
+      'इस वातावरण में ईमेल भेजना उपलब्ध नहीं है।';
+
+  @override
+  String get errAddEmailFirst => 'पहले अपने खाते में एक ईमेल पता जोड़ें।';
+
+  @override
+  String get errPermissionDenied => 'आपको ऐसा करने की अनुमति नहीं है।';
+
+  @override
+  String get errGeneric => 'कुछ गलत हो गया। कृपया फिर से प्रयास करें।';
+
+  @override
+  String get errKycInvalidCode => 'एमुलेटर से SMS कोड दर्ज करें।';
+
+  @override
+  String get errKycCredentialInUse =>
+      'वह फ़ोन नंबर पहले से किसी अन्य खाते से जुड़ा है।';
+
+  @override
+  String get errKycTooManyRequests =>
+      'बहुत अधिक सत्यापन प्रयास। बाद में प्रयास करें।';
+
+  @override
+  String get errKycPhoneFailed =>
+      'फ़ोन सत्यापन विफल रहा। कृपया फिर से प्रयास करें।';
+
+  @override
+  String get errKycSignInAgain => 'KYC जारी रखने के लिए फिर से साइन इन करें।';
+
+  @override
+  String get errKycNoPermission =>
+      'आपको इस KYC प्रोफ़ाइल को अपडेट करने की अनुमति नहीं है।';
+
+  @override
+  String get errKycUnavailable =>
+      'KYC सेवाएँ अस्थायी रूप से अनुपलब्ध हैं। कृपया शीघ्र ही फिर से प्रयास करें।';
+
+  @override
+  String get errKycDeadline =>
+      'अनुरोध में बहुत समय लगा। कृपया अपना कनेक्शन जाँचें और फिर से प्रयास करें।';
+
+  @override
+  String get errKycStorageUnauthorized =>
+      'आपको यह दस्तावेज़ अपलोड करने की अनुमति नहीं है।';
+
+  @override
+  String get errKycStorageCanceled => 'दस्तावेज़ अपलोड रद्द किया गया।';
+
+  @override
+  String get errKycStorageRetry =>
+      'अपलोड में बहुत समय लगा। कृपया अपना कनेक्शन जाँचें और फिर से प्रयास करें।';
+
+  @override
+  String get errKycStorageQuota =>
+      'दस्तावेज़ अपलोड अस्थायी रूप से अनुपलब्ध हैं। कृपया बाद में फिर से प्रयास करें।';
 }

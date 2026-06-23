@@ -2059,6 +2059,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not open {url}'**
   String supportCouldNotOpen(String url);
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get navMore;
+
+  /// No description provided for @notificationsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No new notifications'**
+  String get notificationsNone;
+
+  /// No description provided for @profileInMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile is in More'**
+  String get profileInMore;
+
+  /// No description provided for @investmentCardCryptoFunding.
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto funding'**
+  String get investmentCardCryptoFunding;
+
+  /// No description provided for @commonShowPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get commonShowPassword;
+
+  /// No description provided for @commonHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get commonHidePassword;
+
+  /// No description provided for @errAuthEmulatorUnreachable.
+  ///
+  /// In en, this message translates to:
+  /// **'The app could not reach the Firebase Auth emulator. Rebuild the debug app and make sure the Firebase emulators are running.'**
+  String get errAuthEmulatorUnreachable;
+
+  /// No description provided for @errInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address.'**
+  String get errInvalidEmail;
+
+  /// No description provided for @errMissingEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address.'**
+  String get errMissingEmail;
+
+  /// No description provided for @errMissingPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password.'**
+  String get errMissingPassword;
+
+  /// No description provided for @errUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No account exists for that email.'**
+  String get errUserNotFound;
+
+  /// No description provided for @errWrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or password is incorrect.'**
+  String get errWrongPassword;
+
+  /// No description provided for @errEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists for that email.'**
+  String get errEmailInUse;
+
+  /// No description provided for @errWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a stronger password with at least 6 characters.'**
+  String get errWeakPassword;
+
+  /// No description provided for @errOperationNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Email sign in is not enabled yet. Contact support.'**
+  String get errOperationNotAllowed;
+
+  /// No description provided for @errUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'This account has been disabled. Contact support for help.'**
+  String get errUserDisabled;
+
+  /// No description provided for @errTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait a moment before trying again.'**
+  String get errTooManyRequests;
+
+  /// No description provided for @errNetworkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not connect. Check your internet and try again.'**
+  String get errNetworkFailed;
+
+  /// No description provided for @errRequiresRecentLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again before making this change.'**
+  String get errRequiresRecentLogin;
+
+  /// No description provided for @errExpiredActionCode.
+  ///
+  /// In en, this message translates to:
+  /// **'This link has expired. Request a new one and try again.'**
+  String get errExpiredActionCode;
+
+  /// No description provided for @errInvalidActionCode.
+  ///
+  /// In en, this message translates to:
+  /// **'This link is no longer valid. Request a new one and try again.'**
+  String get errInvalidActionCode;
+
+  /// No description provided for @errAccountRequestFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not complete that account request. Please try again.'**
+  String get errAccountRequestFailed;
+
+  /// No description provided for @errResetUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset email is temporarily unavailable. Please try again shortly.'**
+  String get errResetUnavailable;
+
+  /// No description provided for @errResetNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset is not available right now.'**
+  String get errResetNotAvailable;
+
+  /// No description provided for @errResetFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not send the reset email. Please try again.'**
+  String get errResetFailed;
+
+  /// No description provided for @errSignInAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to continue.'**
+  String get errSignInAgain;
+
+  /// No description provided for @errAdminNoPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account does not have permission to do that.'**
+  String get errAdminNoPermission;
+
+  /// No description provided for @errEmailEnvUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Email sending is not available in this environment.'**
+  String get errEmailEnvUnavailable;
+
+  /// No description provided for @errAddEmailFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an email address to your account first.'**
+  String get errAddEmailFirst;
+
+  /// No description provided for @errPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have permission to do that.'**
+  String get errPermissionDenied;
+
+  /// No description provided for @errGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get errGeneric;
+
+  /// No description provided for @errKycInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the SMS code from the emulator.'**
+  String get errKycInvalidCode;
+
+  /// No description provided for @errKycCredentialInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'That phone number is already linked to another account.'**
+  String get errKycCredentialInUse;
+
+  /// No description provided for @errKycTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many verification attempts. Try again later.'**
+  String get errKycTooManyRequests;
+
+  /// No description provided for @errKycPhoneFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone verification failed. Please try again.'**
+  String get errKycPhoneFailed;
+
+  /// No description provided for @errKycSignInAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to continue with KYC.'**
+  String get errKycSignInAgain;
+
+  /// No description provided for @errKycNoPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have permission to update this KYC profile.'**
+  String get errKycNoPermission;
+
+  /// No description provided for @errKycUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'KYC services are temporarily unavailable. Please try again shortly.'**
+  String get errKycUnavailable;
+
+  /// No description provided for @errKycDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'The request took too long. Please check your connection and try again.'**
+  String get errKycDeadline;
+
+  /// No description provided for @errKycStorageUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have permission to upload this document.'**
+  String get errKycStorageUnauthorized;
+
+  /// No description provided for @errKycStorageCanceled.
+  ///
+  /// In en, this message translates to:
+  /// **'Document upload was cancelled.'**
+  String get errKycStorageCanceled;
+
+  /// No description provided for @errKycStorageRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'The upload took too long. Please check your connection and try again.'**
+  String get errKycStorageRetry;
+
+  /// No description provided for @errKycStorageQuota.
+  ///
+  /// In en, this message translates to:
+  /// **'Document uploads are temporarily unavailable. Please try again later.'**
+  String get errKycStorageQuota;
 }
 
 class _AppLocalizationsDelegate

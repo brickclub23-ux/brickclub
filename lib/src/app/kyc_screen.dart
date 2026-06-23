@@ -344,6 +344,7 @@ class _KycScreenState extends State<KycScreen> {
   }
 
   Future<void> _sendEmailVerification() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       kycMessage = null;
       sendingEmail = true;
@@ -351,10 +352,10 @@ class _KycScreenState extends State<KycScreen> {
     try {
       await widget.repository.sendEmailVerification();
       if (mounted) {
-        showMessage(context, AppLocalizations.of(context).kycEmailSent);
+        showMessage(context, l10n.kycEmailSent);
       }
     } catch (error) {
-      if (mounted) _showKycMessage(_kycErrorMessage(error));
+      if (mounted) _showKycMessage(_kycErrorMessage(l10n, error));
     } finally {
       if (mounted) setState(() => sendingEmail = false);
     }
@@ -376,7 +377,7 @@ class _KycScreenState extends State<KycScreen> {
         showMessage(context, l10n.kycCodeSent);
       }
     } catch (error) {
-      if (mounted) _showKycMessage(_kycErrorMessage(error));
+      if (mounted) _showKycMessage(_kycErrorMessage(l10n, error));
     } finally {
       if (mounted) setState(() => sendingPhone = false);
     }
@@ -411,7 +412,7 @@ class _KycScreenState extends State<KycScreen> {
         Navigator.pop(context);
       }
     } catch (error) {
-      if (mounted) _showKycMessage(_kycErrorMessage(error));
+      if (mounted) _showKycMessage(_kycErrorMessage(l10n, error));
     } finally {
       if (mounted) setState(() => submitting = false);
     }
@@ -575,43 +576,35 @@ class _VerificationRow extends StatelessWidget {
   }
 }
 
-String _kycErrorMessage(Object error) {
+String _kycErrorMessage(AppLocalizations l10n, Object error) {
   if (error is KycValidationException) {
     return error.message;
   }
   if (error is FirebaseAuthException) {
     return switch (error.code) {
-      'invalid-phone-number' =>
-        'Enter your phone number in international format, e.g. +12025550190.',
-      'invalid-verification-code' => 'Enter the SMS code from the emulator.',
-      'credential-already-in-use' =>
-        'That phone number is already linked to another account.',
-      'too-many-requests' => 'Too many verification attempts. Try again later.',
+      'invalid-phone-number' => l10n.kycInvalidPhone,
+      'invalid-verification-code' => l10n.errKycInvalidCode,
+      'credential-already-in-use' => l10n.errKycCredentialInUse,
+      'too-many-requests' => l10n.errKycTooManyRequests,
       _ =>
         error.message?.trim().isNotEmpty == true
             ? error.message!
-            : 'Phone verification failed. Please try again.',
+            : l10n.errKycPhoneFailed,
     };
   }
   if (error is FirebaseException) {
     return switch (error.code) {
-      'unauthenticated' => 'Sign in again to continue with KYC.',
-      'permission-denied' =>
-        'You do not have permission to update this KYC profile.',
-      'unavailable' =>
-        'KYC services are temporarily unavailable. Please try again shortly.',
-      'deadline-exceeded' =>
-        'The request took too long. Please check your connection and try again.',
-      'storage/unauthorized' =>
-        'You do not have permission to upload this document.',
-      'storage/canceled' => 'Document upload was cancelled.',
-      'storage/retry-limit-exceeded' =>
-        'The upload took too long. Please check your connection and try again.',
-      'storage/quota-exceeded' =>
-        'Document uploads are temporarily unavailable. Please try again later.',
-      _ => 'We could not update your KYC details. Please try again.',
+      'unauthenticated' => l10n.errKycSignInAgain,
+      'permission-denied' => l10n.errKycNoPermission,
+      'unavailable' => l10n.errKycUnavailable,
+      'deadline-exceeded' => l10n.errKycDeadline,
+      'storage/unauthorized' => l10n.errKycStorageUnauthorized,
+      'storage/canceled' => l10n.errKycStorageCanceled,
+      'storage/retry-limit-exceeded' => l10n.errKycStorageRetry,
+      'storage/quota-exceeded' => l10n.errKycStorageQuota,
+      _ => l10n.kycUpdateFailed,
     };
   }
-  return _friendlyUnexpectedMessage(error);
+  return _friendlyUnexpectedMessage(error, l10n);
 }
 

@@ -225,8 +225,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
     String paymentAsset,
     double amountUsd,
   ) async {
+    final l10n = AppLocalizations.of(context);
     if (amountUsd < widget.opportunity.minimumInvestment) {
-      showMessage(context, AppLocalizations.of(context).paymentIncreaseAmount);
+      showMessage(context, l10n.paymentIncreaseAmount);
       return;
     }
     setState(() => submitting = true);
@@ -242,11 +243,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       if (mounted) {
         setState(() => order = createdOrder);
-        showMessage(context, AppLocalizations.of(context).paymentDepositCreated);
+        showMessage(context, l10n.paymentDepositCreated);
       }
     } catch (error) {
       if (mounted) {
-        showMessage(context, _friendlyUnexpectedMessage(error));
+        showMessage(context, _friendlyUnexpectedMessage(error, l10n));
       }
     } finally {
       if (mounted) {
@@ -302,7 +303,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       }
     } catch (error) {
       if (mounted) {
-        showMessage(context, _friendlyUnexpectedMessage(error));
+        showMessage(context, _friendlyUnexpectedMessage(error, l10n));
       }
     } finally {
       if (mounted) {

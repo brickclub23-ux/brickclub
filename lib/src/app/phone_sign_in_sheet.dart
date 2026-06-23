@@ -134,6 +134,7 @@ class _PhoneSignInSheetState extends State<_PhoneSignInSheet> {
   }
 
   Future<void> _sendCode() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       _sendingCode = true;
       _errorMessage = null;
@@ -153,13 +154,14 @@ class _PhoneSignInSheetState extends State<_PhoneSignInSheet> {
     } on AuthValidationException catch (e) {
       if (mounted) setState(() => _errorMessage = e.message);
     } catch (e) {
-      if (mounted) setState(() => _errorMessage = _authErrorMessage(e));
+      if (mounted) setState(() => _errorMessage = _authErrorMessage(l10n, e));
     } finally {
       if (mounted) setState(() => _sendingCode = false);
     }
   }
 
   Future<void> _confirmCode() async {
+    final l10n = AppLocalizations.of(context);
     setState(() {
       _confirmingCode = true;
       _errorMessage = null;
@@ -175,7 +177,7 @@ class _PhoneSignInSheetState extends State<_PhoneSignInSheet> {
     } on AuthValidationException catch (e) {
       if (mounted) setState(() => _errorMessage = e.message);
     } catch (e) {
-      if (mounted) setState(() => _errorMessage = _authErrorMessage(e));
+      if (mounted) setState(() => _errorMessage = _authErrorMessage(l10n, e));
     } finally {
       if (mounted) setState(() => _confirmingCode = false);
     }

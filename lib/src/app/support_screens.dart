@@ -470,7 +470,7 @@ class _SupportComposerSheetState extends State<_SupportComposerSheet> {
         showMessage(context, l10n.supportMessageSent);
       }
     } catch (error) {
-      if (mounted) showMessage(context, _friendlyUnexpectedMessage(error));
+      if (mounted) showMessage(context, _friendlyUnexpectedMessage(error, l10n));
     } finally {
       if (mounted) setState(() => submitting = false);
     }
