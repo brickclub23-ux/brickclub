@@ -327,6 +327,8 @@
   "paymentWalletAddress": "Anwani ya pochi",
   "paymentTransactionHash": "Hashi ya muamala",
   "paymentHashHint": "Bandika hashi ya muamala wa blockchain",
+  "paymentReference": "Kumbukumbu ya malipo",
+  "paymentReferenceHint": "Weka kitambulisho au kumbukumbu ya muamala",
   "paymentStepQuote": "Bei",
   "paymentStepSend": "Tuma",
   "paymentStepReview": "Kagua",

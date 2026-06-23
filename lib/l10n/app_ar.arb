@@ -327,6 +327,8 @@
   "paymentWalletAddress": "عنوان المحفظة",
   "paymentTransactionHash": "تجزئة المعاملة",
   "paymentHashHint": "الصق تجزئة معاملة البلوكتشين",
+  "paymentReference": "مرجع الدفع",
+  "paymentReferenceHint": "أدخل معرّف التحويل أو المرجع",
   "paymentStepQuote": "عرض السعر",
   "paymentStepSend": "إرسال",
   "paymentStepReview": "مراجعة",

@@ -82,7 +82,9 @@ void main() {
 
     expect(find.text('Own more than\na dream.'), findsOneWidget);
     expect(find.byKey(const ValueKey('install-app')), findsOneWidget);
-    expect(find.text('Create account'), findsOneWidget);
+    // At desktop width the landing page exposes the "Create account" CTA in
+    // both the top nav and the hero, so assert at least one is present.
+    expect(find.text('Create account'), findsWidgets);
     expect(find.text('Built on investor confidence.'), findsOneWidget);
   });
 
@@ -136,11 +138,11 @@ void main() {
 
     expect(find.text('Admin overview'), findsOneWidget);
     expect(find.text('Total users'), findsOneWidget);
-    expect(find.text('Recent crypto payments'), findsOneWidget);
+    expect(find.text('Payment methods'), findsWidgets);
 
-    await tester.tap(find.byKey(const ValueKey('admin-crypto payments')));
+    await tester.tap(find.byKey(const ValueKey('admin-payments')));
     await tester.pumpAndSettle();
-    expect(find.text('Crypto payments'), findsWidgets);
+    expect(find.text('Payment methods'), findsWidgets);
     expect(find.text('0x71B...8E4'), findsOneWidget);
   });
 
@@ -452,11 +454,29 @@ void main() {
   testWidgets('investment purchase flow reaches settlement success', (
     tester,
   ) async {
+    // A taller surface keeps the invest card's center clear of the bottom
+    // navigation bar; on the default 800x600 surface the card center lands on
+    // the nav, so tapping it switches tabs instead of opening the detail.
+    tester.view.physicalSize = const Size(1440, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     await signIn(tester);
     await tester.tap(find.byKey(const ValueKey('nav-invest')));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const ValueKey('investment-card')).first);
+    // InvestmentCard reuses one key across the home and invest tabs (both alive
+    // in the IndexedStack shell), so scope to the visible InvestScreen card —
+    // otherwise the offstage home card is tapped and navigation never happens.
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(InvestScreen),
+            matching: find.byKey(const ValueKey('investment-card')),
+          )
+          .first,
+    );
     await tester.pumpAndSettle();
     expect(find.text('Skyline Heights Income Fund'), findsOneWidget);
 
@@ -500,6 +520,14 @@ void main() {
   });
 
   testWidgets('unapproved members are gated before investing', (tester) async {
+    // A taller surface keeps the invest card's center clear of the bottom
+    // navigation bar; on the default 800x600 surface the card center lands on
+    // the nav, so tapping it switches tabs instead of opening the detail.
+    tester.view.physicalSize = const Size(1440, 1000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     final pendingKycRepository = FakeKycRepository.pending();
     await tester.pumpWidget(
       BrickClubApp(
@@ -519,7 +547,17 @@ void main() {
 
     await tester.tap(find.byKey(const ValueKey('nav-invest')));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const ValueKey('investment-card')).first);
+    // InvestmentCard reuses one key across the home and invest tabs (both alive
+    // in the IndexedStack shell), so scope to the visible InvestScreen card —
+    // otherwise the offstage home card is tapped and navigation never happens.
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(InvestScreen),
+            matching: find.byKey(const ValueKey('investment-card')),
+          )
+          .first,
+    );
     await tester.pumpAndSettle();
     await tester.drag(
       find.descendant(
@@ -673,13 +711,15 @@ class FakeAdminRepository implements AdminRepository {
         publishedStatus: 'Live',
       ),
     ],
-    cryptoPaymentOptions: [
-      CryptoPaymentOption(
+    paymentOptions: [
+      PaymentOption(
         id: 'payment-1',
+        type: PaymentMethodType.crypto,
         network: 'Tron',
         assetSymbol: 'USDT',
         walletAddress: '0x71B...8E4',
         qrCodeUrl: 'https://example.com/usdt-qr.png',
+        accountDetails: [],
         enabled: true,
         minimumAmount: 100,
       ),
@@ -693,6 +733,8 @@ class FakeAdminRepository implements AdminRepository {
         paymentNetwork: 'Tron',
         paymentAsset: 'USDT',
         paymentWalletAddress: '0x71B...8E4',
+        paymentType: PaymentMethodType.crypto,
+        paymentAccountDetails: [],
         transactionHash: '0x1234567890abcdef',
         proofUrl: 'https://example.com/proof.png',
         status: 'proof_submitted',
@@ -745,7 +787,7 @@ class FakeAdminRepository implements AdminRepository {
   Future<void> createAsset(AdminAsset asset) async {}
 
   @override
-  Future<void> createCryptoPaymentOption(CryptoPaymentOption option) async {}
+  Future<void> createPaymentOption(PaymentOption option) async {}
 
   @override
   Future<void> createUser({
@@ -762,7 +804,7 @@ class FakeAdminRepository implements AdminRepository {
   Future<void> deleteAsset(String id) async {}
 
   @override
-  Future<void> deleteCryptoPaymentOption(String id) async {}
+  Future<void> deletePaymentOption(String id) async {}
 
   @override
   Future<void> deleteUser(String uid) async {}
@@ -774,7 +816,7 @@ class FakeAdminRepository implements AdminRepository {
   Future<void> updateAsset(AdminAsset asset) async {}
 
   @override
-  Future<void> updateCryptoPaymentOption(CryptoPaymentOption option) async {}
+  Future<void> updatePaymentOption(PaymentOption option) async {}
 
   @override
   Future<void> updateUser({
@@ -831,7 +873,7 @@ class FakeAdminRepository implements AdminRepository {
   }) async {}
 
   @override
-  Future<String> uploadCryptoPaymentQrCode(AdminUploadFile file) async =>
+  Future<String> uploadPaymentQrCode(AdminUploadFile file) async =>
       'https://example.com/${file.name}';
 
   @override

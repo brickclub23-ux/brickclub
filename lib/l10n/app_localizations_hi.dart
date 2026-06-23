@@ -1055,6 +1055,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get paymentHashHint => 'ब्लॉकचेन लेन-देन हैश पेस्ट करें';
 
   @override
+  String get paymentReference => 'भुगतान संदर्भ';
+
+  @override
+  String get paymentReferenceHint => 'ट्रांसफ़र आईडी या संदर्भ दर्ज करें';
+
+  @override
   String get paymentStepQuote => 'कोट';
 
   @override

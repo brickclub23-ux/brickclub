@@ -1005,6 +1005,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get paymentHashHint => '粘贴区块链交易哈希';
 
   @override
+  String get paymentReference => '付款参考编号';
+
+  @override
+  String get paymentReferenceHint => '输入转账 ID 或参考编号';
+
+  @override
   String get paymentStepQuote => '报价';
 
   @override

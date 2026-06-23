@@ -595,6 +595,8 @@
   "paymentWalletAddress": "Wallet address",
   "paymentTransactionHash": "Transaction hash",
   "paymentHashHint": "Paste blockchain transaction hash",
+  "paymentReference": "Payment reference",
+  "paymentReferenceHint": "Enter the transfer ID or reference",
   "paymentStepQuote": "Quote",
   "paymentStepSend": "Send",
   "paymentStepReview": "Review",

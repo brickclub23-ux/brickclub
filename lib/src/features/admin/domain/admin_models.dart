@@ -2,7 +2,7 @@ class AdminDashboardData {
   const AdminDashboardData({
     required this.users,
     required this.assets,
-    required this.cryptoPaymentOptions,
+    required this.paymentOptions,
     required this.depositRequests,
     required this.supportTickets,
     required this.withdrawalPolicy,
@@ -15,9 +15,9 @@ class AdminDashboardData {
     return AdminDashboardData(
       users: _list(json['users'], AdminUser.fromJson),
       assets: _list(json['assets'], AdminAsset.fromJson),
-      cryptoPaymentOptions: _list(
+      paymentOptions: _list(
         json['cryptoPaymentOptions'],
-        CryptoPaymentOption.fromJson,
+        PaymentOption.fromJson,
       ),
       depositRequests: _list(
         json['depositRequests'],
@@ -40,7 +40,7 @@ class AdminDashboardData {
 
   final List<AdminUser> users;
   final List<AdminAsset> assets;
-  final List<CryptoPaymentOption> cryptoPaymentOptions;
+  final List<PaymentOption> paymentOptions;
   final List<AdminDepositRequest> depositRequests;
   final List<AdminSupportTicket> supportTickets;
   final List<AdminNotification> notifications;
@@ -532,36 +532,87 @@ class AdminAsset {
   final double minimumInvestment;
 }
 
-class CryptoPaymentOption {
-  const CryptoPaymentOption({
+/// A single label/value line of account details for a non-crypto payment
+/// method (e.g. "Account holder": "ACME Ltd", "IBAN": "GB...").
+class PaymentAccountField {
+  const PaymentAccountField({required this.label, required this.value});
+
+  factory PaymentAccountField.fromJson(Map<String, dynamic> json) {
+    return PaymentAccountField(
+      label: json['label'] as String? ?? '',
+      value: json['value'] as String? ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {'label': label, 'value': value};
+
+  final String label;
+  final String value;
+}
+
+/// Known payment-method types. `crypto` keeps the original wallet fields;
+/// the others wire funds to a business account described by [accountDetails].
+class PaymentMethodType {
+  static const crypto = 'crypto';
+  static const payoneer = 'payoneer';
+  static const wise = 'wise';
+  static const paytm = 'paytm';
+
+  /// Non-crypto types, in the order admins see them.
+  static const accountTypes = [payoneer, wise, paytm];
+
+  static const labels = {
+    crypto: 'Crypto wallet',
+    payoneer: 'Payoneer',
+    wise: 'Wise',
+    paytm: 'Paytm',
+  };
+
+  static String label(String type) => labels[type] ?? type;
+}
+
+/// A payment method offered in the app — a crypto wallet or an account-based
+/// method (Payoneer/Wise/Paytm). [assetSymbol] doubles as the member-selectable
+/// method code for every type.
+class PaymentOption {
+  const PaymentOption({
     required this.id,
+    required this.type,
     required this.network,
     required this.assetSymbol,
     required this.walletAddress,
     required this.qrCodeUrl,
+    required this.accountDetails,
     required this.enabled,
     required this.minimumAmount,
   });
 
-  factory CryptoPaymentOption.empty() {
-    return const CryptoPaymentOption(
+  factory PaymentOption.empty() {
+    return const PaymentOption(
       id: '',
+      type: PaymentMethodType.crypto,
       network: 'Tron',
       assetSymbol: 'USDT',
       walletAddress: '',
       qrCodeUrl: '',
+      accountDetails: [],
       enabled: true,
       minimumAmount: 0,
     );
   }
 
-  factory CryptoPaymentOption.fromJson(Map<String, dynamic> json) {
-    return CryptoPaymentOption(
+  factory PaymentOption.fromJson(Map<String, dynamic> json) {
+    return PaymentOption(
       id: json['id'] as String,
+      type: json['type'] as String? ?? PaymentMethodType.crypto,
       network: json['network'] as String? ?? '',
       assetSymbol: json['assetSymbol'] as String? ?? '',
       walletAddress: json['walletAddress'] as String? ?? '',
       qrCodeUrl: json['qrCodeUrl'] as String? ?? '',
+      accountDetails: _list(
+        json['accountDetails'],
+        PaymentAccountField.fromJson,
+      ),
       enabled: json['enabled'] as bool? ?? true,
       minimumAmount: (json['minimumAmount'] as num?)?.toDouble() ?? 0,
     );
@@ -570,22 +621,32 @@ class CryptoPaymentOption {
   Map<String, dynamic> toJson() {
     return {
       if (id.isNotEmpty) 'id': id,
+      'type': type,
       'network': network,
       'assetSymbol': assetSymbol,
       'walletAddress': walletAddress,
       'qrCodeUrl': qrCodeUrl,
+      'accountDetails': accountDetails.map((field) => field.toJson()).toList(),
       'enabled': enabled,
       'minimumAmount': minimumAmount,
     };
   }
 
   final String id;
+  final String type;
   final String network;
   final String assetSymbol;
   final String walletAddress;
   final String qrCodeUrl;
+  final List<PaymentAccountField> accountDetails;
   final bool enabled;
   final double minimumAmount;
+
+  bool get isCrypto => type == PaymentMethodType.crypto;
+
+  /// What admins/members see as the method's name.
+  String get displayName =>
+      isCrypto ? assetSymbol : PaymentMethodType.label(type);
 }
 
 class AdminUploadFile {
@@ -609,6 +670,8 @@ class AdminDepositRequest {
     required this.paymentNetwork,
     required this.paymentAsset,
     required this.paymentWalletAddress,
+    required this.paymentType,
+    required this.paymentAccountDetails,
     required this.transactionHash,
     required this.proofUrl,
     required this.status,
@@ -623,6 +686,11 @@ class AdminDepositRequest {
       paymentNetwork: json['paymentNetwork'] as String? ?? '',
       paymentAsset: json['paymentAsset'] as String? ?? '',
       paymentWalletAddress: json['paymentWalletAddress'] as String? ?? '',
+      paymentType: json['paymentType'] as String? ?? PaymentMethodType.crypto,
+      paymentAccountDetails: _list(
+        json['paymentAccountDetails'],
+        PaymentAccountField.fromJson,
+      ),
       transactionHash: json['transactionHash'] as String? ?? '',
       proofUrl: json['proofUrl'] as String? ?? '',
       status: json['status'] as String? ?? 'pending_payment',
@@ -636,9 +704,13 @@ class AdminDepositRequest {
   final String paymentNetwork;
   final String paymentAsset;
   final String paymentWalletAddress;
+  final String paymentType;
+  final List<PaymentAccountField> paymentAccountDetails;
   final String transactionHash;
   final String proofUrl;
   final String status;
+
+  bool get isCrypto => paymentType == PaymentMethodType.crypto;
 }
 
 class AdminSupportTicket {

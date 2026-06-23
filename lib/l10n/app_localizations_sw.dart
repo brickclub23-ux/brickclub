@@ -1062,6 +1062,13 @@ class AppLocalizationsSw extends AppLocalizations {
   String get paymentHashHint => 'Bandika hashi ya muamala wa blockchain';
 
   @override
+  String get paymentReference => 'Kumbukumbu ya malipo';
+
+  @override
+  String get paymentReferenceHint =>
+      'Weka kitambulisho au kumbukumbu ya muamala';
+
+  @override
   String get paymentStepQuote => 'Bei';
 
   @override

@@ -1045,6 +1045,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get paymentHashHint => 'الصق تجزئة معاملة البلوكتشين';
 
   @override
+  String get paymentReference => 'مرجع الدفع';
+
+  @override
+  String get paymentReferenceHint => 'أدخل معرّف التحويل أو المرجع';
+
+  @override
   String get paymentStepQuote => 'عرض السعر';
 
   @override

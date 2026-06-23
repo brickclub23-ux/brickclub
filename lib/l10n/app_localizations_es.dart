@@ -1071,6 +1071,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get paymentHashHint => 'Pega el hash de la transacción en blockchain';
 
   @override
+  String get paymentReference => 'Referencia de pago';
+
+  @override
+  String get paymentReferenceHint =>
+      'Ingresa el ID o la referencia de la transferencia';
+
+  @override
   String get paymentStepQuote => 'Cotización';
 
   @override

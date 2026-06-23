@@ -327,6 +327,8 @@
   "paymentWalletAddress": "钱包地址",
   "paymentTransactionHash": "交易哈希",
   "paymentHashHint": "粘贴区块链交易哈希",
+  "paymentReference": "付款参考编号",
+  "paymentReferenceHint": "输入转账 ID 或参考编号",
   "paymentStepQuote": "报价",
   "paymentStepSend": "发送",
   "paymentStepReview": "审核",

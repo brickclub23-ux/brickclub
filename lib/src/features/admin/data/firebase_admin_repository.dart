@@ -121,22 +121,23 @@ class FirebaseAdminRepository implements AdminRepository {
   }
 
   @override
-  Future<void> createCryptoPaymentOption(CryptoPaymentOption option) {
+  Future<void> createPaymentOption(PaymentOption option) {
+    // Callable name is kept for backend-contract stability.
     return _callVoid('createCryptoPaymentOption', option.toJson());
   }
 
   @override
-  Future<void> updateCryptoPaymentOption(CryptoPaymentOption option) {
+  Future<void> updatePaymentOption(PaymentOption option) {
     return _callVoid('updateCryptoPaymentOption', option.toJson());
   }
 
   @override
-  Future<void> deleteCryptoPaymentOption(String id) {
+  Future<void> deletePaymentOption(String id) {
     return _callVoid('deleteCryptoPaymentOption', {'id': id});
   }
 
   @override
-  Future<String> uploadCryptoPaymentQrCode(AdminUploadFile file) async {
+  Future<String> uploadPaymentQrCode(AdminUploadFile file) async {
     final safeName = file.name.replaceAll(RegExp(r'[^a-zA-Z0-9._-]'), '-');
     final reference = _storage.ref(
       'admin/payment-qr/${DateTime.now().millisecondsSinceEpoch}-$safeName',

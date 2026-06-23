@@ -327,6 +327,8 @@
   "paymentWalletAddress": "वॉलेट पता",
   "paymentTransactionHash": "लेन-देन हैश",
   "paymentHashHint": "ब्लॉकचेन लेन-देन हैश पेस्ट करें",
+  "paymentReference": "भुगतान संदर्भ",
+  "paymentReferenceHint": "ट्रांसफ़र आईडी या संदर्भ दर्ज करें",
   "paymentStepQuote": "कोट",
   "paymentStepSend": "भेजें",
   "paymentStepReview": "समीक्षा",

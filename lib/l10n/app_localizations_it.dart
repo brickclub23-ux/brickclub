@@ -1068,6 +1068,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get paymentHashHint => 'Incolla l\'hash della transazione blockchain';
 
   @override
+  String get paymentReference => 'Riferimento di pagamento';
+
+  @override
+  String get paymentReferenceHint =>
+      'Inserisci l\'ID o il riferimento del bonifico';
+
+  @override
   String get paymentStepQuote => 'Quotazione';
 
   @override

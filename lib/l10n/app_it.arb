@@ -327,6 +327,8 @@
   "paymentWalletAddress": "Indirizzo del portafoglio",
   "paymentTransactionHash": "Hash della transazione",
   "paymentHashHint": "Incolla l'hash della transazione blockchain",
+  "paymentReference": "Riferimento di pagamento",
+  "paymentReferenceHint": "Inserisci l'ID o il riferimento del bonifico",
   "paymentStepQuote": "Quotazione",
   "paymentStepSend": "Invia",
   "paymentStepReview": "Revisione",

@@ -1057,6 +1057,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get paymentHashHint => 'Вставьте хеш транзакции в блокчейне';
 
   @override
+  String get paymentReference => 'Номер платежа';
+
+  @override
+  String get paymentReferenceHint => 'Введите ID или референс перевода';
+
+  @override
   String get paymentStepQuote => 'Котировка';
 
   @override

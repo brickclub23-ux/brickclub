@@ -359,6 +359,8 @@ class PurchaseOrder {
     required this.networkFee,
     required this.status,
     required this.expiresAt,
+    this.paymentType = 'crypto',
+    this.paymentAccountDetails = const [],
     this.transactionHash,
     this.proofUrl,
     this.sharesExpected = 0,
@@ -384,6 +386,11 @@ class PurchaseOrder {
           '',
       paymentWalletAddress: json['paymentWalletAddress'] as String? ?? '',
       paymentQrCodeUrl: json['paymentQrCodeUrl'] as String? ?? '',
+      paymentType: json['paymentType'] as String? ?? 'crypto',
+      paymentAccountDetails: _jsonList(
+        json['paymentAccountDetails'],
+        OrderPaymentField.fromJson,
+      ),
       quoteAmount:
           (json['quoteAmount'] as num?)?.toDouble() ??
           (json['cryptoAmountExpected'] as num?)?.toDouble() ??
@@ -410,6 +417,8 @@ class PurchaseOrder {
   final String paymentAsset;
   final String paymentWalletAddress;
   final String paymentQrCodeUrl;
+  final String paymentType;
+  final List<OrderPaymentField> paymentAccountDetails;
   final double quoteAmount;
   final double networkFee;
   final String status;
@@ -421,6 +430,8 @@ class PurchaseOrder {
   final String? approvedAt;
   final String? approvedBy;
   final String? rejectionReason;
+
+  bool get isCrypto => paymentType == 'crypto';
 
   String get quoteText => '${quoteAmount.toStringAsFixed(2)} $paymentAsset';
   String get networkFeeText => '${networkFee.toStringAsFixed(2)} $paymentAsset';
@@ -434,6 +445,22 @@ class PurchaseOrder {
     'expired' => 'Expired',
     _ => status,
   };
+}
+
+/// A label/value line of deposit instructions for a non-crypto order, snapshotted
+/// from the payment option at order time (e.g. "IBAN": "GB...").
+class OrderPaymentField {
+  const OrderPaymentField({required this.label, required this.value});
+
+  factory OrderPaymentField.fromJson(Map<String, dynamic> json) {
+    return OrderPaymentField(
+      label: json['label'] as String? ?? '',
+      value: json['value'] as String? ?? '',
+    );
+  }
+
+  final String label;
+  final String value;
 }
 
 class DepositProofFile {

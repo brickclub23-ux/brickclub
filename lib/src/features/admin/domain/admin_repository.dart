@@ -47,13 +47,13 @@ abstract interface class AdminRepository {
     double occupancyRate,
   });
 
-  Future<void> createCryptoPaymentOption(CryptoPaymentOption option);
+  Future<void> createPaymentOption(PaymentOption option);
 
-  Future<void> updateCryptoPaymentOption(CryptoPaymentOption option);
+  Future<void> updatePaymentOption(PaymentOption option);
 
-  Future<void> deleteCryptoPaymentOption(String id);
+  Future<void> deletePaymentOption(String id);
 
-  Future<String> uploadCryptoPaymentQrCode(AdminUploadFile file);
+  Future<String> uploadPaymentQrCode(AdminUploadFile file);
 
   Future<String> uploadAssetImage(AdminUploadFile file);
 

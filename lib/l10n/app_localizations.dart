@@ -2024,6 +2024,18 @@ abstract class AppLocalizations {
   /// **'Paste blockchain transaction hash'**
   String get paymentHashHint;
 
+  /// No description provided for @paymentReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment reference'**
+  String get paymentReference;
+
+  /// No description provided for @paymentReferenceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the transfer ID or reference'**
+  String get paymentReferenceHint;
+
   /// No description provided for @paymentStepQuote.
   ///
   /// In en, this message translates to:

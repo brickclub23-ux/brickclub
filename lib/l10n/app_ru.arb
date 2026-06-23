@@ -327,6 +327,8 @@
   "paymentWalletAddress": "Адрес кошелька",
   "paymentTransactionHash": "Хеш транзакции",
   "paymentHashHint": "Вставьте хеш транзакции в блокчейне",
+  "paymentReference": "Номер платежа",
+  "paymentReferenceHint": "Введите ID или референс перевода",
   "paymentStepQuote": "Котировка",
   "paymentStepSend": "Отправка",
   "paymentStepReview": "Проверка",

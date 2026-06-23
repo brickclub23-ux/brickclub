@@ -347,18 +347,26 @@ class _DepositInstructions extends StatelessWidget {
             ),
             SizedBox(height: 14),
           ],
-          _CopyableQuoteRow(
-            l10n.paymentWalletAddress,
-            order.paymentWalletAddress,
-          ),
-          QuoteRow(l10n.paymentQuoteNetwork, order.paymentNetwork),
+          if (order.isCrypto) ...[
+            _CopyableQuoteRow(
+              l10n.paymentWalletAddress,
+              order.paymentWalletAddress,
+            ),
+            QuoteRow(l10n.paymentQuoteNetwork, order.paymentNetwork),
+          ] else
+            for (final field in order.paymentAccountDetails)
+              _CopyableQuoteRow(field.label, field.value),
           SizedBox(height: 14),
-          FieldLabel(l10n.paymentTransactionHash),
+          FieldLabel(
+            order.isCrypto ? l10n.paymentTransactionHash : l10n.paymentReference,
+          ),
           SizedBox(height: 8),
           AppTextField(
             key: const ValueKey('transaction-hash'),
             controller: transactionHashController,
-            hintText: l10n.paymentHashHint,
+            hintText: order.isCrypto
+                ? l10n.paymentHashHint
+                : l10n.paymentReferenceHint,
             prefixIcon: Icons.tag_rounded,
           ),
           SizedBox(height: 14),

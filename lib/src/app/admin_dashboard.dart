@@ -25,7 +25,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     ('Users', Icons.people_alt_outlined),
     ('KYC', Icons.verified_user_outlined),
     ('Assets', Icons.apartment_outlined),
-    ('Crypto payments', Icons.currency_bitcoin_rounded),
+    ('Payments', Icons.account_balance_wallet_rounded),
     ('Support', Icons.support_agent_rounded),
     ('Reports', Icons.bar_chart_rounded),
     ('Settings', Icons.settings_outlined),
@@ -569,7 +569,7 @@ class _AdminSection extends StatelessWidget {
         onChanged: onChanged,
       ),
       4 => _PaymentsPanel(
-        options: data.cryptoPaymentOptions,
+        options: data.paymentOptions,
         depositRequests: data.depositRequests,
         repository: repository,
         onChanged: onChanged,
@@ -601,7 +601,7 @@ class _OverviewPanel extends StatelessWidget {
     final liveAssets = data.assets
         .where((asset) => asset.publishedStatus.toLowerCase() == 'live')
         .length;
-    final enabledPaymentOptions = data.cryptoPaymentOptions
+    final enabledPaymentOptions = data.paymentOptions
         .where((option) => option.enabled)
         .length;
     final pendingAssets = data.assets
@@ -654,10 +654,10 @@ class _OverviewPanel extends StatelessWidget {
                   width: cardWidth,
                 ),
                 _AdminMetricCard(
-                  'Payment options',
+                  'Payment methods',
                   '$enabledPaymentOptions',
-                  'enabled networks',
-                  Icons.currency_bitcoin_rounded,
+                  'enabled methods',
+                  Icons.account_balance_wallet_rounded,
                   width: cardWidth,
                 ),
                 _AdminMetricCard(
@@ -700,10 +700,10 @@ class _OverviewPanel extends StatelessWidget {
         ),
         SizedBox(height: 20),
         _AdminPanel(
-          title: 'Recent crypto payments',
+          title: 'Payment methods',
           action: 'View all',
           child: _PaymentOptionTable(
-            options: data.cryptoPaymentOptions,
+            options: data.paymentOptions,
             compact: true,
           ),
         ),
@@ -1419,7 +1419,7 @@ class _PaymentsPanel extends StatelessWidget {
     required this.onChanged,
   });
 
-  final List<CryptoPaymentOption> options;
+  final List<PaymentOption> options;
   final List<AdminDepositRequest> depositRequests;
   final AdminRepository repository;
   final VoidCallback onChanged;
@@ -1428,15 +1428,17 @@ class _PaymentsPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return _SectionPage(
       description:
-          'Manage the crypto networks and wallet addresses offered in the app.',
-      actionLabel: 'Add option',
+          'Manage the payment methods — crypto wallets, Payoneer, Wise, Paytm — '
+          'offered in the app. Members wire funds to the account details you '
+          'enter here.',
+      actionLabel: 'Add method',
       onAction: () => _showPaymentOptionDialog(
         context,
         repository: repository,
         onChanged: onChanged,
       ),
       child: _AdminPanel(
-        title: 'Crypto payment options',
+        title: 'Payment methods',
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1451,19 +1453,17 @@ class _PaymentsPanel extends StatelessWidget {
               onDelete: (option) async {
                 final confirmed = await _confirmDestructiveAction(
                   context,
-                  title: 'Delete payment option?',
+                  title: 'Delete payment method?',
                   message:
-                      'This permanently removes the ${option.network} '
-                      '(${option.assetSymbol}) payment option. '
-                      'This action cannot be undone.',
+                      'This permanently removes the ${option.displayName} '
+                      'payment method. This action cannot be undone.',
                 );
                 if (!confirmed || !context.mounted) return;
                 await _runAdminAction(
                   context,
-                  action: () =>
-                      repository.deleteCryptoPaymentOption(option.id),
+                  action: () => repository.deletePaymentOption(option.id),
                   onChanged: onChanged,
-                  successMessage: 'Payment option deleted',
+                  successMessage: 'Payment method deleted',
                 );
               },
             ),
@@ -1511,14 +1511,16 @@ class _DepositRequestTable extends StatelessWidget {
     }
 
     return _ResponsiveDataTable(
-      columns: const ['Asset', 'Amount', 'Coin', 'Hash', 'Status'],
+      columns: const ['Asset', 'Amount', 'Method', 'Reference', 'Status'],
       rows: [
         for (final request in requests)
           _AdminTableRow(
             values: [
               request.opportunityTitle,
               request.amountUsd.toStringAsFixed(0),
-              '${request.paymentAsset} ${request.paymentNetwork}',
+              request.isCrypto
+                  ? '${request.paymentAsset} ${request.paymentNetwork}'
+                  : PaymentMethodType.label(request.paymentType),
               _shortHash(request.transactionHash),
               request.status,
             ],
@@ -2048,22 +2050,31 @@ class _PaymentOptionTable extends StatelessWidget {
     this.onDelete,
   });
 
-  final List<CryptoPaymentOption> options;
+  final List<PaymentOption> options;
   final bool compact;
-  final ValueChanged<CryptoPaymentOption>? onEdit;
-  final ValueChanged<CryptoPaymentOption>? onDelete;
+  final ValueChanged<PaymentOption>? onEdit;
+  final ValueChanged<PaymentOption>? onDelete;
+
+  static String _detailSummary(PaymentOption option) {
+    if (option.isCrypto) return option.walletAddress;
+    if (option.accountDetails.isEmpty) return '—';
+    final first = option.accountDetails.first;
+    final base = '${first.label}: ${first.value}';
+    final extra = option.accountDetails.length - 1;
+    return extra > 0 ? '$base  +$extra more' : base;
+  }
 
   @override
   Widget build(BuildContext context) {
     return _ResponsiveDataTable(
-      columns: const ['Network', 'Asset', 'Wallet', 'QR', 'Minimum', 'Status'],
+      columns: const ['Method', 'Type', 'Details', 'QR', 'Minimum', 'Status'],
       rows: [
         for (final option in options.take(compact ? 4 : options.length))
           _AdminTableRow(
             values: [
-              option.network,
-              option.assetSymbol,
-              option.walletAddress,
+              option.displayName,
+              option.isCrypto ? 'Crypto' : PaymentMethodType.label(option.type),
+              _detailSummary(option),
               option.qrCodeUrl.isEmpty ? 'Missing' : 'Uploaded',
               option.minimumAmount.toStringAsFixed(2),
               option.enabled ? 'Active' : 'Disabled',
@@ -2074,10 +2085,10 @@ class _PaymentOptionTable extends StatelessWidget {
       statusColumns: const {3, 5},
       onEdit: onEdit == null
           ? null
-          : (row) => onEdit!(row.source as CryptoPaymentOption),
+          : (row) => onEdit!(row.source as PaymentOption),
       onDelete: onDelete == null
           ? null
-          : (row) => onDelete!(row.source as CryptoPaymentOption),
+          : (row) => onDelete!(row.source as PaymentOption),
     );
   }
 }
@@ -3060,12 +3071,17 @@ class _AssetDropdown extends StatelessWidget {
     required this.value,
     required this.values,
     required this.onChanged,
+    this.labelFor,
   });
 
   final String label;
   final String value;
   final List<String> values;
   final ValueChanged<String> onChanged;
+
+  /// Optional mapper from a raw [values] entry to its display text. Defaults to
+  /// showing the raw value.
+  final String Function(String value)? labelFor;
 
   @override
   Widget build(BuildContext context) {
@@ -3086,7 +3102,10 @@ class _AssetDropdown extends StatelessWidget {
       style: AppText.fieldLabel,
       items: [
         for (final option in values)
-          DropdownMenuItem(value: option, child: Text(option)),
+          DropdownMenuItem(
+            value: option,
+            child: Text(labelFor?.call(option) ?? option),
+          ),
       ],
       onChanged: (selected) {
         if (selected != null) onChanged(selected);
@@ -3369,13 +3388,29 @@ Future<void> _showAssetValuationDialog(
   notes.dispose();
 }
 
+/// Two controllers backing one editable account-detail row in the dialog.
+class _AccountFieldEditor {
+  _AccountFieldEditor({String label = '', String value = ''})
+    : label = TextEditingController(text: label),
+      value = TextEditingController(text: value);
+
+  final TextEditingController label;
+  final TextEditingController value;
+
+  void dispose() {
+    label.dispose();
+    value.dispose();
+  }
+}
+
 Future<void> _showPaymentOptionDialog(
   BuildContext context, {
   required AdminRepository repository,
   required VoidCallback onChanged,
-  CryptoPaymentOption? option,
+  PaymentOption? option,
 }) async {
-  final value = option ?? CryptoPaymentOption.empty();
+  final value = option ?? PaymentOption.empty();
+  var type = value.type;
   final network = TextEditingController(text: value.network);
   final assetSymbol = TextEditingController(text: value.assetSymbol);
   final walletAddress = TextEditingController(text: value.walletAddress);
@@ -3384,63 +3419,150 @@ Future<void> _showPaymentOptionDialog(
     text: value.minimumAmount.toStringAsFixed(2),
   );
   var enabled = value.enabled;
+  final accountRows = <_AccountFieldEditor>[
+    for (final field in value.accountDetails)
+      _AccountFieldEditor(label: field.label, value: field.value),
+  ];
 
   await showDialog<void>(
     context: context,
     builder: (dialogContext) => StatefulBuilder(
       builder: (context, setState) {
+        final isCrypto = type == PaymentMethodType.crypto;
         return AlertDialog(
           backgroundColor: AppColors.panel,
-          title: Text(option == null ? 'Create payment option' : 'Edit option'),
+          title: Text(
+            option == null ? 'Add payment method' : 'Edit payment method',
+          ),
           content: SizedBox(
             width: 420,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppTextField(
-                  controller: network,
-                  label: 'Network',
-                  hintText: 'e.g. Bitcoin, Ethereum (ERC-20)',
-                ),
-                SizedBox(height: 10),
-                AppTextField(
-                  controller: assetSymbol,
-                  label: 'Asset symbol',
-                  hintText: 'e.g. BTC, USDT',
-                ),
-                SizedBox(height: 10),
-                AppTextField(
-                  controller: walletAddress,
-                  label: 'Settlement wallet address',
-                  hintText: 'Receiving wallet address',
-                ),
-                SizedBox(height: 10),
-                _PickerTile(
-                  icon: Icons.qr_code_2_rounded,
-                  title: qrCodeUrl.isEmpty
-                      ? 'Upload payment QR code'
-                      : 'QR code uploaded',
-                  onTap: () async {
-                    final uploaded = await _pickAdminQrCode(repository);
-                    if (uploaded != null) {
-                      setState(() => qrCodeUrl = uploaded);
-                    }
-                  },
-                ),
-                SizedBox(height: 10),
-                AppTextField(
-                  controller: minimumAmount,
-                  label: 'Minimum amount',
-                  hintText: '0.00',
-                  keyboardType: TextInputType.number,
-                ),
-                SwitchListTile(
-                  value: enabled,
-                  onChanged: (value) => setState(() => enabled = value),
-                  title: Text('Enabled'),
-                  activeThumbColor: AppColors.gold,
-                ),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _AssetDropdown(
+                    label: 'Method type',
+                    value: type,
+                    values: const [
+                      PaymentMethodType.crypto,
+                      ...PaymentMethodType.accountTypes,
+                    ],
+                    onChanged: (selected) => setState(() => type = selected),
+                    labelFor: PaymentMethodType.label,
+                  ),
+                  SizedBox(height: 10),
+                  if (isCrypto) ...[
+                    AppTextField(
+                      controller: network,
+                      label: 'Network',
+                      hintText: 'e.g. Bitcoin, Ethereum (ERC-20)',
+                    ),
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: assetSymbol,
+                      label: 'Asset symbol',
+                      hintText: 'e.g. BTC, USDT',
+                    ),
+                    SizedBox(height: 10),
+                    AppTextField(
+                      controller: walletAddress,
+                      label: 'Settlement wallet address',
+                      hintText: 'Receiving wallet address',
+                    ),
+                    SizedBox(height: 10),
+                  ] else ...[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2, bottom: 4),
+                      child: Text('Account details', style: AppText.fieldLabel),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2, bottom: 8),
+                      child: Text(
+                        'Fields members see and wire funds to — e.g. Account '
+                        'holder, Email, IBAN, UPI ID.',
+                        style: TextStyle(
+                          color: AppColors.secondary,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                    for (var i = 0; i < accountRows.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: AppTextField(
+                                controller: accountRows[i].label,
+                                label: 'Label',
+                                hintText: 'e.g. IBAN',
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: AppTextField(
+                                controller: accountRows[i].value,
+                                label: 'Value',
+                                hintText: 'e.g. GB12 ...',
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.remove_circle_outline,
+                                color: AppColors.secondary,
+                              ),
+                              tooltip: 'Remove field',
+                              onPressed: () => setState(
+                                () => accountRows.removeAt(i).dispose(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton.icon(
+                        onPressed: () => setState(
+                          () => accountRows.add(_AccountFieldEditor()),
+                        ),
+                        icon: Icon(Icons.add, color: AppColors.gold),
+                        label: Text(
+                          'Add field',
+                          style: TextStyle(color: AppColors.gold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                  _PickerTile(
+                    icon: Icons.qr_code_2_rounded,
+                    title: qrCodeUrl.isEmpty
+                        ? 'Upload payment QR code (optional)'
+                        : 'QR code uploaded',
+                    onTap: () async {
+                      final uploaded = await _pickAdminQrCode(repository);
+                      if (uploaded != null) {
+                        setState(() => qrCodeUrl = uploaded);
+                      }
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  AppTextField(
+                    controller: minimumAmount,
+                    label: 'Minimum amount',
+                    hintText: '0.00',
+                    keyboardType: TextInputType.number,
+                  ),
+                  SwitchListTile(
+                    value: enabled,
+                    onChanged: (value) => setState(() => enabled = value),
+                    title: Text('Enabled'),
+                    activeThumbColor: AppColors.gold,
+                  ),
+                ],
+              ),
             ),
           ),
           actions: [
@@ -3450,12 +3572,31 @@ Future<void> _showPaymentOptionDialog(
             ),
             FilledButton(
               onPressed: () async {
-                final payload = CryptoPaymentOption(
+                final isCryptoSel = type == PaymentMethodType.crypto;
+                final payload = PaymentOption(
                   id: value.id,
-                  network: network.text,
-                  assetSymbol: assetSymbol.text,
-                  walletAddress: walletAddress.text,
+                  type: type,
+                  // Non-crypto methods derive a stable code/label from the type
+                  // and carry their specifics in accountDetails instead.
+                  network: isCryptoSel
+                      ? network.text
+                      : PaymentMethodType.label(type),
+                  assetSymbol: isCryptoSel
+                      ? assetSymbol.text
+                      : type.toUpperCase(),
+                  walletAddress: isCryptoSel ? walletAddress.text : '',
                   qrCodeUrl: qrCodeUrl,
+                  accountDetails: isCryptoSel
+                      ? const []
+                      : [
+                          for (final row in accountRows)
+                            if (row.label.text.trim().isNotEmpty ||
+                                row.value.text.trim().isNotEmpty)
+                              PaymentAccountField(
+                                label: row.label.text.trim(),
+                                value: row.value.text.trim(),
+                              ),
+                        ],
                   enabled: enabled,
                   minimumAmount: double.tryParse(minimumAmount.text) ?? 0,
                 );
@@ -3463,8 +3604,8 @@ Future<void> _showPaymentOptionDialog(
                 await _runAdminAction(
                   context,
                   action: () => option == null
-                      ? repository.createCryptoPaymentOption(payload)
-                      : repository.updateCryptoPaymentOption(payload),
+                      ? repository.createPaymentOption(payload)
+                      : repository.updatePaymentOption(payload),
                   onChanged: onChanged,
                 );
                 if (dialogContext.mounted) {
@@ -3483,6 +3624,9 @@ Future<void> _showPaymentOptionDialog(
   assetSymbol.dispose();
   walletAddress.dispose();
   minimumAmount.dispose();
+  for (final row in accountRows) {
+    row.dispose();
+  }
 }
 
 Future<String?> _pickAdminQrCode(AdminRepository repository) async {
@@ -3494,7 +3638,7 @@ Future<String?> _pickAdminQrCode(AdminRepository repository) async {
   final file = result?.files.single;
   if (file?.bytes == null) return null;
 
-  return repository.uploadCryptoPaymentQrCode(
+  return repository.uploadPaymentQrCode(
     AdminUploadFile(
       name: file!.name,
       bytes: file.bytes!,

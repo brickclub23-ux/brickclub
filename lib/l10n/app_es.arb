@@ -327,6 +327,8 @@
   "paymentWalletAddress": "Dirección de la cartera",
   "paymentTransactionHash": "Hash de la transacción",
   "paymentHashHint": "Pega el hash de la transacción en blockchain",
+  "paymentReference": "Referencia de pago",
+  "paymentReferenceHint": "Ingresa el ID o la referencia de la transferencia",
   "paymentStepQuote": "Cotización",
   "paymentStepSend": "Enviar",
   "paymentStepReview": "Revisión",
