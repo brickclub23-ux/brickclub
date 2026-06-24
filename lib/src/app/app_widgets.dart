@@ -133,6 +133,7 @@ class _MemberNotificationBellState extends State<_MemberNotificationBell> {
   int _branchForType(String type) {
     if (type.startsWith('deposit_')) return 3;
     if (type.startsWith('wallet_')) return 2;
+    if (type.startsWith('withdrawal_')) return 2;
     if (type.startsWith('support_')) return 4;
     if (type.startsWith('referral_')) return 4;
     return 0;

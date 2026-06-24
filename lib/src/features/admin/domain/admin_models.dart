@@ -4,6 +4,7 @@ class AdminDashboardData {
     required this.assets,
     required this.paymentOptions,
     required this.depositRequests,
+    required this.withdrawalRequests,
     required this.supportTickets,
     required this.withdrawalPolicy,
     required this.referralPolicy,
@@ -23,6 +24,10 @@ class AdminDashboardData {
       depositRequests: _list(
         json['depositRequests'],
         AdminDepositRequest.fromJson,
+      ),
+      withdrawalRequests: _list(
+        json['withdrawalRequests'],
+        AdminWithdrawalRequest.fromJson,
       ),
       supportTickets: _list(
         json['supportTickets'],
@@ -46,6 +51,7 @@ class AdminDashboardData {
   final List<AdminAsset> assets;
   final List<PaymentOption> paymentOptions;
   final List<AdminDepositRequest> depositRequests;
+  final List<AdminWithdrawalRequest> withdrawalRequests;
   final List<AdminSupportTicket> supportTickets;
   final List<AdminNotification> notifications;
   final WithdrawalPolicy withdrawalPolicy;
@@ -716,6 +722,71 @@ class AdminDepositRequest {
   final String status;
 
   bool get isCrypto => paymentType == PaymentMethodType.crypto;
+}
+
+class AdminWithdrawalRequest {
+  const AdminWithdrawalRequest({
+    required this.id,
+    required this.uid,
+    required this.userEmail,
+    required this.userDisplayName,
+    required this.amountUsd,
+    required this.feeUsd,
+    required this.netAmountUsd,
+    required this.destinationAddress,
+    required this.assetSymbol,
+    required this.status,
+    required this.rejectionReason,
+    required this.createdAt,
+  });
+
+  factory AdminWithdrawalRequest.fromJson(Map<String, dynamic> json) {
+    return AdminWithdrawalRequest(
+      id: json['id'] as String? ?? '',
+      uid: json['uid'] as String? ?? '',
+      userEmail: json['userEmail'] as String? ?? '',
+      userDisplayName: json['userDisplayName'] as String? ?? '',
+      amountUsd: (json['amountUsd'] as num?)?.toDouble() ?? 0,
+      feeUsd: (json['feeUsd'] as num?)?.toDouble() ?? 0,
+      netAmountUsd: (json['netAmountUsd'] as num?)?.toDouble() ?? 0,
+      destinationAddress: json['destinationAddress'] as String? ?? '',
+      assetSymbol: json['assetSymbol'] as String? ?? '',
+      status: json['status'] as String? ?? 'submitted',
+      rejectionReason: json['rejectionReason'] as String? ?? '',
+      createdAt: json['createdAt'] as String? ?? '',
+    );
+  }
+
+  final String id;
+  final String uid;
+  final String userEmail;
+  final String userDisplayName;
+  final double amountUsd;
+  final double feeUsd;
+  final double netAmountUsd;
+  final String destinationAddress;
+  final String assetSymbol;
+  final String status;
+  final String rejectionReason;
+  final String createdAt;
+
+  bool get isPending => status == 'submitted' || status == 'processing';
+
+  String get requesterLabel {
+    final name = userDisplayName.trim();
+    if (name.isNotEmpty) return name;
+    final email = userEmail.trim();
+    return email.isNotEmpty ? email : uid;
+  }
+
+  String get statusLabel {
+    return switch (status) {
+      'completed' => 'Paid',
+      'rejected' => 'Rejected',
+      'processing' => 'Processing',
+      _ => 'Submitted',
+    };
+  }
 }
 
 class AdminSupportTicket {

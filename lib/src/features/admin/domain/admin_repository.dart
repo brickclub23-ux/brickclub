@@ -71,6 +71,13 @@ abstract interface class AdminRepository {
     required String reason,
   });
 
+  Future<void> approveWithdrawalRequest(String id);
+
+  Future<void> rejectWithdrawalRequest({
+    required String id,
+    required String reason,
+  });
+
   Future<void> replyToSupportTicket({
     required String id,
     required String message,

@@ -27,6 +27,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     ('Assets', Icons.apartment_outlined),
     ('Payments', Icons.account_balance_wallet_rounded),
     ('Deposits', Icons.receipt_long_outlined),
+    ('Withdrawals', Icons.payments_outlined),
     ('Support', Icons.support_agent_rounded),
     ('Reports', Icons.bar_chart_rounded),
     ('Settings', Icons.settings_outlined),
@@ -441,12 +442,12 @@ class _NotificationsSheet extends StatelessWidget {
 
   /// Maps an admin notification type to the dashboard section it should open.
   /// Sections: 0 Overview, 1 Users, 2 KYC, 3 Assets, 4 Payments, 5 Deposits,
-  /// 6 Support, 7 Reports, 8 Settings.
+  /// 6 Withdrawals, 7 Support, 8 Reports, 9 Settings.
   static int sectionForType(String type) {
     if (type.startsWith('deposit_')) return 5;
-    if (type.startsWith('support_')) return 6;
+    if (type.startsWith('withdrawal_')) return 6;
+    if (type.startsWith('support_')) return 7;
     if (type.startsWith('kyc_')) return 2;
-    if (type.startsWith('withdrawal_')) return 8;
     return 0;
   }
 
@@ -617,12 +618,17 @@ class _AdminSection extends StatelessWidget {
         repository: repository,
         onChanged: onChanged,
       ),
-      6 => _SupportPanel(
+      6 => _WithdrawalsPanel(
+        withdrawalRequests: data.withdrawalRequests,
+        repository: repository,
+        onChanged: onChanged,
+      ),
+      7 => _SupportPanel(
         tickets: data.supportTickets,
         repository: repository,
         onChanged: onChanged,
       ),
-      7 => _ReportsPanel(data: data),
+      8 => _ReportsPanel(data: data),
       _ => _SettingsPanel(
         policy: data.withdrawalPolicy,
         referralPolicy: data.referralPolicy,
@@ -1628,6 +1634,133 @@ class _DepositRequestTable extends StatelessWidget {
             IconButton(
               tooltip: 'Reject',
               onPressed: submitted ? () => onReject(request) : null,
+              icon: Icon(Icons.close_rounded, size: 18),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _WithdrawalsPanel extends StatelessWidget {
+  const _WithdrawalsPanel({
+    required this.withdrawalRequests,
+    required this.repository,
+    required this.onChanged,
+  });
+
+  final List<AdminWithdrawalRequest> withdrawalRequests;
+  final AdminRepository repository;
+  final VoidCallback onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final pending = withdrawalRequests.where((r) => r.isPending).length;
+    return _SectionPage(
+      description:
+          'Review member withdrawal requests. Approving debits the gross amount '
+          'from the member wallet and marks the payout complete; you still send '
+          'the funds to their destination address out-of-band. Rejecting leaves '
+          'the wallet untouched. The member is notified either way.',
+      child: _AdminPanel(
+        title: pending > 0
+            ? 'Withdrawal requests ($pending awaiting review)'
+            : 'Withdrawal requests',
+        child: _WithdrawalRequestTable(
+          requests: withdrawalRequests,
+          onApprove: (request) async {
+            final confirmed = await _confirmDestructiveAction(
+              context,
+              title: 'Approve withdrawal?',
+              message:
+                  'This debits \$${request.amountUsd.toStringAsFixed(0)} from '
+                  '${request.requesterLabel}\'s wallet and marks the payout '
+                  'complete. Make sure you have sent the funds.',
+              confirmLabel: 'Approve',
+            );
+            if (!confirmed || !context.mounted) return;
+            await _runAdminAction(
+              context,
+              action: () => repository.approveWithdrawalRequest(request.id),
+              onChanged: onChanged,
+              successMessage: 'Withdrawal approved',
+            );
+          },
+          onReject: (request) => _showRejectWithdrawalDialog(
+            context,
+            repository: repository,
+            request: request,
+            onChanged: onChanged,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WithdrawalRequestTable extends StatelessWidget {
+  const _WithdrawalRequestTable({
+    required this.requests,
+    required this.onApprove,
+    required this.onReject,
+  });
+
+  final List<AdminWithdrawalRequest> requests;
+  final ValueChanged<AdminWithdrawalRequest> onApprove;
+  final ValueChanged<AdminWithdrawalRequest> onReject;
+
+  @override
+  Widget build(BuildContext context) {
+    if (requests.isEmpty) {
+      return Panel(
+        child: Text('No withdrawal requests yet.', style: AppText.body),
+      );
+    }
+
+    return _ResponsiveDataTable(
+      columns: const ['Member', 'Amount', 'Net', 'Destination', 'Status'],
+      rows: [
+        for (final request in requests)
+          _AdminTableRow(
+            values: [
+              request.requesterLabel,
+              '${request.amountUsd.toStringAsFixed(0)} ${request.assetSymbol}',
+              request.netAmountUsd.toStringAsFixed(0),
+              _shortHash(request.destinationAddress),
+              request.statusLabel,
+            ],
+            source: request,
+          ),
+      ],
+      statusColumns: const {4},
+      trailingBuilder: (row) {
+        final request = row.source as AdminWithdrawalRequest;
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              tooltip: 'Copy destination',
+              onPressed: request.destinationAddress.isEmpty
+                  ? null
+                  : () async {
+                      await Clipboard.setData(
+                        ClipboardData(text: request.destinationAddress),
+                      );
+                      if (context.mounted) {
+                        showMessage(context, 'Destination address copied');
+                      }
+                    },
+              icon: Icon(Icons.copy_rounded, size: 18),
+            ),
+            IconButton(
+              tooltip: 'Approve',
+              onPressed: request.isPending ? () => onApprove(request) : null,
+              icon: Icon(Icons.verified_outlined, size: 18),
+            ),
+            IconButton(
+              tooltip: 'Reject',
+              onPressed: request.isPending ? () => onReject(request) : null,
               icon: Icon(Icons.close_rounded, size: 18),
             ),
           ],
@@ -3799,6 +3932,51 @@ Future<void> _showRejectDepositDialog(
             await _runAdminAction(
               context,
               action: () => repository.rejectDepositRequest(
+                id: request.id,
+                reason: reason.text,
+              ),
+              onChanged: onChanged,
+            );
+            if (dialogContext.mounted) Navigator.pop(dialogContext);
+          },
+          child: Text('Reject'),
+        ),
+      ],
+    ),
+  );
+  reason.dispose();
+}
+
+Future<void> _showRejectWithdrawalDialog(
+  BuildContext context, {
+  required AdminRepository repository,
+  required AdminWithdrawalRequest request,
+  required VoidCallback onChanged,
+}) async {
+  final reason = TextEditingController();
+  await showDialog<void>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      backgroundColor: AppColors.panel,
+      title: Text('Reject withdrawal request'),
+      content: SizedBox(
+        width: 420,
+        child: AppTextField(
+          controller: reason,
+          label: 'Rejection reason',
+          hintText: 'Reason shown to the member',
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(dialogContext),
+          child: Text('Cancel'),
+        ),
+        FilledButton(
+          onPressed: () async {
+            await _runAdminAction(
+              context,
+              action: () => repository.rejectWithdrawalRequest(
                 id: request.id,
                 reason: reason.text,
               ),
