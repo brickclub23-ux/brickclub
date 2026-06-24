@@ -740,6 +740,22 @@ class FakeAdminRepository implements AdminRepository {
         status: 'proof_submitted',
       ),
     ],
+    withdrawalRequests: [
+      AdminWithdrawalRequest(
+        id: 'withdrawal-1',
+        uid: 'member-1',
+        userEmail: 'sarah@brickclub.com',
+        userDisplayName: 'Sarah Namuli',
+        amountUsd: 200,
+        feeUsd: 4,
+        netAmountUsd: 196,
+        destinationAddress: '0x71B...8E4',
+        assetSymbol: 'USDT',
+        status: 'submitted',
+        rejectionReason: '',
+        createdAt: '2026-06-17T09:30:00.000Z',
+      ),
+    ],
     supportTickets: [
       AdminSupportTicket(
         id: 'support-1',
@@ -900,6 +916,15 @@ class FakeAdminRepository implements AdminRepository {
 
   @override
   Future<void> rejectDepositRequest({
+    required String id,
+    required String reason,
+  }) async {}
+
+  @override
+  Future<void> approveWithdrawalRequest(String id) async {}
+
+  @override
+  Future<void> rejectWithdrawalRequest({
     required String id,
     required String reason,
   }) async {}
@@ -1147,6 +1172,12 @@ class FakeInvestmentRepository implements InvestmentRepository {
       proofUrl: 'https://example.com/proof.png',
     );
   }
+
+  @override
+  Future<List<MemberNotification>> listNotifications() async => const [];
+
+  @override
+  Future<void> markNotificationsRead() async {}
 }
 
 class FakeKycRepository implements KycRepository {

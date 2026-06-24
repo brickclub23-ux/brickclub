@@ -197,6 +197,22 @@ class FirebaseAdminRepository implements AdminRepository {
   }
 
   @override
+  Future<void> approveWithdrawalRequest(String id) {
+    return _callVoid('approveWithdrawalRequest', {'withdrawalRequestId': id});
+  }
+
+  @override
+  Future<void> rejectWithdrawalRequest({
+    required String id,
+    required String reason,
+  }) {
+    return _callVoid('rejectWithdrawalRequest', {
+      'withdrawalRequestId': id,
+      'reason': reason,
+    });
+  }
+
+  @override
   Future<void> replyToSupportTicket({
     required String id,
     required String message,

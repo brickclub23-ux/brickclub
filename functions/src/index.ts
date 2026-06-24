@@ -319,6 +319,10 @@ export const listAdminDashboard = onAdminCall(async () => {
       "deposit_rejected",
     ])
     .get();
+  const withdrawalRequestsSnapshot = await withdrawalRequestsCollection
+    .orderBy("createdAt", "desc")
+    .limit(100)
+    .get();
   const supportTicketsSnapshot = await supportTicketsCollection
     .orderBy("updatedAt", "desc")
     .limit(100)
@@ -331,11 +335,21 @@ export const listAdminDashboard = onAdminCall(async () => {
   const referralPolicy = await loadReferralPolicy();
   const landingContent = await loadLandingContent();
 
+  // Resolve the requesting member's identity for each withdrawal so the admin
+  // queue can show who to pay rather than a bare uid.
+  const usersByUid = new Map(
+    usersResult.users.map((user) => [user.uid, user]),
+  );
+
   return {
     users: usersResult.users.map(userToJson),
     assets: assetsSnapshot.docs.map(assetFromDoc),
     cryptoPaymentOptions: paymentOptionsSnapshot.docs.map(paymentOptionFromDoc),
     depositRequests: depositRequestsSnapshot.docs.map(depositRequestFromDoc),
+    withdrawalRequests: withdrawalRequestsSnapshot.docs.map((doc) =>
+      withdrawalRequestFromDoc(doc, usersByUid.get(String(doc.data().uid ?? "")),
+      ),
+    ),
     supportTickets: supportTicketsSnapshot.docs.map(supportTicketFromDoc),
     notifications: notificationsSnapshot.docs.map(adminNotificationFromDoc),
     withdrawalPolicy,
@@ -358,6 +372,42 @@ export const listAdminDashboard = onAdminCall(async () => {
 
 export const markAdminNotificationsRead = onAdminCall(async () => {
   const snapshot = await adminNotificationsCollection
+    .where("read", "==", false)
+    .get();
+  if (snapshot.empty) {
+    return {updated: 0};
+  }
+
+  const batch = db.batch();
+  for (const doc of snapshot.docs) {
+    batch.update(doc.ref, {
+      read: true,
+      readAt: FieldValue.serverTimestamp(),
+    });
+  }
+  await batch.commit();
+
+  return {updated: snapshot.size};
+});
+
+export const listMemberNotifications = onMemberCall(async (request) => {
+  const uid = request.auth!.uid;
+  const snapshot = await db
+    .collection("memberNotifications")
+    .where("uid", "==", uid)
+    .orderBy("createdAt", "desc")
+    .limit(25)
+    .get();
+  return {
+    notifications: snapshot.docs.map(memberNotificationFromDoc),
+  };
+});
+
+export const markMemberNotificationsRead = onMemberCall(async (request) => {
+  const uid = request.auth!.uid;
+  const snapshot = await db
+    .collection("memberNotifications")
+    .where("uid", "==", uid)
     .where("read", "==", false)
     .get();
   if (snapshot.empty) {
@@ -964,6 +1014,101 @@ export const updateWithdrawalPolicy = onAdminCall(async (data) => {
   );
 
   return policy;
+});
+
+// Approve a member withdrawal: debit the gross amount from their wallet (funds
+// were not reserved at request time, so this is where the balance moves) and
+// mark the request paid. A debit that would overdraw the wallet is rejected by
+// applyWalletAdjustment, surfacing as a failed-precondition to the admin.
+export const approveWithdrawalRequest = onAdminCall(async (data, context) => {
+  const value = readObject(data);
+  const id = readString(value, "withdrawalRequestId");
+  const requestRef = withdrawalRequestsCollection.doc(id);
+  const snapshot = await requestRef.get();
+  const withdrawal = snapshot.data();
+  if (!snapshot.exists || !withdrawal) {
+    throw new HttpsError("not-found", "Withdrawal request was not found.");
+  }
+  if (withdrawal.status !== "submitted" && withdrawal.status !== "processing") {
+    throw new HttpsError(
+      "failed-precondition",
+      "Only submitted withdrawal requests can be approved.",
+    );
+  }
+
+  const uid = String(withdrawal.uid);
+  const amountUsd = roundMoney(Number(withdrawal.amountUsd ?? 0));
+  const assetSymbol = String(withdrawal.assetSymbol ?? "");
+  const destinationAddress = String(withdrawal.destinationAddress ?? "");
+
+  const result = await applyWalletAdjustment({
+    uid,
+    amountUsd,
+    direction: "debit",
+    reason: `Withdrawal to ${destinationAddress} (${assetSymbol})`,
+    createdBy: context.uid,
+  });
+
+  await requestRef.set(
+    {
+      status: "completed",
+      approvalsCompleted: Number(withdrawal.requiredApprovals ?? 1),
+      walletTransactionId: result.transactionId,
+      reviewedBy: context.uid,
+      reviewedAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+    },
+    {merge: true},
+  );
+
+  await notifyMember(uid, {
+    type: "withdrawal_completed",
+    title: "Withdrawal approved",
+    body: `Your ${formatUsd(amountUsd)} ${assetSymbol} withdrawal has been ` +
+      "approved and paid out.",
+    data: {withdrawalRequestId: id},
+  });
+
+  return {id, status: "completed", balanceUsd: result.balanceUsd};
+});
+
+export const rejectWithdrawalRequest = onAdminCall(async (data, context) => {
+  const value = readObject(data);
+  const id = readString(value, "withdrawalRequestId");
+  const reason = readString(value, "reason");
+  const requestRef = withdrawalRequestsCollection.doc(id);
+  const snapshot = await requestRef.get();
+  const withdrawal = snapshot.data();
+  if (!snapshot.exists || !withdrawal) {
+    throw new HttpsError("not-found", "Withdrawal request was not found.");
+  }
+  if (withdrawal.status !== "submitted" && withdrawal.status !== "processing") {
+    throw new HttpsError(
+      "failed-precondition",
+      "Only submitted withdrawal requests can be rejected.",
+    );
+  }
+
+  // No funds were reserved at request time, so rejection only updates status.
+  await requestRef.set(
+    {
+      status: "rejected",
+      rejectionReason: reason,
+      reviewedBy: context.uid,
+      reviewedAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+    },
+    {merge: true},
+  );
+
+  await notifyMember(String(withdrawal.uid), {
+    type: "withdrawal_rejected",
+    title: "Withdrawal request declined",
+    body: reason,
+    data: {withdrawalRequestId: id},
+  });
+
+  return {id, status: "rejected", reason};
 });
 
 export const updateReferralPolicy = onAdminCall(async (data) => {
@@ -1996,6 +2141,27 @@ function depositRequestFromDoc(
   };
 }
 
+function withdrawalRequestFromDoc(
+  doc: FirebaseFirestore.QueryDocumentSnapshot,
+  user?: UserRecord,
+) {
+  const data = doc.data();
+  return {
+    id: doc.id,
+    uid: String(data.uid ?? ""),
+    userEmail: user?.email ?? "",
+    userDisplayName: user?.displayName ?? "",
+    amountUsd: Number(data.amountUsd ?? 0),
+    feeUsd: Number(data.feeUsd ?? 0),
+    netAmountUsd: Number(data.netAmountUsd ?? 0),
+    destinationAddress: String(data.destinationAddress ?? ""),
+    assetSymbol: String(data.assetSymbol ?? ""),
+    status: String(data.status ?? "submitted"),
+    rejectionReason: String(data.rejectionReason ?? ""),
+    createdAt: readSerializableDate(data.createdAt),
+  };
+}
+
 function memberOrderFromDoc(doc: FirebaseFirestore.QueryDocumentSnapshot) {
   const data = doc.data();
   return {
@@ -2245,6 +2411,28 @@ function adminNotificationFromDoc(
     body: String(data.body ?? ""),
     read: Boolean(data.read ?? false),
     createdAt: readSerializableDate(data.createdAt),
+  };
+}
+
+function memberNotificationFromDoc(
+  doc: FirebaseFirestore.QueryDocumentSnapshot,
+) {
+  const data = doc.data();
+  // Stringify each entry of the routing payload so the client always receives a
+  // Map<String, String> (orderId / ticketId / refereeUid) it can route on.
+  const rawData = (data.data ?? {}) as Record<string, unknown>;
+  const routeData: Record<string, string> = {};
+  for (const [key, value] of Object.entries(rawData)) {
+    routeData[key] = String(value ?? "");
+  }
+  return {
+    id: doc.id,
+    type: String(data.type ?? ""),
+    title: String(data.title ?? ""),
+    body: String(data.body ?? ""),
+    read: Boolean(data.read ?? false),
+    createdAt: readSerializableDate(data.createdAt),
+    data: routeData,
   };
 }
 
