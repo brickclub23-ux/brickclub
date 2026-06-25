@@ -64,9 +64,27 @@ jobs:
       - name: Deploy to Firebase
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa.json
+          # Force Application Default Credentials to use the service-account file
+          # directly instead of probing the (absent) GCE metadata server. That
+          # probe races and intermittently surfaced as
+          # "Failed to authenticate, have you run firebase login?" in CI.
+          METADATA_SERVER_DETECTION: none
         run: |
-          firebase deploy \
-            --only hosting,functions,firestore,storage \
-            --project brickclub \
-            --non-interactive \
-            --force
+          # Retry to ride out transient auth/network blips. Deploys are
+          # idempotent (unchanged resources are skipped), so re-running is safe.
+          for attempt in 1 2 3; do
+            echo "::group::Firebase deploy attempt $attempt"
+            if firebase deploy \
+              --only hosting,functions,firestore,storage \
+              --project brickclub \
+              --non-interactive \
+              --force; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "Deploy attempt $attempt failed; retrying in 15s..."
+            sleep 15
+          done
+          echo "All deploy attempts failed."
+          exit 1
