@@ -2702,6 +2702,17 @@ class _UserDetailBody extends StatelessWidget {
     );
   }
 
+  Future<void> _settleInvestment(BuildContext context, String id) async {
+    await _runAdminAction(
+      context,
+      action: () => repository.settleInvestment(id),
+      onChanged: onWalletChanged,
+    );
+  }
+
+  String _rate(double value) =>
+      '${value.toStringAsFixed(value % 1 == 0 ? 0 : 1)}%';
+
   @override
   Widget build(BuildContext context) {
     final user = detail.user;
@@ -2809,6 +2820,49 @@ class _UserDetailBody extends StatelessWidget {
                     '(${holding.returnPercentage.toStringAsFixed(1)}%)',
               ),
           ],
+          const SizedBox(height: 14),
+          const _DetailSection('Investment plans'),
+          if (detail.investments.isEmpty)
+            _DetailRow('Plans', 'None')
+          else
+            for (final plan in detail.investments)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            plan.assetTitle.isNotEmpty
+                                ? plan.assetTitle
+                                : 'Plan',
+                            style: AppText.fieldLabel,
+                          ),
+                          Text(
+                            '${_money(plan.principalUsd)} · '
+                            '${_rate(plan.ratePercent)} ${plan.durationKey} · '
+                            '${plan.status}',
+                            style: AppText.tiny,
+                          ),
+                          Text(
+                            'Pays ${_money(plan.payoutUsd)} · '
+                            'matures ${_date(plan.maturityAt)}',
+                            style: AppText.tiny,
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (plan.isActive)
+                      TextButton(
+                        onPressed: () => _settleInvestment(context, plan.id),
+                        child: const Text('Settle'),
+                      ),
+                  ],
+                ),
+              ),
           const SizedBox(height: 14),
           const _DetailSection('Recent orders'),
           if (detail.orders.isEmpty)
@@ -3087,6 +3141,7 @@ Future<void> _showAssetDialog(
   final exitPeriod = TextEditingController(text: value.exitPeriod);
   final regulationNote = TextEditingController(text: value.regulationNote);
   var images = List<String>.from(value.images);
+  var bands = List<AdminInvestmentBand>.from(value.investmentBands);
   var category = _assetCategories.contains(value.category)
       ? value.category
       : _assetCategories.first;
@@ -3219,6 +3274,11 @@ Future<void> _showAssetDialog(
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
+                  _BandsEditor(
+                    initialBands: bands,
+                    onChanged: (next) => bands = next,
+                  ),
+                  SizedBox(height: 10),
                   AppTextField(
                     controller: expectedAnnualYield,
                     label: 'Expected annual yield (%)',
@@ -3293,6 +3353,7 @@ Future<void> _showAssetDialog(
                   availableShares: double.tryParse(availableShares.text) ?? 0,
                   minimumInvestment:
                       double.tryParse(minimumInvestment.text) ?? 50,
+                  investmentBands: bands,
                   expectedAnnualYield:
                       double.tryParse(expectedAnnualYield.text) ?? 0,
                   projectedNetYield:
@@ -3338,6 +3399,203 @@ Future<void> _showAssetDialog(
   projectedNetYield.dispose();
   exitPeriod.dispose();
   regulationNote.dispose();
+}
+
+/// Editor for an asset's fixed-return investment bands. Each band sets a capital
+/// range and the weekly/monthly/yearly return rates that apply within it. Owns
+/// its controllers so editing a field never rebuilds them out from under focus;
+/// reports the assembled band list to [onChanged] on every edit.
+class _BandsEditor extends StatefulWidget {
+  const _BandsEditor({required this.initialBands, required this.onChanged});
+
+  final List<AdminInvestmentBand> initialBands;
+  final ValueChanged<List<AdminInvestmentBand>> onChanged;
+
+  @override
+  State<_BandsEditor> createState() => _BandsEditorState();
+}
+
+class _BandRowControllers {
+  _BandRowControllers(AdminInvestmentBand band)
+    : id = band.id,
+      min = TextEditingController(
+        text: band.minAmountUsd == 0 ? '' : _trimNumber(band.minAmountUsd),
+      ),
+      max = TextEditingController(
+        text: band.maxAmountUsd == 0 ? '' : _trimNumber(band.maxAmountUsd),
+      ),
+      weekly = TextEditingController(
+        text: band.weeklyRatePercent == 0
+            ? ''
+            : _trimNumber(band.weeklyRatePercent),
+      ),
+      monthly = TextEditingController(
+        text: band.monthlyRatePercent == 0
+            ? ''
+            : _trimNumber(band.monthlyRatePercent),
+      ),
+      yearly = TextEditingController(
+        text: band.yearlyRatePercent == 0
+            ? ''
+            : _trimNumber(band.yearlyRatePercent),
+      );
+
+  final String id;
+  final TextEditingController min;
+  final TextEditingController max;
+  final TextEditingController weekly;
+  final TextEditingController monthly;
+  final TextEditingController yearly;
+
+  AdminInvestmentBand toBand() => AdminInvestmentBand(
+    id: id,
+    minAmountUsd: double.tryParse(min.text.trim()) ?? 0,
+    maxAmountUsd: double.tryParse(max.text.trim()) ?? 0,
+    weeklyRatePercent: double.tryParse(weekly.text.trim()) ?? 0,
+    monthlyRatePercent: double.tryParse(monthly.text.trim()) ?? 0,
+    yearlyRatePercent: double.tryParse(yearly.text.trim()) ?? 0,
+  );
+
+  void dispose() {
+    min.dispose();
+    max.dispose();
+    weekly.dispose();
+    monthly.dispose();
+    yearly.dispose();
+  }
+}
+
+class _BandsEditorState extends State<_BandsEditor> {
+  late final List<_BandRowControllers> _rows = [
+    for (final band in widget.initialBands) _BandRowControllers(band),
+  ];
+
+  void _emit() => widget.onChanged([for (final row in _rows) row.toBand()]);
+
+  void _addRow() {
+    setState(() => _rows.add(_BandRowControllers(const AdminInvestmentBand())));
+    _emit();
+  }
+
+  void _removeRow(int index) {
+    setState(() {
+      _rows.removeAt(index).dispose();
+    });
+    _emit();
+  }
+
+  @override
+  void dispose() {
+    for (final row in _rows) {
+      row.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text('Investment plans (bands)', style: AppText.fieldLabel),
+        ),
+        SizedBox(height: 4),
+        Text(
+          'Members invest an amount within a band; the rate for their chosen '
+          'duration (week/month/year) applies. Leave empty for none.',
+          style: AppText.small,
+        ),
+        SizedBox(height: 10),
+        for (var index = 0; index < _rows.length; index++) ...[
+          Container(
+            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppTextField(
+                        controller: _rows[index].min,
+                        label: 'Min (USD)',
+                        hintText: '1000',
+                        keyboardType: TextInputType.number,
+                        onChanged: (_) => _emit(),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: AppTextField(
+                        controller: _rows[index].max,
+                        label: 'Max (USD)',
+                        hintText: '10000',
+                        keyboardType: TextInputType.number,
+                        onChanged: (_) => _emit(),
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: 'Remove band',
+                      icon: const Icon(Icons.delete_outline, size: 20),
+                      onPressed: () => _removeRow(index),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppTextField(
+                        controller: _rows[index].weekly,
+                        label: 'Weekly %',
+                        hintText: '2',
+                        keyboardType: TextInputType.number,
+                        onChanged: (_) => _emit(),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: AppTextField(
+                        controller: _rows[index].monthly,
+                        label: 'Monthly %',
+                        hintText: '5',
+                        keyboardType: TextInputType.number,
+                        onChanged: (_) => _emit(),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: AppTextField(
+                        controller: _rows[index].yearly,
+                        label: 'Yearly %',
+                        hintText: '15',
+                        keyboardType: TextInputType.number,
+                        onChanged: (_) => _emit(),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: _addRow,
+            icon: const Icon(Icons.add, size: 18),
+            label: const Text('Add band'),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class _AssetDropdown extends StatelessWidget {

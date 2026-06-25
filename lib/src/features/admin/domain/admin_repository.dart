@@ -67,6 +67,10 @@ abstract interface class AdminRepository {
 
   Future<void> verifyDepositRequest(String id);
 
+  /// Force a member's investment plan to pay out now (principal + profit to
+  /// their wallet), regardless of maturity.
+  Future<void> settleInvestment(String investmentId);
+
   Future<void> adjustMemberWallet({
     required String uid,
     required double amountUsd,

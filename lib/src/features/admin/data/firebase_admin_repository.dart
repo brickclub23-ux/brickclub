@@ -188,6 +188,11 @@ class FirebaseAdminRepository implements AdminRepository {
   }
 
   @override
+  Future<void> settleInvestment(String investmentId) {
+    return _callVoid('adminSettleInvestment', {'investmentId': investmentId});
+  }
+
+  @override
   Future<void> adjustMemberWallet({
     required String uid,
     required double amountUsd,
