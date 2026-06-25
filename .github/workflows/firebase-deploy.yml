@@ -46,7 +46,10 @@ jobs:
           npm run build
 
       - name: Install Firebase CLI
-        run: npm install -g firebase-tools
+        # Pinned: firebase-tools 15.22.2 (published 2026-06-24) intermittently
+        # fails service-account auth ("Failed to authenticate") in CI. 15.22.1 is
+        # the last version that deployed reliably. Revisit when a fix ships.
+        run: npm install -g firebase-tools@15.22.1
 
       - name: Write service account credentials
         env:
