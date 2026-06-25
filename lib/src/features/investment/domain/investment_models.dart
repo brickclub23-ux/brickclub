@@ -455,9 +455,32 @@ class MemberInvestment {
   bool get isActive => status == 'active';
   DateTime? get maturityDate => DateTime.tryParse(maturityAt)?.toLocal();
 
+  /// Fraction of the lock period elapsed (0 at start, 1 at maturity). Recomputed
+  /// from the current time, so it advances on every read.
+  double get progress {
+    final start = DateTime.tryParse(startAt);
+    final maturity = DateTime.tryParse(maturityAt);
+    if (start == null || maturity == null) return isActive ? 0 : 1;
+    final total = maturity.difference(start).inSeconds;
+    if (total <= 0) return 1;
+    final elapsed = DateTime.now().toUtc().difference(start).inSeconds;
+    return (elapsed / total).clamp(0.0, 1.0).toDouble();
+  }
+
+  /// Profit accrued so far — grows linearly toward the full [profitUsd] at
+  /// maturity. A settled plan has earned its full profit.
+  double get accruedProfitUsd => isActive ? profitUsd * progress : profitUsd;
+
+  /// The plan's value right now: principal plus accrued profit. Grows from
+  /// [principalUsd] at the start toward [payoutUsd] at maturity.
+  double get currentValueUsd =>
+      isActive ? principalUsd + accruedProfitUsd : payoutUsd;
+
   String get principalText => _formatUsd(principalUsd);
   String get profitText => '+${_formatUsd(profitUsd)}';
   String get payoutText => _formatUsd(payoutUsd);
+  String get currentValueText => _formatUsd(currentValueUsd);
+  String get accruedProfitText => '+${_formatUsd(accruedProfitUsd)}';
   String get rateText => '${ratePercent.toStringAsFixed(ratePercent % 1 == 0 ? 0 : 1)}%';
 
   String get durationLabel {

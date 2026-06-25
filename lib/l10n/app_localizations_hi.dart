@@ -1408,4 +1408,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String portfolioPlanSummary(String rate, String duration, String date) {
     return '$rate for $duration · matures $date';
   }
+
+  @override
+  String portfolioPlanMatures(String payout, String date) {
+    return 'Pays $payout at maturity on $date';
+  }
 }
