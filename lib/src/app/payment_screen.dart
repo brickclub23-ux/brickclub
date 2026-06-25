@@ -402,6 +402,21 @@ class _DepositInstructions extends StatelessWidget {
   }
 }
 
+/// Picks a glyph for the funding hero based on the selected payment rail.
+/// Crypto rails keep coin glyphs; off-chain rails (Payoneer, Wise, Paytm,
+/// bank transfers) get a generic account icon.
+IconData _paymentRailIcon(String rail) {
+  final normalized = rail.trim().toUpperCase();
+  if (normalized.contains('BITCOIN') || normalized == 'BTC') {
+    return Icons.currency_bitcoin_rounded;
+  }
+  const cryptoRails = {'USDT', 'USDC', 'ETH', 'ETHEREUM', 'CRYPTO'};
+  if (cryptoRails.contains(normalized)) {
+    return Icons.token_outlined;
+  }
+  return Icons.account_balance_rounded;
+}
+
 class _FundingHero extends StatelessWidget {
   const _FundingHero({
     required this.title,
@@ -431,7 +446,7 @@ class _FundingHero extends StatelessWidget {
           Row(
             children: [
               Icon(
-                Icons.currency_bitcoin_rounded,
+                _paymentRailIcon(rail),
                 color: AppColors.primary,
                 size: 22,
               ),

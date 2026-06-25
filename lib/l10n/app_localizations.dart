@@ -620,6 +620,18 @@ abstract class AppLocalizations {
   /// **'Explore BrickShares'**
   String get heroExplore;
 
+  /// No description provided for @heroDownloadAndroid.
+  ///
+  /// In en, this message translates to:
+  /// **'Download for Android'**
+  String get heroDownloadAndroid;
+
+  /// No description provided for @heroDownloadIos.
+  ///
+  /// In en, this message translates to:
+  /// **'Download for iOS'**
+  String get heroDownloadIos;
+
   /// No description provided for @proofVerifiedAssets.
   ///
   /// In en, this message translates to:
@@ -1115,7 +1127,7 @@ abstract class AppLocalizations {
   /// No description provided for @walletFundingTitle.
   ///
   /// In en, this message translates to:
-  /// **'Crypto funding readiness'**
+  /// **'Funding readiness'**
   String get walletFundingTitle;
 
   /// No description provided for @walletFundingBody.
@@ -1847,7 +1859,7 @@ abstract class AppLocalizations {
   /// No description provided for @paymentSetup.
   ///
   /// In en, this message translates to:
-  /// **'Crypto funding setup'**
+  /// **'Funding setup'**
   String get paymentSetup;
 
   /// No description provided for @paymentStatusDraft.
@@ -2225,7 +2237,7 @@ abstract class AppLocalizations {
   /// No description provided for @investmentCardCryptoFunding.
   ///
   /// In en, this message translates to:
-  /// **'Crypto funding'**
+  /// **'Funding'**
   String get investmentCardCryptoFunding;
 
   /// No description provided for @commonShowPassword.

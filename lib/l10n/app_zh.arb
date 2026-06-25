@@ -187,7 +187,7 @@
   "investResetFilters": "重置筛选",
 
   "walletCryptoActivity": "加密订单活动",
-  "walletFundingTitle": "加密出资准备",
+  "walletFundingTitle": "出资准备",
   "walletFundingBody": "在汇款前添加已验证的钱包。确认前会显示网络、手续费、报价有效期和结算状态。",
   "walletAddWallet": "添加已验证钱包",
   "walletVerificationStarted": "钱包验证已开始",
@@ -297,7 +297,7 @@
   "kycUpdateFailed": "无法更新您的 KYC 信息。请重试。",
 
   "paymentConfirmFunding": "确认出资",
-  "paymentSetup": "加密出资设置",
+  "paymentSetup": "出资设置",
   "paymentStatusDraft": "草稿",
   "paymentStatusActive": "进行中",
   "paymentRail": "支付通道",
@@ -362,7 +362,7 @@
   "navMore": "更多",
   "notificationsNone": "暂无新通知",
   "profileInMore": "个人资料在“更多”中",
-  "investmentCardCryptoFunding": "加密出资",
+  "investmentCardCryptoFunding": "出资",
   "commonShowPassword": "显示密码",
   "commonHidePassword": "隐藏密码",
 

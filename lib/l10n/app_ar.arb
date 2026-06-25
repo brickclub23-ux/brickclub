@@ -187,7 +187,7 @@
   "investResetFilters": "إعادة تعيين عوامل التصفية",
 
   "walletCryptoActivity": "نشاط أوامر العملات المشفرة",
-  "walletFundingTitle": "جاهزية التمويل بالعملات المشفرة",
+  "walletFundingTitle": "جاهزية التمويل",
   "walletFundingBody": "أضف محفظة موثَّقة قبل إرسال الأموال. تُعرض الشبكة والرسوم وانتهاء صلاحية العرض وحالة التسوية قبل التأكيد.",
   "walletAddWallet": "إضافة محفظة موثَّقة",
   "walletVerificationStarted": "بدأ التحقق من المحفظة",
@@ -297,7 +297,7 @@
   "kycUpdateFailed": "تعذّر تحديث بيانات KYC الخاصة بك. يُرجى المحاولة مرة أخرى.",
 
   "paymentConfirmFunding": "تأكيد التمويل",
-  "paymentSetup": "إعداد التمويل المشفَّر",
+  "paymentSetup": "إعداد التمويل",
   "paymentStatusDraft": "مسودة",
   "paymentStatusActive": "نشط",
   "paymentRail": "قناة الدفع",
@@ -362,7 +362,7 @@
   "navMore": "المزيد",
   "notificationsNone": "لا توجد إشعارات جديدة",
   "profileInMore": "الملف الشخصي موجود في «المزيد»",
-  "investmentCardCryptoFunding": "تمويل مشفَّر",
+  "investmentCardCryptoFunding": "التمويل",
   "commonShowPassword": "إظهار كلمة المرور",
   "commonHidePassword": "إخفاء كلمة المرور",
 

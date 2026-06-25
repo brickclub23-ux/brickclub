@@ -187,7 +187,7 @@
   "investResetFilters": "फ़िल्टर रीसेट करें",
 
   "walletCryptoActivity": "क्रिप्टो ऑर्डर गतिविधि",
-  "walletFundingTitle": "क्रिप्टो फ़ंडिंग तत्परता",
+  "walletFundingTitle": "फ़ंडिंग तत्परता",
   "walletFundingBody": "धन भेजने से पहले एक सत्यापित वॉलेट जोड़ें। पुष्टि से पहले नेटवर्क, शुल्क, कोट समाप्ति और निपटान स्थिति दिखाई जाती है।",
   "walletAddWallet": "सत्यापित वॉलेट जोड़ें",
   "walletVerificationStarted": "वॉलेट सत्यापन शुरू हुआ",
@@ -297,7 +297,7 @@
   "kycUpdateFailed": "हम आपके KYC विवरण अपडेट नहीं कर सके। कृपया फिर से प्रयास करें।",
 
   "paymentConfirmFunding": "वित्तपोषण की पुष्टि करें",
-  "paymentSetup": "क्रिप्टो वित्तपोषण सेटअप",
+  "paymentSetup": "वित्तपोषण सेटअप",
   "paymentStatusDraft": "ड्राफ़्ट",
   "paymentStatusActive": "सक्रिय",
   "paymentRail": "भुगतान चैनल",
@@ -362,7 +362,7 @@
   "navMore": "अधिक",
   "notificationsNone": "कोई नई सूचना नहीं",
   "profileInMore": "प्रोफ़ाइल 'अधिक' में है",
-  "investmentCardCryptoFunding": "क्रिप्टो वित्तपोषण",
+  "investmentCardCryptoFunding": "वित्तपोषण",
   "commonShowPassword": "पासवर्ड दिखाएँ",
   "commonHidePassword": "पासवर्ड छिपाएँ",
 

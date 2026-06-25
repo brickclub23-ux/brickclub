@@ -266,6 +266,8 @@
   "heroBody": "Build real ownership through verified property-backed BrickShares, with transparent performance and trusted crypto settlement from one secure app.",
   "heroInstall": "Install the app",
   "heroExplore": "Explore BrickShares",
+  "heroDownloadAndroid": "Download for Android",
+  "heroDownloadIos": "Download for iOS",
   "proofVerifiedAssets": "Verified assets",
   "proofTrustedSettlement": "Trusted settlement",
   "proofClearPerformance": "Clear performance",
@@ -381,7 +383,7 @@
   "investResetFilters": "Reset filters",
 
   "walletCryptoActivity": "Crypto order activity",
-  "walletFundingTitle": "Crypto funding readiness",
+  "walletFundingTitle": "Funding readiness",
   "walletFundingBody": "Add a verified wallet before sending funds. Network, fees, quote expiry, and settlement status are shown before confirmation.",
   "walletAddWallet": "Add verified wallet",
   "walletVerificationStarted": "Wallet verification started",
@@ -562,7 +564,7 @@
   "kycUpdateFailed": "We could not update your KYC details. Please try again.",
 
   "paymentConfirmFunding": "Confirm funding",
-  "paymentSetup": "Crypto funding setup",
+  "paymentSetup": "Funding setup",
   "paymentStatusDraft": "Draft",
   "paymentStatusActive": "Active",
   "paymentRail": "Payment rail",
@@ -636,7 +638,7 @@
   "navMore": "More",
   "notificationsNone": "No new notifications",
   "profileInMore": "Profile is in More",
-  "investmentCardCryptoFunding": "Crypto funding",
+  "investmentCardCryptoFunding": "Funding",
   "commonShowPassword": "Show password",
   "commonHidePassword": "Hide password",
 

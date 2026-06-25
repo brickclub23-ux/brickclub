@@ -187,7 +187,7 @@
   "investResetFilters": "Restablecer filtros",
 
   "walletCryptoActivity": "Actividad de órdenes cripto",
-  "walletFundingTitle": "Preparación para financiación cripto",
+  "walletFundingTitle": "Preparación para financiación",
   "walletFundingBody": "Añade una cartera verificada antes de enviar fondos. La red, las comisiones, la caducidad de la cotización y el estado de liquidación se muestran antes de confirmar.",
   "walletAddWallet": "Añadir cartera verificada",
   "walletVerificationStarted": "Verificación de cartera iniciada",
@@ -297,7 +297,7 @@
   "kycUpdateFailed": "No pudimos actualizar tus datos de KYC. Inténtalo de nuevo.",
 
   "paymentConfirmFunding": "Confirmar financiación",
-  "paymentSetup": "Configuración de financiación cripto",
+  "paymentSetup": "Configuración de financiación",
   "paymentStatusDraft": "Borrador",
   "paymentStatusActive": "Activo",
   "paymentRail": "Canal de pago",
@@ -362,7 +362,7 @@
   "navMore": "Más",
   "notificationsNone": "No hay notificaciones nuevas",
   "profileInMore": "El perfil está en Más",
-  "investmentCardCryptoFunding": "Financiación cripto",
+  "investmentCardCryptoFunding": "Financiación",
   "commonShowPassword": "Mostrar contraseña",
   "commonHidePassword": "Ocultar contraseña",
 

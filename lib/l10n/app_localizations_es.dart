@@ -290,6 +290,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get heroExplore => 'Explorar BrickShares';
 
   @override
+  String get heroDownloadAndroid => 'Download for Android';
+
+  @override
+  String get heroDownloadIos => 'Download for iOS';
+
+  @override
   String get proofVerifiedAssets => 'Activos verificados';
 
   @override
@@ -564,7 +570,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get walletCryptoActivity => 'Actividad de órdenes cripto';
 
   @override
-  String get walletFundingTitle => 'Preparación para financiación cripto';
+  String get walletFundingTitle => 'Preparación para financiación';
 
   @override
   String get walletFundingBody =>
@@ -976,7 +982,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get paymentConfirmFunding => 'Confirmar financiación';
 
   @override
-  String get paymentSetup => 'Configuración de financiación cripto';
+  String get paymentSetup => 'Configuración de financiación';
 
   @override
   String get paymentStatusDraft => 'Borrador';
@@ -1177,7 +1183,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileInMore => 'El perfil está en Más';
 
   @override
-  String get investmentCardCryptoFunding => 'Financiación cripto';
+  String get investmentCardCryptoFunding => 'Financiación';
 
   @override
   String get commonShowPassword => 'Mostrar contraseña';
