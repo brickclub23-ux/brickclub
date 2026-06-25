@@ -187,7 +187,7 @@
   "investResetFilters": "Сбросить фильтры",
 
   "walletCryptoActivity": "Активность криптоордеров",
-  "walletFundingTitle": "Готовность к криптофинансированию",
+  "walletFundingTitle": "Готовность к финансированию",
   "walletFundingBody": "Добавьте проверенный кошелёк перед отправкой средств. Сеть, комиссии, срок действия котировки и статус расчётов показываются перед подтверждением.",
   "walletAddWallet": "Добавить проверенный кошелёк",
   "walletVerificationStarted": "Проверка кошелька начата",
@@ -297,7 +297,7 @@
   "kycUpdateFailed": "Не удалось обновить данные KYC. Повторите попытку.",
 
   "paymentConfirmFunding": "Подтвердить финансирование",
-  "paymentSetup": "Настройка криптофинансирования",
+  "paymentSetup": "Настройка финансирования",
   "paymentStatusDraft": "Черновик",
   "paymentStatusActive": "Активно",
   "paymentRail": "Платёжный канал",
@@ -362,7 +362,7 @@
   "navMore": "Ещё",
   "notificationsNone": "Нет новых уведомлений",
   "profileInMore": "Профиль находится в разделе «Ещё»",
-  "investmentCardCryptoFunding": "Криптофинансирование",
+  "investmentCardCryptoFunding": "Финансирование",
   "commonShowPassword": "Показать пароль",
   "commonHidePassword": "Скрыть пароль",
 

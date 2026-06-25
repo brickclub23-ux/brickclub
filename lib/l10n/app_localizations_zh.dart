@@ -267,6 +267,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get heroExplore => '探索 BrickShares';
 
   @override
+  String get heroDownloadAndroid => 'Download for Android';
+
+  @override
+  String get heroDownloadIos => 'Download for iOS';
+
+  @override
   String get proofVerifiedAssets => '已验证资产';
 
   @override
@@ -522,7 +528,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get walletCryptoActivity => '加密订单活动';
 
   @override
-  String get walletFundingTitle => '加密出资准备';
+  String get walletFundingTitle => '出资准备';
 
   @override
   String get walletFundingBody => '在汇款前添加已验证的钱包。确认前会显示网络、手续费、报价有效期和结算状态。';
@@ -912,7 +918,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get paymentConfirmFunding => '确认出资';
 
   @override
-  String get paymentSetup => '加密出资设置';
+  String get paymentSetup => '出资设置';
 
   @override
   String get paymentStatusDraft => '草稿';
@@ -1110,7 +1116,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profileInMore => '个人资料在“更多”中';
 
   @override
-  String get investmentCardCryptoFunding => '加密出资';
+  String get investmentCardCryptoFunding => '出资';
 
   @override
   String get commonShowPassword => '显示密码';

@@ -290,6 +290,12 @@ class AppLocalizationsSw extends AppLocalizations {
   String get heroExplore => 'Chunguza BrickShares';
 
   @override
+  String get heroDownloadAndroid => 'Download for Android';
+
+  @override
+  String get heroDownloadIos => 'Download for iOS';
+
+  @override
   String get proofVerifiedAssets => 'Mali zilizothibitishwa';
 
   @override
@@ -560,7 +566,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get walletCryptoActivity => 'Shughuli za maagizo ya sarafu-fiche';
 
   @override
-  String get walletFundingTitle => 'Utayari wa ufadhili wa sarafu-fiche';
+  String get walletFundingTitle => 'Utayari wa ufadhili';
 
   @override
   String get walletFundingBody =>
@@ -966,7 +972,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get paymentConfirmFunding => 'Thibitisha ufadhili';
 
   @override
-  String get paymentSetup => 'Usanidi wa ufadhili wa sarafu-fiche';
+  String get paymentSetup => 'Usanidi wa ufadhili';
 
   @override
   String get paymentStatusDraft => 'Rasimu';
@@ -1168,7 +1174,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get profileInMore => 'Wasifu uko kwenye Zaidi';
 
   @override
-  String get investmentCardCryptoFunding => 'Ufadhili wa sarafu-fiche';
+  String get investmentCardCryptoFunding => 'Ufadhili';
 
   @override
   String get commonShowPassword => 'Onyesha nenosiri';

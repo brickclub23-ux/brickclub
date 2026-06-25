@@ -187,7 +187,7 @@
   "investResetFilters": "Weka upya vichujio",
 
   "walletCryptoActivity": "Shughuli za maagizo ya sarafu-fiche",
-  "walletFundingTitle": "Utayari wa ufadhili wa sarafu-fiche",
+  "walletFundingTitle": "Utayari wa ufadhili",
   "walletFundingBody": "Ongeza pochi iliyothibitishwa kabla ya kutuma fedha. Mtandao, ada, mwisho wa bei, na hali ya malipo huonyeshwa kabla ya uthibitisho.",
   "walletAddWallet": "Ongeza pochi iliyothibitishwa",
   "walletVerificationStarted": "Uthibitishaji wa pochi umeanza",
@@ -297,7 +297,7 @@
   "kycUpdateFailed": "Hatukuweza kusasisha maelezo yako ya KYC. Tafadhali jaribu tena.",
 
   "paymentConfirmFunding": "Thibitisha ufadhili",
-  "paymentSetup": "Usanidi wa ufadhili wa sarafu-fiche",
+  "paymentSetup": "Usanidi wa ufadhili",
   "paymentStatusDraft": "Rasimu",
   "paymentStatusActive": "Inaendelea",
   "paymentRail": "Njia ya malipo",
@@ -362,7 +362,7 @@
   "navMore": "Zaidi",
   "notificationsNone": "Hakuna arifa mpya",
   "profileInMore": "Wasifu uko kwenye Zaidi",
-  "investmentCardCryptoFunding": "Ufadhili wa sarafu-fiche",
+  "investmentCardCryptoFunding": "Ufadhili",
   "commonShowPassword": "Onyesha nenosiri",
   "commonHidePassword": "Ficha nenosiri",
 

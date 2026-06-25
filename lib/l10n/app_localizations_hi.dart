@@ -288,6 +288,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get heroExplore => 'BrickShares देखें';
 
   @override
+  String get heroDownloadAndroid => 'Download for Android';
+
+  @override
+  String get heroDownloadIos => 'Download for iOS';
+
+  @override
   String get proofVerifiedAssets => 'सत्यापित संपत्तियाँ';
 
   @override
@@ -558,7 +564,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get walletCryptoActivity => 'क्रिप्टो ऑर्डर गतिविधि';
 
   @override
-  String get walletFundingTitle => 'क्रिप्टो फ़ंडिंग तत्परता';
+  String get walletFundingTitle => 'फ़ंडिंग तत्परता';
 
   @override
   String get walletFundingBody =>
@@ -961,7 +967,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get paymentConfirmFunding => 'वित्तपोषण की पुष्टि करें';
 
   @override
-  String get paymentSetup => 'क्रिप्टो वित्तपोषण सेटअप';
+  String get paymentSetup => 'वित्तपोषण सेटअप';
 
   @override
   String get paymentStatusDraft => 'ड्राफ़्ट';
@@ -1160,7 +1166,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get profileInMore => 'प्रोफ़ाइल \'अधिक\' में है';
 
   @override
-  String get investmentCardCryptoFunding => 'क्रिप्टो वित्तपोषण';
+  String get investmentCardCryptoFunding => 'वित्तपोषण';
 
   @override
   String get commonShowPassword => 'पासवर्ड दिखाएँ';
