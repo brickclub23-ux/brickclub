@@ -2647,6 +2647,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{rate} for {duration} · matures {date}'**
   String portfolioPlanSummary(String rate, String duration, String date);
+
+  /// No description provided for @portfolioPlanMatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Pays {payout} at maturity on {date}'**
+  String portfolioPlanMatures(String payout, String date);
 }
 
 class _AppLocalizationsDelegate

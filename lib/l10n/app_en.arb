@@ -733,5 +733,12 @@
       "duration": { "type": "String" },
       "date": { "type": "String" }
     }
+  },
+  "portfolioPlanMatures": "Pays {payout} at maturity on {date}",
+  "@portfolioPlanMatures": {
+    "placeholders": {
+      "payout": { "type": "String" },
+      "date": { "type": "String" }
+    }
   }
 }

@@ -499,10 +499,17 @@ export const getMemberDashboard = onMemberCall(async (request) => {
     (investment) => investment.status === "active",
   );
 
-  // Active plans hold their principal at face value until they mature; the
-  // profit lands as wallet cash at maturity, so it is shown as expected return.
+  // Active plans accrue their profit linearly across the lock period, so their
+  // current value grows from principal toward the maturity payout as time
+  // elapses; the full profit lands as wallet cash at maturity.
   const activePrincipal = roundMoney(
     activeInvestments.reduce((total, plan) => total + plan.principalUsd, 0),
+  );
+  const activeAccruedValue = roundMoney(
+    activeInvestments.reduce(
+      (total, plan) => total + accruedInvestmentValue(plan),
+      0,
+    ),
   );
   const expectedProfitUsd = roundMoney(
     activeInvestments.reduce((total, plan) => total + plan.profitUsd, 0),
@@ -520,7 +527,7 @@ export const getMemberDashboard = onMemberCall(async (request) => {
   );
 
   const totalInvested = roundMoney(legacyInvested + activePrincipal);
-  const totalCurrentValue = roundMoney(legacyCurrentValue + activePrincipal);
+  const totalCurrentValue = roundMoney(legacyCurrentValue + activeAccruedValue);
   const totalProfitLoss = roundMoney(
     totalCurrentValue + totalDividends - totalInvested,
   );
@@ -2754,6 +2761,22 @@ function memberInvestmentFromDoc(doc: FirebaseFirestore.QueryDocumentSnapshot) {
     maturityAt: readSerializableDate(data.maturityAt),
     settledAt: readSerializableDate(data.settledAt),
   };
+}
+
+// Current value of an active plan, accruing its profit linearly from start to
+// maturity: principal at the start, principal + full profit at maturity. The
+// client recomputes the same formula so the value keeps ticking up between
+// dashboard loads. Settlement still pays the full payout at maturity.
+function accruedInvestmentValue(
+  plan: ReturnType<typeof memberInvestmentFromDoc>,
+): number {
+  const start = Date.parse(plan.startAt);
+  const maturity = Date.parse(plan.maturityAt);
+  if (Number.isNaN(start) || Number.isNaN(maturity) || maturity <= start) {
+    return plan.principalUsd;
+  }
+  const progress = Math.min(1, Math.max(0, (Date.now() - start) / (maturity - start)));
+  return roundMoney(plan.principalUsd + plan.profitUsd * progress);
 }
 
 function supportTicketFromDoc(

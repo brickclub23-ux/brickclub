@@ -166,7 +166,8 @@ class _PortfolioPlanRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(plan.payoutText, style: AppText.cardHeadingSmall),
+              // The live, accruing value of the plan (grows toward the payout).
+              Text(plan.currentValueText, style: AppText.cardHeadingSmall),
             ],
           ),
           SizedBox(height: 8),
@@ -183,7 +184,7 @@ class _PortfolioPlanRow extends StatelessWidget {
                 ),
               ),
               Text(
-                plan.profitText,
+                plan.accruedProfitText,
                 style: TextStyle(
                   color: AppColors.success,
                   fontSize: 13,
@@ -191,6 +192,13 @@ class _PortfolioPlanRow extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          SizedBox(height: 10),
+          ProgressLine(value: plan.progress),
+          SizedBox(height: 6),
+          Text(
+            l10n.portfolioPlanMatures(plan.payoutText, maturityText),
+            style: AppText.small,
           ),
         ],
       ),
