@@ -217,6 +217,8 @@ class MemberDashboardData {
     this.totalProfitLoss = 0,
     this.overallReturnPercentage = 0,
     this.expectedProfitUsd = 0,
+    this.withdrawalMinimumUsd = 0,
+    this.withdrawalsEnabled = true,
   });
 
   factory MemberDashboardData.empty() {
@@ -257,6 +259,9 @@ class MemberDashboardData {
       overallReturnPercentage:
           (json['overallReturnPercentage'] as num?)?.toDouble() ?? 0,
       expectedProfitUsd: (json['expectedProfitUsd'] as num?)?.toDouble() ?? 0,
+      withdrawalMinimumUsd:
+          (json['withdrawalMinimumUsd'] as num?)?.toDouble() ?? 0,
+      withdrawalsEnabled: json['withdrawalsEnabled'] as bool? ?? true,
     );
   }
 
@@ -276,6 +281,10 @@ class MemberDashboardData {
   final double totalProfitLoss;
   final double overallReturnPercentage;
   final double expectedProfitUsd;
+  final double withdrawalMinimumUsd;
+  final bool withdrawalsEnabled;
+
+  String get withdrawalMinimumText => _formatUsdExact(withdrawalMinimumUsd);
 
   List<MemberInvestment> get activeInvestments =>
       investments.where((investment) => investment.isActive).toList();

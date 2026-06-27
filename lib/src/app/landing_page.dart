@@ -1745,6 +1745,11 @@ class _WebButtonState extends State<_WebButton> {
     // they stay legible against the dark fill (the button is used on the gold
     // CTA band).
     const onDark = Color(0xFFFAF6EE);
+    // Fixed near-black fill for the "dark" button. It must NOT follow
+    // AppColors.background: in light mode that resolves to cream, which would
+    // render the cream label invisible. The dark button always sits on the gold
+    // CTA band, so a constant dark fill is correct in both themes.
+    const darkFill = Color(0xFF15110A);
     final foreground = widget.dark
         ? onDark
         : widget.darkOutline
@@ -1753,7 +1758,7 @@ class _WebButtonState extends State<_WebButton> {
         ? AppColors.background
         : AppColors.primary;
     final background = widget.dark
-        ? (_hovered ? const Color(0xFF1B1F24) : AppColors.background)
+        ? (_hovered ? const Color(0xFF2A2418) : darkFill)
         : widget.filled
         ? AppColors.gold
         : Colors.transparent;

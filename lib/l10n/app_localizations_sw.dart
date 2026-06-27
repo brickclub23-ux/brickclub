@@ -837,7 +837,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get detailDocuments => 'Hati';
 
   @override
-  String get detailInvestButton => 'Wekeza kwa ufadhili wa sarafu-fiche';
+  String get detailInvestButton => 'Wekeza katika rasilimali hii';
 
   @override
   String get kycStatusApproved => 'Shughuli za kifedha zimefunguliwa.';
@@ -1433,4 +1433,63 @@ class AppLocalizationsSw extends AppLocalizations {
   String portfolioPlanMatures(String payout, String date) {
     return 'Pays $payout at maturity on $date';
   }
+
+  @override
+  String get walletWithdraw => 'Withdraw';
+
+  @override
+  String get withdrawTitle => 'Withdraw funds';
+
+  @override
+  String get withdrawSubtitle =>
+      'Send your wallet balance to an external wallet';
+
+  @override
+  String get withdrawAvailable => 'Available to withdraw';
+
+  @override
+  String get withdrawAmount => 'Amount to withdraw';
+
+  @override
+  String get withdrawAmountHint => 'Amount in USD';
+
+  @override
+  String withdrawMinimum(String minimum) {
+    return 'Minimum withdrawal is $minimum.';
+  }
+
+  @override
+  String withdrawExceedsBalance(String balance) {
+    return 'Amount exceeds your available balance of $balance.';
+  }
+
+  @override
+  String get withdrawDisabled =>
+      'Withdrawals are temporarily disabled. Please check back soon.';
+
+  @override
+  String get withdrawDestinationAddress => 'Destination wallet address';
+
+  @override
+  String get withdrawDestinationHint => 'Wallet address to receive the payout';
+
+  @override
+  String get withdrawUploadQr => 'Upload destination wallet QR';
+
+  @override
+  String get withdrawQrHelp =>
+      'Add a QR image of your receiving wallet so we can pay you out accurately.';
+
+  @override
+  String get withdrawEnterAddress => 'Enter your destination wallet address.';
+
+  @override
+  String get withdrawSubmit => 'Request withdrawal';
+
+  @override
+  String get withdrawSubmitted => 'Withdrawal request submitted for review.';
+
+  @override
+  String get withdrawReviewNote =>
+      'An admin reviews every withdrawal. Your wallet is debited only once it is approved.';
 }

@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../core/web/app_reload.dart';
 import '../core/web/pwa_install.dart';
 import '../features/admin/domain/admin_models.dart';
 import '../features/admin/domain/admin_repository.dart';
@@ -48,6 +49,7 @@ part 'support_screens.dart';
 part 'filters_screen.dart';
 part 'detail_screen.dart';
 part 'payment_screen.dart';
+part 'withdraw_screen.dart';
 part 'success_screen.dart';
 part 'app_widgets.dart';
 part 'app_theme.dart';

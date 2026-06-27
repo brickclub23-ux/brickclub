@@ -173,6 +173,7 @@ class DetailScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => InvestPlanScreen(
+                        kyc: kyc,
                         opportunity: opportunity,
                         investmentRepository: investmentRepository,
                       ),

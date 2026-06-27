@@ -252,7 +252,7 @@
   "detailFundedPercent": "已募集 {percent}%",
   "detailFundingNote": "支持的付款方式和报价有效期将在结算确认前显示。",
   "detailDocuments": "文件",
-  "detailInvestButton": "使用加密货币出资投资",
+  "detailInvestButton": "投资此资产",
 
   "kycStatusApproved": "金融操作已解锁。",
   "kycStatusSubmitted": "您的文件正在审核中。",

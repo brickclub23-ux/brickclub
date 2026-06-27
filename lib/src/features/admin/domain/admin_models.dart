@@ -901,6 +901,7 @@ class AdminWithdrawalRequest {
     required this.feeUsd,
     required this.netAmountUsd,
     required this.destinationAddress,
+    required this.destinationQrCodeUrl,
     required this.assetSymbol,
     required this.status,
     required this.rejectionReason,
@@ -917,6 +918,7 @@ class AdminWithdrawalRequest {
       feeUsd: (json['feeUsd'] as num?)?.toDouble() ?? 0,
       netAmountUsd: (json['netAmountUsd'] as num?)?.toDouble() ?? 0,
       destinationAddress: json['destinationAddress'] as String? ?? '',
+      destinationQrCodeUrl: json['destinationQrCodeUrl'] as String? ?? '',
       assetSymbol: json['assetSymbol'] as String? ?? '',
       status: json['status'] as String? ?? 'submitted',
       rejectionReason: json['rejectionReason'] as String? ?? '',
@@ -932,6 +934,7 @@ class AdminWithdrawalRequest {
   final double feeUsd;
   final double netAmountUsd;
   final String destinationAddress;
+  final String destinationQrCodeUrl;
   final String assetSymbol;
   final String status;
   final String rejectionReason;

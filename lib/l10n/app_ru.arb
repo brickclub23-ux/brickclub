@@ -252,7 +252,7 @@
   "detailFundedPercent": "Профинансировано {percent}%",
   "detailFundingNote": "Поддерживаемые способы оплаты и срок действия котировки показываются перед подтверждением расчёта.",
   "detailDocuments": "Документы",
-  "detailInvestButton": "Инвестировать через криптофинансирование",
+  "detailInvestButton": "Инвестировать в этот актив",
 
   "kycStatusApproved": "Финансовые операции разблокированы.",
   "kycStatusSubmitted": "Ваши документы на проверке.",

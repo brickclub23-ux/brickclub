@@ -252,7 +252,7 @@
   "detailFundedPercent": "{percent}% finanziato",
   "detailFundingNote": "Le opzioni di pagamento supportate e la scadenza della quotazione sono mostrate prima della conferma del regolamento.",
   "detailDocuments": "Documenti",
-  "detailInvestButton": "Investi con finanziamento cripto",
+  "detailInvestButton": "Investi in questo asset",
 
   "kycStatusApproved": "Le azioni finanziarie sono sbloccate.",
   "kycStatusSubmitted": "I tuoi documenti sono in revisione.",

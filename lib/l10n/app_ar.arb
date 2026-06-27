@@ -252,7 +252,7 @@
   "detailFundedPercent": "تم تمويل {percent}%",
   "detailFundingNote": "تُعرض خيارات الدفع المدعومة وانتهاء صلاحية العرض قبل تأكيد التسوية.",
   "detailDocuments": "المستندات",
-  "detailInvestButton": "الاستثمار بالتمويل المشفَّر",
+  "detailInvestButton": "استثمر في هذا الأصل",
 
   "kycStatusApproved": "تم فتح الإجراءات المالية.",
   "kycStatusSubmitted": "مستنداتك قيد المراجعة.",

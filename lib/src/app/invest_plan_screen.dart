@@ -7,10 +7,12 @@ part of 'brickclub_app.dart';
 class InvestPlanScreen extends StatefulWidget {
   const InvestPlanScreen({
     super.key,
+    required this.kyc,
     required this.opportunity,
     required this.investmentRepository,
   });
 
+  final KycProfile kyc;
   final InvestmentOpportunity opportunity;
   final InvestmentRepository investmentRepository;
 
@@ -217,6 +219,16 @@ class _InvestPlanScreenState extends State<InvestPlanScreen> {
                   onPressed: _canConfirm ? _confirm : null,
                 ),
                 SizedBox(height: 14),
+                // Locking a plan spends wallet cash, so members with too little
+                // balance need a way to top up. This opens the deposit flow for
+                // this asset, where they pick from the admin's payment options
+                // (USDT, Payoneer, Wise, Paytm…) and submit proof.
+                SecondaryButton(
+                  key: const ValueKey('plan-add-funds'),
+                  label: l10n.walletAddFundsTitle,
+                  onPressed: _submitting ? null : _openDeposit,
+                ),
+                SizedBox(height: 14),
                 SecondaryButton(
                   label: l10n.commonCancel,
                   onPressed: () => Navigator.pop(context),
@@ -230,6 +242,26 @@ class _InvestPlanScreenState extends State<InvestPlanScreen> {
   }
 
   double _rateFor(String key) => _band?.rateForDuration(key) ?? 0;
+
+  /// Opens the deposit flow for this asset so the member can fund their wallet
+  /// using whichever payment option the admin has enabled. Reloads the balance
+  /// on return so a freshly credited deposit unlocks the confirm button.
+  Future<void> _openDeposit() async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PaymentScreen(
+          kyc: widget.kyc,
+          investmentRepository: widget.investmentRepository,
+          opportunity: widget.opportunity,
+        ),
+      ),
+    );
+    if (mounted) {
+      setState(() => _submitting = true);
+      await _loadBalance();
+    }
+  }
 
   Future<void> _confirm() async {
     final l10n = AppLocalizations.of(context);

@@ -70,6 +70,16 @@ class AppHeader extends StatelessWidget {
           const _BrickMark(),
           SizedBox(width: 10),
           Expanded(child: Text(title, style: AppText.topTitle)),
+          HeaderCircle(
+            key: const ValueKey('app-refresh'),
+            onTap: () => refreshApp(context),
+            child: Icon(
+              Icons.refresh_rounded,
+              color: AppColors.secondary,
+              size: 18,
+            ),
+          ),
+          SizedBox(width: 9),
           const LanguageSwitcher(compact: true),
           SizedBox(width: 9),
           const _MemberNotificationBell(),
@@ -88,6 +98,22 @@ class AppHeader extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+/// Reloads the app so a member can recover from a transient network problem.
+///
+/// On the web this triggers a full document reload — the surest way to recover
+/// after a dropped connection. On native builds there is no document to reload,
+/// so we re-fetch in place by resetting the current navigation branch to its
+/// initial location, which rebuilds the active screen and re-runs its loaders.
+void refreshApp(BuildContext context) {
+  if (reloadApp()) {
+    return;
+  }
+  final scope = MemberScope.maybeOf(context);
+  if (scope != null) {
+    scope.goBranch(scope.navigationShell.currentIndex);
   }
 }
 

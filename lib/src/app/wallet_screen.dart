@@ -58,6 +58,24 @@ class _WalletScreenState extends State<WalletScreen> {
     _refresh();
   }
 
+  Future<void> _openWithdraw(
+    MemberDashboardData data,
+    List<String> paymentMethods,
+  ) async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => WithdrawScreen(
+          kyc: widget.kyc,
+          investmentRepository: widget.investmentRepository,
+          data: data,
+          availablePaymentMethods: paymentMethods,
+        ),
+      ),
+    );
+    _refresh();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -103,6 +121,17 @@ class _WalletScreenState extends State<WalletScreen> {
                           context,
                           widget.kyc,
                           () => _openDeposit(_paymentMethods(data)),
+                          widget.onStartKyc,
+                        ),
+                      ),
+                      SizedBox(height: 12),
+                      SecondaryButton(
+                        key: const ValueKey('withdraw-funds'),
+                        label: l10n.walletWithdraw,
+                        onPressed: () => requireApprovedKyc(
+                          context,
+                          widget.kyc,
+                          () => _openWithdraw(data, _paymentMethods(data)),
                           widget.onStartKyc,
                         ),
                       ),

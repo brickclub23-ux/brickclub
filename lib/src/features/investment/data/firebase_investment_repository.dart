@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../admin/domain/admin_models.dart' show LandingContent;
@@ -11,11 +12,14 @@ class FirebaseInvestmentRepository implements InvestmentRepository {
   FirebaseInvestmentRepository({
     FirebaseFunctions? functions,
     FirebaseStorage? storage,
+    FirebaseAuth? firebaseAuth,
   }) : _functions = functions ?? FirebaseFunctions.instance,
-       _storage = storage ?? FirebaseStorage.instance;
+       _storage = storage ?? FirebaseStorage.instance,
+       _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   final FirebaseFunctions _functions;
   final FirebaseStorage _storage;
+  final FirebaseAuth _firebaseAuth;
 
   @override
   Future<MemberDashboardData> loadMemberDashboard() async {
@@ -112,6 +116,31 @@ class FirebaseInvestmentRepository implements InvestmentRepository {
   }
 
   @override
+  Future<void> createWithdrawalRequest({
+    required double amountUsd,
+    required String destinationAddress,
+    required String assetSymbol,
+    DepositProofFile? qrCode,
+  }) async {
+    var destinationQrCodeUrl = '';
+    if (qrCode != null) {
+      final uid = _firebaseAuth.currentUser?.uid;
+      if (uid == null) {
+        throw StateError('Cannot upload a withdrawal QR without a signed-in user.');
+      }
+      destinationQrCodeUrl = await _uploadImage('withdrawal-qr/$uid', qrCode);
+    }
+    final callable = _functions.httpsCallable('createWithdrawalRequest');
+    await callable.call<Object?>({
+      'amountUsd': amountUsd,
+      'destinationAddress': destinationAddress.trim(),
+      'assetSymbol': assetSymbol,
+      if (destinationQrCodeUrl.isNotEmpty)
+        'destinationQrCodeUrl': destinationQrCodeUrl,
+    });
+  }
+
+  @override
   Future<List<MemberNotification>> listNotifications() async {
     final callable = _functions.httpsCallable('listMemberNotifications');
     final result = await callable.call<Object?>();
@@ -134,16 +163,22 @@ class FirebaseInvestmentRepository implements InvestmentRepository {
     await callable.call<Object?>();
   }
 
-  Future<String> _uploadProof(String orderId, DepositProofFile proof) async {
-    final safeName = proof.name.replaceAll(RegExp(r'[^a-zA-Z0-9._-]'), '-');
+  Future<String> _uploadProof(String orderId, DepositProofFile proof) {
+    return _uploadImage('payment-proofs/$orderId', proof);
+  }
+
+  /// Uploads [file] under [pathPrefix] with a timestamped, sanitized name and
+  /// returns its download URL. Shared by deposit proofs and withdrawal QR codes.
+  Future<String> _uploadImage(String pathPrefix, DepositProofFile file) async {
+    final safeName = file.name.replaceAll(RegExp(r'[^a-zA-Z0-9._-]'), '-');
     final reference = _storage.ref(
-      'payment-proofs/$orderId/${DateTime.now().millisecondsSinceEpoch}-$safeName',
+      '$pathPrefix/${DateTime.now().millisecondsSinceEpoch}-$safeName',
     );
     await reference.putData(
-      Uint8List.fromList(proof.bytes),
+      Uint8List.fromList(file.bytes),
       SettableMetadata(
-        contentType: proof.contentType,
-        customMetadata: {'originalName': proof.name},
+        contentType: file.contentType,
+        customMetadata: {'originalName': file.name},
       ),
     );
     return reference.getDownloadURL();

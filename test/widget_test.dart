@@ -750,6 +750,7 @@ class FakeAdminRepository implements AdminRepository {
         feeUsd: 4,
         netAmountUsd: 196,
         destinationAddress: '0x71B...8E4',
+        destinationQrCodeUrl: '',
         assetSymbol: 'USDT',
         status: 'submitted',
         rejectionReason: '',
@@ -1221,6 +1222,14 @@ class FakeInvestmentRepository implements InvestmentRepository {
       proofUrl: 'https://example.com/proof.png',
     );
   }
+
+  @override
+  Future<void> createWithdrawalRequest({
+    required double amountUsd,
+    required String destinationAddress,
+    required String assetSymbol,
+    DepositProofFile? qrCode,
+  }) async {}
 
   @override
   Future<List<MemberNotification>> listNotifications() async => const [];

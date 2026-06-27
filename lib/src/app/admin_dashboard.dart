@@ -1768,6 +1768,13 @@ class _WithdrawalRequestTable extends StatelessWidget {
               icon: Icon(Icons.copy_rounded, size: 18),
             ),
             IconButton(
+              tooltip: 'View QR',
+              onPressed: request.destinationQrCodeUrl.isEmpty
+                  ? null
+                  : () => _showWithdrawalQrDialog(context, request),
+              icon: Icon(Icons.qr_code_2_rounded, size: 18),
+            ),
+            IconButton(
               tooltip: 'Approve',
               onPressed: request.isPending ? () => onApprove(request) : null,
               icon: Icon(Icons.verified_outlined, size: 18),
@@ -4504,6 +4511,49 @@ Future<void> _showRejectDepositDialog(
     ),
   );
   reason.dispose();
+}
+
+Future<void> _showWithdrawalQrDialog(
+  BuildContext context,
+  AdminWithdrawalRequest request,
+) async {
+  await showDialog<void>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      backgroundColor: AppColors.panel,
+      title: Text('Destination wallet QR'),
+      content: SizedBox(
+        width: 360,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: Image.network(
+                request.destinationQrCodeUrl,
+                height: 280,
+                width: double.infinity,
+                fit: BoxFit.contain,
+                errorBuilder: (_, _, _) => Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Text('QR image failed to load.', style: AppText.body),
+                ),
+              ),
+            ),
+            SizedBox(height: 14),
+            Text(request.destinationAddress, style: AppText.body),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(dialogContext),
+          child: Text('Close'),
+        ),
+      ],
+    ),
+  );
 }
 
 Future<void> _showRejectWithdrawalDialog(

@@ -519,7 +519,7 @@
   },
   "detailFundingNote": "Supported payment options and quote expiry are shown before settlement confirmation.",
   "detailDocuments": "Documents",
-  "detailInvestButton": "Invest with crypto funding",
+  "detailInvestButton": "Invest in this asset",
 
   "kycStatusApproved": "Financial actions are unlocked.",
   "kycStatusSubmitted": "Your documents are under review.",
@@ -743,5 +743,29 @@
       "payout": { "type": "String" },
       "date": { "type": "String" }
     }
-  }
+  },
+
+  "walletWithdraw": "Withdraw",
+  "withdrawTitle": "Withdraw funds",
+  "withdrawSubtitle": "Send your wallet balance to an external wallet",
+  "withdrawAvailable": "Available to withdraw",
+  "withdrawAmount": "Amount to withdraw",
+  "withdrawAmountHint": "Amount in USD",
+  "withdrawMinimum": "Minimum withdrawal is {minimum}.",
+  "@withdrawMinimum": {
+    "placeholders": { "minimum": { "type": "String" } }
+  },
+  "withdrawExceedsBalance": "Amount exceeds your available balance of {balance}.",
+  "@withdrawExceedsBalance": {
+    "placeholders": { "balance": { "type": "String" } }
+  },
+  "withdrawDisabled": "Withdrawals are temporarily disabled. Please check back soon.",
+  "withdrawDestinationAddress": "Destination wallet address",
+  "withdrawDestinationHint": "Wallet address to receive the payout",
+  "withdrawUploadQr": "Upload destination wallet QR",
+  "withdrawQrHelp": "Add a QR image of your receiving wallet so we can pay you out accurately.",
+  "withdrawEnterAddress": "Enter your destination wallet address.",
+  "withdrawSubmit": "Request withdrawal",
+  "withdrawSubmitted": "Withdrawal request submitted for review.",
+  "withdrawReviewNote": "An admin reviews every withdrawal. Your wallet is debited only once it is approved."
 }

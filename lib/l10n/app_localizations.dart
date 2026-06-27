@@ -1601,7 +1601,7 @@ abstract class AppLocalizations {
   /// No description provided for @detailInvestButton.
   ///
   /// In en, this message translates to:
-  /// **'Invest with crypto funding'**
+  /// **'Invest in this asset'**
   String get detailInvestButton;
 
   /// No description provided for @kycStatusApproved.
@@ -2671,6 +2671,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pays {payout} at maturity on {date}'**
   String portfolioPlanMatures(String payout, String date);
+
+  /// No description provided for @walletWithdraw.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get walletWithdraw;
+
+  /// No description provided for @withdrawTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw funds'**
+  String get withdrawTitle;
+
+  /// No description provided for @withdrawSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send your wallet balance to an external wallet'**
+  String get withdrawSubtitle;
+
+  /// No description provided for @withdrawAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available to withdraw'**
+  String get withdrawAvailable;
+
+  /// No description provided for @withdrawAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount to withdraw'**
+  String get withdrawAmount;
+
+  /// No description provided for @withdrawAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount in USD'**
+  String get withdrawAmountHint;
+
+  /// No description provided for @withdrawMinimum.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum withdrawal is {minimum}.'**
+  String withdrawMinimum(String minimum);
+
+  /// No description provided for @withdrawExceedsBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount exceeds your available balance of {balance}.'**
+  String withdrawExceedsBalance(String balance);
+
+  /// No description provided for @withdrawDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawals are temporarily disabled. Please check back soon.'**
+  String get withdrawDisabled;
+
+  /// No description provided for @withdrawDestinationAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination wallet address'**
+  String get withdrawDestinationAddress;
+
+  /// No description provided for @withdrawDestinationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet address to receive the payout'**
+  String get withdrawDestinationHint;
+
+  /// No description provided for @withdrawUploadQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload destination wallet QR'**
+  String get withdrawUploadQr;
+
+  /// No description provided for @withdrawQrHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a QR image of your receiving wallet so we can pay you out accurately.'**
+  String get withdrawQrHelp;
+
+  /// No description provided for @withdrawEnterAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your destination wallet address.'**
+  String get withdrawEnterAddress;
+
+  /// No description provided for @withdrawSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Request withdrawal'**
+  String get withdrawSubmit;
+
+  /// No description provided for @withdrawSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawal request submitted for review.'**
+  String get withdrawSubmitted;
+
+  /// No description provided for @withdrawReviewNote.
+  ///
+  /// In en, this message translates to:
+  /// **'An admin reviews every withdrawal. Your wallet is debited only once it is approved.'**
+  String get withdrawReviewNote;
 }
 
 class _AppLocalizationsDelegate

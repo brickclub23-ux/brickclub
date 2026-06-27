@@ -252,7 +252,7 @@
   "detailFundedPercent": "{percent}% financiado",
   "detailFundingNote": "Las opciones de pago admitidas y la caducidad de la cotización se muestran antes de confirmar la liquidación.",
   "detailDocuments": "Documentos",
-  "detailInvestButton": "Invertir con financiación cripto",
+  "detailInvestButton": "Invierte en este activo",
 
   "kycStatusApproved": "Las acciones financieras están desbloqueadas.",
   "kycStatusSubmitted": "Tus documentos están en revisión.",

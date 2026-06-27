@@ -28,6 +28,18 @@ abstract interface class InvestmentRepository {
     required DepositProofFile proof,
   });
 
+  /// Submit a member withdrawal request. [qrCode], when provided, is an image of
+  /// the member's destination wallet uploaded to Storage so an admin can scan it
+  /// when paying out. The amount is validated server-side against the admin
+  /// minimum and the member's wallet balance; funds are debited only when an
+  /// admin approves the request.
+  Future<void> createWithdrawalRequest({
+    required double amountUsd,
+    required String destinationAddress,
+    required String assetSymbol,
+    DepositProofFile? qrCode,
+  });
+
   /// The signed-in member's most recent in-app notifications (deposit, wallet,
   /// support, referral), newest first.
   Future<List<MemberNotification>> listNotifications();

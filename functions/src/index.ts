@@ -496,6 +496,7 @@ export const getMemberDashboard = onMemberCall(async (request) => {
   const walletBalanceUsd = roundMoney(
     Number(walletSnapshot.data()?.balanceUsd ?? 0),
   );
+  const withdrawalPolicy = await loadWithdrawalPolicy();
 
   // Persisted legacy holdings (older share-based accounts) still display.
   const holdings = holdingsSnapshot.docs.map((doc) => holdingFromDoc(doc));
@@ -543,6 +544,8 @@ export const getMemberDashboard = onMemberCall(async (request) => {
   return {
     portfolioValueUsd: totalCurrentValue,
     walletBalanceUsd,
+    withdrawalMinimumUsd: withdrawalPolicy.minimumAmountUsd,
+    withdrawalsEnabled: withdrawalPolicy.enabled,
     yearReturnPercent: overallReturnPercentage,
     totalInvested,
     totalCurrentValue,
@@ -1225,6 +1228,8 @@ export const createWithdrawalRequest = onMemberCall(async (request) => {
   const amountUsd = readPositiveNumber(data, "amountUsd");
   const destinationAddress = readString(data, "destinationAddress");
   const assetSymbol = readString(data, "assetSymbol").toUpperCase();
+  const destinationQrCodeUrl = readOptionalString(data, "destinationQrCodeUrl")
+    ?? "";
   const uid = request.auth!.uid;
   const policy = await loadWithdrawalPolicy();
   if (!policy.enabled) {
@@ -1237,6 +1242,16 @@ export const createWithdrawalRequest = onMemberCall(async (request) => {
     throw new HttpsError(
       "invalid-argument",
       "Amount is below the withdrawal minimum.",
+    );
+  }
+  // The amount cannot exceed the member's spendable wallet balance — block it at
+  // request time rather than letting the debit fail when the admin approves.
+  const walletSnapshot = await memberWalletsCollection.doc(uid).get();
+  const balanceUsd = roundMoney(Number(walletSnapshot.data()?.balanceUsd ?? 0));
+  if (amountUsd > balanceUsd) {
+    throw new HttpsError(
+      "failed-precondition",
+      "Amount exceeds your available wallet balance.",
     );
   }
   if (
@@ -1260,6 +1275,7 @@ export const createWithdrawalRequest = onMemberCall(async (request) => {
     feeUsd,
     netAmountUsd: roundMoney(amountUsd - feeUsd),
     destinationAddress,
+    destinationQrCodeUrl,
     assetSymbol,
     status: "submitted",
     requiredApprovals: policy.requiredApprovals,
@@ -2579,6 +2595,7 @@ function withdrawalRequestFromDoc(
     feeUsd: Number(data.feeUsd ?? 0),
     netAmountUsd: Number(data.netAmountUsd ?? 0),
     destinationAddress: String(data.destinationAddress ?? ""),
+    destinationQrCodeUrl: String(data.destinationQrCodeUrl ?? ""),
     assetSymbol: String(data.assetSymbol ?? ""),
     status: String(data.status ?? "submitted"),
     rejectionReason: String(data.rejectionReason ?? ""),

@@ -252,7 +252,7 @@
   "detailFundedPercent": "{percent}% वित्तपोषित",
   "detailFundingNote": "समर्थित भुगतान विकल्प और कोट समाप्ति निपटान पुष्टि से पहले दिखाए जाते हैं।",
   "detailDocuments": "दस्तावेज़",
-  "detailInvestButton": "क्रिप्टो वित्तपोषण से निवेश करें",
+  "detailInvestButton": "इस संपत्ति में निवेश करें",
 
   "kycStatusApproved": "वित्तीय कार्य अनलॉक हैं।",
   "kycStatusSubmitted": "आपके दस्तावेज़ समीक्षाधीन हैं।",
